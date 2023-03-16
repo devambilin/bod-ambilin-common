@@ -38,3 +38,18 @@ func (tcf Block) Do() {
 	}
 	tcf.Try()
 }
+
+type OnError func(Exception)
+
+// Catch error
+func Catch(onerror OnError) {
+	if r := recover(); r != nil {
+		switch r.(type) {
+		case string:
+			onerror(errors.New(r.(string)))
+			break
+		default:
+			onerror(r)
+		}
+	}
+}
