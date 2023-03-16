@@ -19,27 +19,28 @@ message BaseResponse {
 // ------------------------------------Start Auth Service-------------------------------------
 service AuthService {
   //for admin
-  rpc ValidateSessionAdmin(SessionRequest) returns (SessionResponse){}
-  rpc LoginAdmin(BaseRequest) returns (BaseResponse){}
-  rpc ForgotPasswordAdmin(BaseRequest) returns (BaseResponse){}
-  rpc ResetPasswordAdmin(BaseRequest) returns (BaseResponse){}
-  rpc ResetPasswordValidateAdmin(BaseRequest) returns (BaseResponse){}
-  rpc ChangePasswordAdmin(BaseRequest) returns (BaseResponse){}
-  rpc LogoutAdmin(BaseRequest) returns (BaseResponse){}
+  rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
+  rpc AdminLogin(BaseRequest) returns (BaseResponse){}
+  rpc AdminForgotPassword(BaseRequest) returns (BaseResponse){}
+  rpc AdminResetPassword(BaseRequest) returns (BaseResponse){}
+  rpc AdminResetPasswordValidate(BaseRequest) returns (BaseResponse){}
+  rpc AdminChangePassword(BaseRequest) returns (BaseResponse){}
+  rpc AdminLogout(BaseRequest) returns (BaseResponse){}
   //for customer
-  rpc LoginCustomer(BaseRequest) returns (BaseResponse){}
-  rpc CreatePinCustomer(BaseRequest) returns (BaseResponse){}
-  rpc VerifyPinCustomer(BaseRequest) returns (BaseResponse){}
-  rpc ChangePinCustomer(BaseRequest) returns (BaseResponse){}
-  rpc ForgotPinCustomer(BaseRequest) returns (BaseResponse){}
-  rpc LogoutCustomer(BaseRequest) returns (BaseResponse){}
+  rpc CustomerValidateSession(SessionRequest) returns (SessionResponse){}
+  rpc CustomerLogin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerCreatePin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerVerifyPin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerChangePin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerForgotPin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerLogout(BaseRequest) returns (BaseResponse){}
   //for agent
-  rpc ValidateSessionAgent(SessionRequest) returns (SessionResponse){}
-  rpc LoginAgent(BaseRequest) returns (BaseResponse){}
-  rpc VerifyOtpLoginAgent(BaseRequest) returns (BaseResponse){}
-  rpc LogoutAgent(BaseRequest) returns (BaseResponse){}
+  rpc AgentValidateSession(SessionRequest) returns (SessionResponse){}
+  rpc AgentLogin(BaseRequest) returns (BaseResponse){}
+  rpc AgentVerifyOtpLogin(BaseRequest) returns (BaseResponse){}
+  rpc AgentLogout(BaseRequest) returns (BaseResponse){}
   //for partner
-  rpc LoginPartner(BaseRequest) returns (BaseResponse){}
+  rpc PartnerLogin(BaseRequest) returns (BaseResponse){}
 }
 
 message SessionRequest {
@@ -55,18 +56,39 @@ message SessionResponse {
 
 // ------------------------------------Start User Service-------------------------------------
 service UserService {
+  //for clients grpc
   rpc GetUsers(UserRequest) returns(UserResponse){}
   rpc GetUser(UserRequest) returns(UserResponse){}
   rpc CreateUser(UserRequest) returns(UserResponse){}
   rpc UpdateUser(UserRequest) returns(UserResponse){}
   rpc DeleteUser(UserRequest) returns(UserResponse){}
   //for admin
-  rpc GetListCustomerPersonalAdmin(BaseRequest) returns (BaseResponse){}
-  rpc GetListCustomerPartnershipAdmin(BaseRequest) returns (BaseResponse){}
-  rpc CreateCustomerAdmin(BaseRequest) returns (BaseResponse){}
-  rpc ValidateCustomerPhoneAdmin(BaseRequest) returns (BaseResponse){}
-  rpc GetDetailCustomerAdmin(BaseRequest) returns (BaseResponse){}
-  rpc UpdateCustomerAdmin(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetUserType(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetListCustomerPersonal(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetListCustomerPartnership(BaseRequest) returns (BaseResponse){}
+  rpc AdminCreateCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminValidateCustomerPhone(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetDetailCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminUpdateCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminDeleteCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetListPartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetDataMasterPartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetDetailPartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminCreatePartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminUpdatePartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminDeletePartner(BaseRequest) returns (BaseResponse){}
+  //for customer
+  rpc CustomerGetDashboard(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetPromo(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetDetail(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetCustomerHistory(BaseRequest) returns (BaseResponse){}
+  rpc CustomerUpdate(BaseRequest) returns (BaseResponse){}
+  rpc CustomerFavouriteAgent(BaseRequest) returns (BaseResponse){}
+  rpc CustomerUploadPhoto(BaseRequest) returns (BaseResponse){}
+  rpc CustomerDeletePhoto(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
+  rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
+  rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
 }
 
 message UserRequest {
@@ -85,14 +107,118 @@ message UserResponse {
 }
 
 message DataUser {
-  string id = 1;
-  string name = 2;
-  string address = 3;
-  string email = 4;
-  string phone = 5;
-  string ektp = 6;
-  string accountNumber = 7;
-  string photoUrl = 8;
-  string accessId = 9;
+  int64 created = 1;
+  int64 updated = 2;
+  int64 removed = 3;
+  string createdBy = 4;
+  string updatedBy = 5;
+  string id = 6;
+  string name = 7;
+  string address = 8;
+  string email = 9;
+  string phone = 10;
+  string ektp = 11;
+  string accountNumber = 12;
+  string photoUrl = 13;
+  int32 status = 14;
+  int32 registrationCode = 15;
+  string accessId = 16;
+  string agentId = 17;
+  string clientPin = 18;
+  bool firstLogin = 19;
+  string userType = 20;
+  string guarantorName = 21;
+  string identityNumber = 22;
+  string feePickup = 23;
+  int32 kanwilId = 24;
+  int32 kancaId = 25;
+  string partnerId = 26;
+  string kanwilName = 27;
+  string kancaName = 28;
 }
 // ------------------------------------End User Service-------------------------------------
+
+// ------------------------------------Start Order Service-------------------------------------
+service OrderService {
+  //for clients grpc
+  rpc GetOrders(OrderRequest) returns(OrderResponse){}
+  rpc GetOrder(OrderRequest) returns(OrderResponse){}
+  rpc CreateOrder(OrderRequest) returns(OrderResponse){}
+  rpc UpdateOrder(OrderRequest) returns(OrderResponse){}
+  rpc DeleteOrder(OrderRequest) returns(OrderResponse){}
+  //for customer
+  rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerConfirmOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetListOrderProcess(BaseRequest) returns (BaseResponse){}
+  rpc CustomerChangeStatus(BaseRequest) returns (BaseResponse){}
+  rpc CustomerCancelOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerCheckOrder(BaseRequest) returns (BaseResponse){}
+  //for agent
+  rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentAcceptOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentPickupOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentGoingOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentConfirmCodeOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentUpdateAmountOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentGetFeeTransactionOrder(BaseRequest) returns (BaseResponse){}
+}
+
+message OrderRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataUser user = 3;
+}
+
+message OrderResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataOrder dataOrder = 5;
+  repeated DataOrder listOrder = 6;
+}
+
+message DataOrder {
+  int64 created = 1;
+  int64 updated = 2;
+  int64 removed = 3;
+  string createdBy = 4;
+  string updatedBy = 5;
+  string id = 6;
+  string userId = 7;
+  string agentId = 8;
+  float depositAmount = 9;
+  float shippingFee = 10;
+  int32 shippingMethod = 11;
+  int32 orderStatusCustomer = 12;
+  string orderType = 13;
+  int32 progressPickup = 14;
+  string orderLater = 15;
+  string estimatedArrival = 16;
+  string estimatedPickup = 17;
+  string customerPlace = 18;
+  string customerAddress = 19;
+  float customerLatitude = 20;
+  float customerLongitude = 21;
+  float agentLatitude = 22;
+  float agentLongitude = 23;
+  int32 orderStatusAgent = 24;
+  float costOrder = 25;
+  bool amountStatus = 26;
+  int64 expiredTime = 27;
+  int64 completedTime = 28;
+  float distance = 29;
+  bool confirmButton = 30;
+  bool confirmButtonAgent = 31;
+  bool amountStatusInvalid = 32;
+  string orderCode = 33;
+  bool isCountdown = 34;
+  string locationDescription = 35;
+  int64 orderFinish = 36;
+  string expiredTimeExtend = 37;
+  string urlInvoice = 38;
+}
+
+// ------------------------------------End Order Service-------------------------------------
+

@@ -37,27 +37,28 @@ func NewAuthServiceEndpoints() []*api.Endpoint {
 
 type AuthService interface {
 	// for admin
-	ValidateSessionAdmin(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
-	LoginAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ForgotPasswordAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ResetPasswordAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ResetPasswordValidateAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ChangePasswordAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	LogoutAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
+	AdminLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminForgotPassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminResetPassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminResetPasswordValidate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminChangePassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	// for customer
-	LoginCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	CreatePinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	VerifyPinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ChangePinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ForgotPinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	LogoutCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
+	CustomerLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerCreatePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerVerifyPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	// for agent
-	ValidateSessionAgent(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
-	LoginAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	VerifyOtpLoginAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	LogoutAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
+	AgentLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentVerifyOtpLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	// for partner
-	LoginPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	PartnerLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 }
 
 type authService struct {
@@ -72,8 +73,8 @@ func NewAuthService(name string, c client.Client) AuthService {
 	}
 }
 
-func (c *authService) ValidateSessionAdmin(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ValidateSessionAdmin", in)
+func (c *authService) AdminValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminValidateSession", in)
 	out := new(SessionResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -82,8 +83,8 @@ func (c *authService) ValidateSessionAdmin(ctx context.Context, in *SessionReque
 	return out, nil
 }
 
-func (c *authService) LoginAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LoginAdmin", in)
+func (c *authService) AdminLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminLogin", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -92,8 +93,8 @@ func (c *authService) LoginAdmin(ctx context.Context, in *BaseRequest, opts ...c
 	return out, nil
 }
 
-func (c *authService) ForgotPasswordAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ForgotPasswordAdmin", in)
+func (c *authService) AdminForgotPassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminForgotPassword", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -102,8 +103,8 @@ func (c *authService) ForgotPasswordAdmin(ctx context.Context, in *BaseRequest, 
 	return out, nil
 }
 
-func (c *authService) ResetPasswordAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ResetPasswordAdmin", in)
+func (c *authService) AdminResetPassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminResetPassword", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -112,8 +113,8 @@ func (c *authService) ResetPasswordAdmin(ctx context.Context, in *BaseRequest, o
 	return out, nil
 }
 
-func (c *authService) ResetPasswordValidateAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ResetPasswordValidateAdmin", in)
+func (c *authService) AdminResetPasswordValidate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminResetPasswordValidate", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -122,8 +123,8 @@ func (c *authService) ResetPasswordValidateAdmin(ctx context.Context, in *BaseRe
 	return out, nil
 }
 
-func (c *authService) ChangePasswordAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ChangePasswordAdmin", in)
+func (c *authService) AdminChangePassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminChangePassword", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -132,8 +133,8 @@ func (c *authService) ChangePasswordAdmin(ctx context.Context, in *BaseRequest, 
 	return out, nil
 }
 
-func (c *authService) LogoutAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LogoutAdmin", in)
+func (c *authService) AdminLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminLogout", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -142,68 +143,8 @@ func (c *authService) LogoutAdmin(ctx context.Context, in *BaseRequest, opts ...
 	return out, nil
 }
 
-func (c *authService) LoginCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LoginCustomer", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authService) CreatePinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.CreatePinCustomer", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authService) VerifyPinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.VerifyPinCustomer", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authService) ChangePinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ChangePinCustomer", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authService) ForgotPinCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ForgotPinCustomer", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authService) LogoutCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LogoutCustomer", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authService) ValidateSessionAgent(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.ValidateSessionAgent", in)
+func (c *authService) CustomerValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerValidateSession", in)
 	out := new(SessionResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -212,8 +153,8 @@ func (c *authService) ValidateSessionAgent(ctx context.Context, in *SessionReque
 	return out, nil
 }
 
-func (c *authService) LoginAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LoginAgent", in)
+func (c *authService) CustomerLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerLogin", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -222,8 +163,8 @@ func (c *authService) LoginAgent(ctx context.Context, in *BaseRequest, opts ...c
 	return out, nil
 }
 
-func (c *authService) VerifyOtpLoginAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.VerifyOtpLoginAgent", in)
+func (c *authService) CustomerCreatePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerCreatePin", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -232,8 +173,8 @@ func (c *authService) VerifyOtpLoginAgent(ctx context.Context, in *BaseRequest, 
 	return out, nil
 }
 
-func (c *authService) LogoutAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LogoutAgent", in)
+func (c *authService) CustomerVerifyPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerVerifyPin", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -242,8 +183,78 @@ func (c *authService) LogoutAgent(ctx context.Context, in *BaseRequest, opts ...
 	return out, nil
 }
 
-func (c *authService) LoginPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.LoginPartner", in)
+func (c *authService) CustomerChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerChangePin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) CustomerForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerForgotPin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) CustomerLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerLogout", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) AgentValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AgentValidateSession", in)
+	out := new(SessionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) AgentLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AgentLogin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) AgentVerifyOtpLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AgentVerifyOtpLogin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) AgentLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AgentLogout", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) PartnerLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.PartnerLogin", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -256,49 +267,51 @@ func (c *authService) LoginPartner(ctx context.Context, in *BaseRequest, opts ..
 
 type AuthServiceHandler interface {
 	// for admin
-	ValidateSessionAdmin(context.Context, *SessionRequest, *SessionResponse) error
-	LoginAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	ForgotPasswordAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	ResetPasswordAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	ResetPasswordValidateAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	ChangePasswordAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	LogoutAdmin(context.Context, *BaseRequest, *BaseResponse) error
+	AdminValidateSession(context.Context, *SessionRequest, *SessionResponse) error
+	AdminLogin(context.Context, *BaseRequest, *BaseResponse) error
+	AdminForgotPassword(context.Context, *BaseRequest, *BaseResponse) error
+	AdminResetPassword(context.Context, *BaseRequest, *BaseResponse) error
+	AdminResetPasswordValidate(context.Context, *BaseRequest, *BaseResponse) error
+	AdminChangePassword(context.Context, *BaseRequest, *BaseResponse) error
+	AdminLogout(context.Context, *BaseRequest, *BaseResponse) error
 	// for customer
-	LoginCustomer(context.Context, *BaseRequest, *BaseResponse) error
-	CreatePinCustomer(context.Context, *BaseRequest, *BaseResponse) error
-	VerifyPinCustomer(context.Context, *BaseRequest, *BaseResponse) error
-	ChangePinCustomer(context.Context, *BaseRequest, *BaseResponse) error
-	ForgotPinCustomer(context.Context, *BaseRequest, *BaseResponse) error
-	LogoutCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerValidateSession(context.Context, *SessionRequest, *SessionResponse) error
+	CustomerLogin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerCreatePin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerVerifyPin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerChangePin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerForgotPin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerLogout(context.Context, *BaseRequest, *BaseResponse) error
 	// for agent
-	ValidateSessionAgent(context.Context, *SessionRequest, *SessionResponse) error
-	LoginAgent(context.Context, *BaseRequest, *BaseResponse) error
-	VerifyOtpLoginAgent(context.Context, *BaseRequest, *BaseResponse) error
-	LogoutAgent(context.Context, *BaseRequest, *BaseResponse) error
+	AgentValidateSession(context.Context, *SessionRequest, *SessionResponse) error
+	AgentLogin(context.Context, *BaseRequest, *BaseResponse) error
+	AgentVerifyOtpLogin(context.Context, *BaseRequest, *BaseResponse) error
+	AgentLogout(context.Context, *BaseRequest, *BaseResponse) error
 	// for partner
-	LoginPartner(context.Context, *BaseRequest, *BaseResponse) error
+	PartnerLogin(context.Context, *BaseRequest, *BaseResponse) error
 }
 
 func RegisterAuthServiceHandler(s server.Server, hdlr AuthServiceHandler, opts ...server.HandlerOption) error {
 	type authService interface {
-		ValidateSessionAdmin(ctx context.Context, in *SessionRequest, out *SessionResponse) error
-		LoginAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ForgotPasswordAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ResetPasswordAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ResetPasswordValidateAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ChangePasswordAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		LogoutAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		LoginCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		CreatePinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		VerifyPinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ChangePinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ForgotPinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		LogoutCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ValidateSessionAgent(ctx context.Context, in *SessionRequest, out *SessionResponse) error
-		LoginAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		VerifyOtpLoginAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		LogoutAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		LoginPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error
+		AdminLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminForgotPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminResetPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminResetPasswordValidate(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminChangePassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error
+		CustomerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerCreatePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerVerifyPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error
+		AgentLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentVerifyOtpLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		PartnerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 	}
 	type AuthService struct {
 		authService
@@ -311,76 +324,80 @@ type authServiceHandler struct {
 	AuthServiceHandler
 }
 
-func (h *authServiceHandler) ValidateSessionAdmin(ctx context.Context, in *SessionRequest, out *SessionResponse) error {
-	return h.AuthServiceHandler.ValidateSessionAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error {
+	return h.AuthServiceHandler.AdminValidateSession(ctx, in, out)
 }
 
-func (h *authServiceHandler) LoginAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LoginAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminLogin(ctx, in, out)
 }
 
-func (h *authServiceHandler) ForgotPasswordAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.ForgotPasswordAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminForgotPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminForgotPassword(ctx, in, out)
 }
 
-func (h *authServiceHandler) ResetPasswordAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.ResetPasswordAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminResetPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminResetPassword(ctx, in, out)
 }
 
-func (h *authServiceHandler) ResetPasswordValidateAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.ResetPasswordValidateAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminResetPasswordValidate(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminResetPasswordValidate(ctx, in, out)
 }
 
-func (h *authServiceHandler) ChangePasswordAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.ChangePasswordAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminChangePassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminChangePassword(ctx, in, out)
 }
 
-func (h *authServiceHandler) LogoutAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LogoutAdmin(ctx, in, out)
+func (h *authServiceHandler) AdminLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminLogout(ctx, in, out)
 }
 
-func (h *authServiceHandler) LoginCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LoginCustomer(ctx, in, out)
+func (h *authServiceHandler) CustomerValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error {
+	return h.AuthServiceHandler.CustomerValidateSession(ctx, in, out)
 }
 
-func (h *authServiceHandler) CreatePinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.CreatePinCustomer(ctx, in, out)
+func (h *authServiceHandler) CustomerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerLogin(ctx, in, out)
 }
 
-func (h *authServiceHandler) VerifyPinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.VerifyPinCustomer(ctx, in, out)
+func (h *authServiceHandler) CustomerCreatePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerCreatePin(ctx, in, out)
 }
 
-func (h *authServiceHandler) ChangePinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.ChangePinCustomer(ctx, in, out)
+func (h *authServiceHandler) CustomerVerifyPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerVerifyPin(ctx, in, out)
 }
 
-func (h *authServiceHandler) ForgotPinCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.ForgotPinCustomer(ctx, in, out)
+func (h *authServiceHandler) CustomerChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerChangePin(ctx, in, out)
 }
 
-func (h *authServiceHandler) LogoutCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LogoutCustomer(ctx, in, out)
+func (h *authServiceHandler) CustomerForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerForgotPin(ctx, in, out)
 }
 
-func (h *authServiceHandler) ValidateSessionAgent(ctx context.Context, in *SessionRequest, out *SessionResponse) error {
-	return h.AuthServiceHandler.ValidateSessionAgent(ctx, in, out)
+func (h *authServiceHandler) CustomerLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerLogout(ctx, in, out)
 }
 
-func (h *authServiceHandler) LoginAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LoginAgent(ctx, in, out)
+func (h *authServiceHandler) AgentValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error {
+	return h.AuthServiceHandler.AgentValidateSession(ctx, in, out)
 }
 
-func (h *authServiceHandler) VerifyOtpLoginAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.VerifyOtpLoginAgent(ctx, in, out)
+func (h *authServiceHandler) AgentLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AgentLogin(ctx, in, out)
 }
 
-func (h *authServiceHandler) LogoutAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LogoutAgent(ctx, in, out)
+func (h *authServiceHandler) AgentVerifyOtpLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AgentVerifyOtpLogin(ctx, in, out)
 }
 
-func (h *authServiceHandler) LoginPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.LoginPartner(ctx, in, out)
+func (h *authServiceHandler) AgentLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AgentLogout(ctx, in, out)
+}
+
+func (h *authServiceHandler) PartnerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.PartnerLogin(ctx, in, out)
 }
 
 // Api Endpoints for UserService service
@@ -392,18 +409,39 @@ func NewUserServiceEndpoints() []*api.Endpoint {
 // Client API for UserService service
 
 type UserService interface {
+	// for clients grpc
 	GetUsers(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error)
 	GetUser(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error)
 	CreateUser(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error)
 	UpdateUser(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error)
 	DeleteUser(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error)
 	// for admin
-	GetListCustomerPersonalAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	GetListCustomerPartnershipAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	CreateCustomerAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	ValidateCustomerPhoneAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	GetDetailCustomerAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	UpdateCustomerAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetUserType(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetListCustomerPersonal(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetListCustomerPartnership(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminCreateCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminValidateCustomerPhone(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetDetailCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminUpdateCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminDeleteCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetListPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetDataMasterPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminGetDetailPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminCreatePartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminUpdatePartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminDeletePartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	// for customer
+	CustomerGetDashboard(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerGetPromo(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerGetDetail(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerGetCustomerHistory(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerUpdate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerFavouriteAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerUploadPhoto(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerDeletePhoto(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerGetNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerReadNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerDeleteNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 }
 
 type userService struct {
@@ -468,8 +506,8 @@ func (c *userService) DeleteUser(ctx context.Context, in *UserRequest, opts ...c
 	return out, nil
 }
 
-func (c *userService) GetListCustomerPersonalAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "UserService.GetListCustomerPersonalAdmin", in)
+func (c *userService) AdminGetUserType(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetUserType", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -478,8 +516,8 @@ func (c *userService) GetListCustomerPersonalAdmin(ctx context.Context, in *Base
 	return out, nil
 }
 
-func (c *userService) GetListCustomerPartnershipAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "UserService.GetListCustomerPartnershipAdmin", in)
+func (c *userService) AdminGetListCustomerPersonal(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetListCustomerPersonal", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -488,8 +526,8 @@ func (c *userService) GetListCustomerPartnershipAdmin(ctx context.Context, in *B
 	return out, nil
 }
 
-func (c *userService) CreateCustomerAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "UserService.CreateCustomerAdmin", in)
+func (c *userService) AdminGetListCustomerPartnership(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetListCustomerPartnership", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -498,8 +536,8 @@ func (c *userService) CreateCustomerAdmin(ctx context.Context, in *BaseRequest, 
 	return out, nil
 }
 
-func (c *userService) ValidateCustomerPhoneAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "UserService.ValidateCustomerPhoneAdmin", in)
+func (c *userService) AdminCreateCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminCreateCustomer", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -508,8 +546,8 @@ func (c *userService) ValidateCustomerPhoneAdmin(ctx context.Context, in *BaseRe
 	return out, nil
 }
 
-func (c *userService) GetDetailCustomerAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "UserService.GetDetailCustomerAdmin", in)
+func (c *userService) AdminValidateCustomerPhone(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminValidateCustomerPhone", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -518,8 +556,198 @@ func (c *userService) GetDetailCustomerAdmin(ctx context.Context, in *BaseReques
 	return out, nil
 }
 
-func (c *userService) UpdateCustomerAdmin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "UserService.UpdateCustomerAdmin", in)
+func (c *userService) AdminGetDetailCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetDetailCustomer", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminUpdateCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminUpdateCustomer", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminDeleteCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminDeleteCustomer", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminGetListPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetListPartner", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminGetDataMasterPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetDataMasterPartner", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminGetDetailPartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminGetDetailPartner", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminCreatePartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminCreatePartner", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminUpdatePartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminUpdatePartner", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AdminDeletePartner(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AdminDeletePartner", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerGetDashboard(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerGetDashboard", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerGetPromo(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerGetPromo", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerGetDetail(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerGetDetail", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerGetCustomerHistory(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerGetCustomerHistory", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerUpdate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerUpdate", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerFavouriteAgent(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerFavouriteAgent", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerUploadPhoto(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerUploadPhoto", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerDeletePhoto(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerDeletePhoto", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerGetNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerGetNotification", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerReadNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerReadNotification", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) CustomerDeleteNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.CustomerDeleteNotification", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -531,18 +759,39 @@ func (c *userService) UpdateCustomerAdmin(ctx context.Context, in *BaseRequest, 
 // Server API for UserService service
 
 type UserServiceHandler interface {
+	// for clients grpc
 	GetUsers(context.Context, *UserRequest, *UserResponse) error
 	GetUser(context.Context, *UserRequest, *UserResponse) error
 	CreateUser(context.Context, *UserRequest, *UserResponse) error
 	UpdateUser(context.Context, *UserRequest, *UserResponse) error
 	DeleteUser(context.Context, *UserRequest, *UserResponse) error
 	// for admin
-	GetListCustomerPersonalAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	GetListCustomerPartnershipAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	CreateCustomerAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	ValidateCustomerPhoneAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	GetDetailCustomerAdmin(context.Context, *BaseRequest, *BaseResponse) error
-	UpdateCustomerAdmin(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetUserType(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetListCustomerPersonal(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetListCustomerPartnership(context.Context, *BaseRequest, *BaseResponse) error
+	AdminCreateCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	AdminValidateCustomerPhone(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetDetailCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	AdminUpdateCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	AdminDeleteCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetListPartner(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetDataMasterPartner(context.Context, *BaseRequest, *BaseResponse) error
+	AdminGetDetailPartner(context.Context, *BaseRequest, *BaseResponse) error
+	AdminCreatePartner(context.Context, *BaseRequest, *BaseResponse) error
+	AdminUpdatePartner(context.Context, *BaseRequest, *BaseResponse) error
+	AdminDeletePartner(context.Context, *BaseRequest, *BaseResponse) error
+	// for customer
+	CustomerGetDashboard(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerGetPromo(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerGetDetail(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerGetCustomerHistory(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerUpdate(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerFavouriteAgent(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerUploadPhoto(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerDeletePhoto(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerGetNotification(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerReadNotification(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerDeleteNotification(context.Context, *BaseRequest, *BaseResponse) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -552,12 +801,31 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		CreateUser(ctx context.Context, in *UserRequest, out *UserResponse) error
 		UpdateUser(ctx context.Context, in *UserRequest, out *UserResponse) error
 		DeleteUser(ctx context.Context, in *UserRequest, out *UserResponse) error
-		GetListCustomerPersonalAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		GetListCustomerPartnershipAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		CreateCustomerAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		ValidateCustomerPhoneAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		GetDetailCustomerAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		UpdateCustomerAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetUserType(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetListCustomerPersonal(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetListCustomerPartnership(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminCreateCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminValidateCustomerPhone(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetDetailCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminUpdateCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminDeleteCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetListPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetDataMasterPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminGetDetailPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminCreatePartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminUpdatePartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminDeletePartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerGetDashboard(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerGetPromo(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerGetDetail(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerGetCustomerHistory(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerUpdate(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerFavouriteAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerUploadPhoto(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerDeletePhoto(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerGetNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerReadNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerDeleteNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 	}
 	type UserService struct {
 		userService
@@ -590,26 +858,473 @@ func (h *userServiceHandler) DeleteUser(ctx context.Context, in *UserRequest, ou
 	return h.UserServiceHandler.DeleteUser(ctx, in, out)
 }
 
-func (h *userServiceHandler) GetListCustomerPersonalAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.UserServiceHandler.GetListCustomerPersonalAdmin(ctx, in, out)
+func (h *userServiceHandler) AdminGetUserType(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetUserType(ctx, in, out)
 }
 
-func (h *userServiceHandler) GetListCustomerPartnershipAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.UserServiceHandler.GetListCustomerPartnershipAdmin(ctx, in, out)
+func (h *userServiceHandler) AdminGetListCustomerPersonal(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetListCustomerPersonal(ctx, in, out)
 }
 
-func (h *userServiceHandler) CreateCustomerAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.UserServiceHandler.CreateCustomerAdmin(ctx, in, out)
+func (h *userServiceHandler) AdminGetListCustomerPartnership(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetListCustomerPartnership(ctx, in, out)
 }
 
-func (h *userServiceHandler) ValidateCustomerPhoneAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.UserServiceHandler.ValidateCustomerPhoneAdmin(ctx, in, out)
+func (h *userServiceHandler) AdminCreateCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminCreateCustomer(ctx, in, out)
 }
 
-func (h *userServiceHandler) GetDetailCustomerAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.UserServiceHandler.GetDetailCustomerAdmin(ctx, in, out)
+func (h *userServiceHandler) AdminValidateCustomerPhone(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminValidateCustomerPhone(ctx, in, out)
 }
 
-func (h *userServiceHandler) UpdateCustomerAdmin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.UserServiceHandler.UpdateCustomerAdmin(ctx, in, out)
+func (h *userServiceHandler) AdminGetDetailCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetDetailCustomer(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminUpdateCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminUpdateCustomer(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminDeleteCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminDeleteCustomer(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminGetListPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetListPartner(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminGetDataMasterPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetDataMasterPartner(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminGetDetailPartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminGetDetailPartner(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminCreatePartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminCreatePartner(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminUpdatePartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminUpdatePartner(ctx, in, out)
+}
+
+func (h *userServiceHandler) AdminDeletePartner(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AdminDeletePartner(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerGetDashboard(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerGetDashboard(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerGetPromo(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerGetPromo(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerGetDetail(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerGetDetail(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerGetCustomerHistory(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerGetCustomerHistory(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerUpdate(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerUpdate(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerFavouriteAgent(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerFavouriteAgent(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerUploadPhoto(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerUploadPhoto(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerDeletePhoto(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerDeletePhoto(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerGetNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerGetNotification(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerReadNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerReadNotification(ctx, in, out)
+}
+
+func (h *userServiceHandler) CustomerDeleteNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.CustomerDeleteNotification(ctx, in, out)
+}
+
+// Api Endpoints for OrderService service
+
+func NewOrderServiceEndpoints() []*api.Endpoint {
+	return []*api.Endpoint{}
+}
+
+// Client API for OrderService service
+
+type OrderService interface {
+	// for clients grpc
+	GetOrders(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
+	GetOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
+	CreateOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
+	UpdateOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
+	DeleteOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
+	// for customer
+	CustomerSubmitOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerDetailOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerConfirmOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerGetListOrderProcess(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerChangeStatus(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerCancelOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerCheckOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	// for agent
+	AgentGetListProcessAndHistoryOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentAcceptOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentPickupOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentGoingOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentConfirmCodeOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentUpdateAmountOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentGetFeeTransactionOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+}
+
+type orderService struct {
+	c    client.Client
+	name string
+}
+
+func NewOrderService(name string, c client.Client) OrderService {
+	return &orderService{
+		c:    c,
+		name: name,
+	}
+}
+
+func (c *orderService) GetOrders(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.GetOrders", in)
+	out := new(OrderResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) GetOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.GetOrder", in)
+	out := new(OrderResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CreateOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CreateOrder", in)
+	out := new(OrderResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) UpdateOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.UpdateOrder", in)
+	out := new(OrderResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) DeleteOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.DeleteOrder", in)
+	out := new(OrderResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerSubmitOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerSubmitOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerDetailOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerDetailOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerConfirmOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerConfirmOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerGetListOrderProcess(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerGetListOrderProcess", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerChangeStatus(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerChangeStatus", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerCancelOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerCancelOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) CustomerCheckOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.CustomerCheckOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentGetListProcessAndHistoryOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentGetListProcessAndHistoryOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentAcceptOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentAcceptOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentPickupOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentPickupOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentGoingOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentGoingOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentConfirmCodeOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentConfirmCodeOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentUpdateAmountOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentUpdateAmountOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderService) AgentGetFeeTransactionOrder(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.AgentGetFeeTransactionOrder", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for OrderService service
+
+type OrderServiceHandler interface {
+	// for clients grpc
+	GetOrders(context.Context, *OrderRequest, *OrderResponse) error
+	GetOrder(context.Context, *OrderRequest, *OrderResponse) error
+	CreateOrder(context.Context, *OrderRequest, *OrderResponse) error
+	UpdateOrder(context.Context, *OrderRequest, *OrderResponse) error
+	DeleteOrder(context.Context, *OrderRequest, *OrderResponse) error
+	// for customer
+	CustomerSubmitOrder(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerDetailOrder(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerConfirmOrder(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerGetListOrderProcess(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerChangeStatus(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerCancelOrder(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerCheckOrder(context.Context, *BaseRequest, *BaseResponse) error
+	// for agent
+	AgentGetListProcessAndHistoryOrder(context.Context, *BaseRequest, *BaseResponse) error
+	AgentAcceptOrder(context.Context, *BaseRequest, *BaseResponse) error
+	AgentPickupOrder(context.Context, *BaseRequest, *BaseResponse) error
+	AgentGoingOrder(context.Context, *BaseRequest, *BaseResponse) error
+	AgentConfirmCodeOrder(context.Context, *BaseRequest, *BaseResponse) error
+	AgentUpdateAmountOrder(context.Context, *BaseRequest, *BaseResponse) error
+	AgentGetFeeTransactionOrder(context.Context, *BaseRequest, *BaseResponse) error
+}
+
+func RegisterOrderServiceHandler(s server.Server, hdlr OrderServiceHandler, opts ...server.HandlerOption) error {
+	type orderService interface {
+		GetOrders(ctx context.Context, in *OrderRequest, out *OrderResponse) error
+		GetOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error
+		CreateOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error
+		UpdateOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error
+		DeleteOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error
+		CustomerSubmitOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerDetailOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerConfirmOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerGetListOrderProcess(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerChangeStatus(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerCancelOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerCheckOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentGetListProcessAndHistoryOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentAcceptOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentPickupOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentGoingOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentConfirmCodeOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentUpdateAmountOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentGetFeeTransactionOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+	}
+	type OrderService struct {
+		orderService
+	}
+	h := &orderServiceHandler{hdlr}
+	return s.Handle(s.NewHandler(&OrderService{h}, opts...))
+}
+
+type orderServiceHandler struct {
+	OrderServiceHandler
+}
+
+func (h *orderServiceHandler) GetOrders(ctx context.Context, in *OrderRequest, out *OrderResponse) error {
+	return h.OrderServiceHandler.GetOrders(ctx, in, out)
+}
+
+func (h *orderServiceHandler) GetOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error {
+	return h.OrderServiceHandler.GetOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CreateOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error {
+	return h.OrderServiceHandler.CreateOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) UpdateOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error {
+	return h.OrderServiceHandler.UpdateOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) DeleteOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error {
+	return h.OrderServiceHandler.DeleteOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerSubmitOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerSubmitOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerDetailOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerDetailOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerConfirmOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerConfirmOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerGetListOrderProcess(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerGetListOrderProcess(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerChangeStatus(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerChangeStatus(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerCancelOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerCancelOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) CustomerCheckOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.CustomerCheckOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentGetListProcessAndHistoryOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentGetListProcessAndHistoryOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentAcceptOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentAcceptOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentPickupOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentPickupOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentGoingOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentGoingOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentConfirmCodeOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentConfirmCodeOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentUpdateAmountOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentUpdateAmountOrder(ctx, in, out)
+}
+
+func (h *orderServiceHandler) AgentGetFeeTransactionOrder(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.OrderServiceHandler.AgentGetFeeTransactionOrder(ctx, in, out)
 }
