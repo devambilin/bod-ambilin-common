@@ -16,6 +16,10 @@ message BaseResponse {
   int32 httpStatus = 3;
 }
 
+message MessageProto {
+  bytes text = 1;
+}
+
 // ------------------------------------Start Auth Service-------------------------------------
 service AuthService {
   //for admin
