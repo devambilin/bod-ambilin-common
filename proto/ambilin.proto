@@ -235,3 +235,84 @@ message DataOrder {
 
 // ------------------------------------End Order Service-------------------------------------
 
+// ------------------------------------Start Rating Service-------------------------------------
+service RatingService {
+  // for clients grpc
+  rpc CreateAgentRating(AgentRatingRequest) returns (AgentRatingResponse){}
+  rpc CreateCustomerRating(UserRatingRequest) returns (UserRatingResponse){}
+  rpc GetAgentRatings(AgentRatingRequest) returns (AgentRatingResponse){}
+  rpc GetAgentRatingTotal(AgentRatingRequest) returns (AgentRatingResponse){}
+  rpc GetCustomerRatings(UserRatingRequest) returns (UserRatingResponse){}
+  rpc GetCustomerRatingTotal(UserRatingRequest) returns (UserRatingResponse){}
+  // for customer
+  rpc CustomerCreateAgentRating(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetRatings(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetRatingTotal(BaseRequest) returns (BaseResponse){}
+  // for agent 
+  rpc AgentCreateCustomerRating(BaseRequest) returns (BaseResponse){}
+  rpc AgentGetRatings(BaseRequest) returns (BaseResponse){}
+  rpc AgentGetRatingTotal(BaseRequest) returns (BaseResponse){}
+  
+}
+
+message AgentRating {
+  string orderId = 1;
+  string agentId = 2;
+  int32 rating = 3;
+  bool ketepatanWaktu = 4;
+  bool kesopanan = 5;
+  bool ketelitian = 6;
+  bool kerapihan = 7;
+  string keterangan = 8;
+}
+
+message UserRating {
+  string orderId = 1;
+  string userId = 2;
+  int32 rating = 3;
+}
+
+message AgentRatingRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  AgentRating rating = 3;
+}
+
+message UserRatingRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  UserRating rating = 3;
+}
+
+message AgentRatingResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  repeated AgentRating ratingList = 6;
+  AgentRatingTotal ratingTotal = 7;
+}
+
+message UserRatingResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  repeated UserRating ratingList = 6;
+  UserRatingTotal ratingTotal = 7;
+}
+
+message AgentRatingTotal {
+  string agentId = 1;
+  double totalRating = 2;
+  double totalReviewer = 3;
+  double coverageRating = 4;
+}
+
+message UserRatingTotal {
+  string userId = 1;
+  double totalRating = 2;
+  double totalReviewer = 3;
+  double coverageRating = 4;
+}
+// ------------------------------------End Rating Service-------------------------------------
