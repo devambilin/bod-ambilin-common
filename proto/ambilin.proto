@@ -45,17 +45,21 @@ service AuthService {
   rpc AgentLogout(BaseRequest) returns (BaseResponse){}
   //for partner
   rpc PartnerLogin(BaseRequest) returns (BaseResponse){}
+  //for client
+  rpc GetDataSession(SessionRequest) returns (SessionResponse){}
 }
 
 message SessionRequest {
   string token = 1;
   string signature = 2;
+  string requestId = 3;
 }
 
 message SessionResponse {
   int32 status = 1;
   string message = 2;
   SessionData data = 3;
+  string requestId = 4;
 }
 
 message SessionData {

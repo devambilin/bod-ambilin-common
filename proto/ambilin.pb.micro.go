@@ -59,6 +59,8 @@ type AuthService interface {
 	AgentLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	// for partner
 	PartnerLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	// for client
+	GetDataSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
 }
 
 type authService struct {
@@ -263,6 +265,16 @@ func (c *authService) PartnerLogin(ctx context.Context, in *BaseRequest, opts ..
 	return out, nil
 }
 
+func (c *authService) GetDataSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.GetDataSession", in)
+	out := new(SessionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AuthService service
 
 type AuthServiceHandler interface {
@@ -289,6 +301,8 @@ type AuthServiceHandler interface {
 	AgentLogout(context.Context, *BaseRequest, *BaseResponse) error
 	// for partner
 	PartnerLogin(context.Context, *BaseRequest, *BaseResponse) error
+	// for client
+	GetDataSession(context.Context, *SessionRequest, *SessionResponse) error
 }
 
 func RegisterAuthServiceHandler(s server.Server, hdlr AuthServiceHandler, opts ...server.HandlerOption) error {
@@ -312,6 +326,7 @@ func RegisterAuthServiceHandler(s server.Server, hdlr AuthServiceHandler, opts .
 		AgentVerifyOtpLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		AgentLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		PartnerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		GetDataSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error
 	}
 	type AuthService struct {
 		authService
@@ -398,6 +413,10 @@ func (h *authServiceHandler) AgentLogout(ctx context.Context, in *BaseRequest, o
 
 func (h *authServiceHandler) PartnerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
 	return h.AuthServiceHandler.PartnerLogin(ctx, in, out)
+}
+
+func (h *authServiceHandler) GetDataSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error {
+	return h.AuthServiceHandler.GetDataSession(ctx, in, out)
 }
 
 // Api Endpoints for UserService service
