@@ -320,3 +320,119 @@ message UserRatingTotal {
   double coverageRating = 4;
 }
 // ------------------------------------End Rating Service-------------------------------------
+
+// ------------------------------------Start Dashboard Service-------------------------------------
+service DashboardService {
+  //for client grpc
+  rpc GetMasterConfig(MasterConfigRequest) returns (MasterConfigResponse){}
+  rpc GetAdmins(AdminRequest) returns(AdminResponse){}
+  rpc GetAdmin(AdminRequest) returns(AdminResponse){}
+  rpc CreateAdmin(AdminRequest) returns(AdminResponse){}
+  rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
+  rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
+  //page dashboard
+  rpc GetSummary(BaseRequest) returns (BaseResponse){}
+  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
+  rpc GetDataExecutive(BaseRequest) returns (BaseResponse){}
+  rpc GetDataOperational(BaseRequest) returns (BaseResponse){}
+  rpc GetTopAgents(BaseRequest) returns (BaseResponse){}
+  //combo box
+  rpc FindAgents(BaseRequest) returns (BaseResponse){}
+  rpc FindOfficeBranches(BaseRequest) returns (BaseResponse){}
+  rpc FindOfficeRegionals(BaseRequest) returns (BaseResponse){}
+  //promo
+  rpc GetListPromo(BaseRequest) returns (BaseResponse){}
+  rpc GetDetailPromo(BaseRequest) returns (BaseResponse){}
+  rpc CreatePromo(BaseRequest) returns (BaseResponse){}
+  rpc UpdatePromo(BaseRequest) returns (BaseResponse){}
+  rpc DeletePromo(BaseRequest) returns (BaseResponse){}
+  rpc DownloadExecutive(BaseRequest) returns (BaseResponse){}
+  rpc DownloadOperational(BaseRequest) returns (BaseResponse){}
+  //CRUD Dashboard
+  rpc GetUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc GetDetailUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc CreateUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc UpdateUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc DeleteUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc CheckEmail(BaseRequest) returns (BaseResponse){}
+  rpc CheckPersonalNumber(BaseRequest) returns (BaseResponse){}
+  rpc ChangePhoto(BaseRequest) returns (BaseResponse){}
+  rpc DeletePhoto(BaseRequest) returns (BaseResponse){}
+  //CRUD Role
+  rpc GetListMenu(BaseRequest) returns (BaseResponse){}
+  rpc GetListOffice(BaseRequest) returns (BaseResponse){}
+  rpc GetListRole(BaseRequest) returns (BaseResponse){}
+  rpc GetListRoleStatic(BaseRequest) returns (BaseResponse){}
+  rpc GetDetailRole(BaseRequest) returns (BaseResponse){}
+  rpc CreateRole(BaseRequest) returns (BaseResponse){}
+  rpc UpdateRole(BaseRequest) returns (BaseResponse){}
+  rpc DeleteRole(BaseRequest) returns (BaseResponse){}
+  //Activity
+  rpc GetHistoryActivity(BaseRequest) returns (BaseResponse){}
+}
+
+message MasterConfigRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataMasterConfig masterConfig = 3;
+}
+
+message MasterConfigResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataMasterConfig dataMasterConfig = 5;
+  repeated DataMasterConfig listMasterConfig = 6;
+}
+
+message DataMasterConfig {
+  int32 id = 1;
+  string paramKey = 2;
+  string paramValue = 3;
+}
+
+message AdminRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataAdmin admin = 3;
+}
+
+message AdminResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataAdmin dataAdmin = 5;
+  repeated DataAdmin listAdmin = 6;
+}
+
+message DataAdmin {
+  int64 created = 1;
+  int64 updated = 2;
+  int64 removed = 3;
+  string createdBy = 4;
+  string updatedBy = 5;
+  string id = 6;
+  string userId = 7;
+  string name = 8;
+  string address = 9;
+  string email = 10;
+  string password = 11;
+  string phone = 12;
+  string photoUrl = 13;
+  string accessId = 14;
+  string resetCode = 15;
+  int64 resetExpiredTime = 16;
+  int32 idOfficeRegional = 17;
+  string personalNumber = 18;
+  bool isSuperAdmin = 19;
+  string role = 20;
+  int32 roleId = 21;
+}
+
+// ------------------------------------End Dashboard Service-------------------------------------
+
+// ------------------------------------Start Agent Service-------------------------------------
+
+// ------------------------------------End Agent Service-------------------------------------
