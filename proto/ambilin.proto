@@ -190,6 +190,9 @@ message OrderSummary {
   float shippingFee = 5;
   float insuranceFee = 6;
   string agentId = 7;
+  float totalTransaction = 8;
+  float totalTransactionSuccess = 9;
+  float totalTransactionFailed = 10;
 }
 
 message OrderSummaryRequest {
