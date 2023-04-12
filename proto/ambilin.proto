@@ -1,0 +1,466 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+message BaseRequest {
+  string txType               = 1;
+  map<string, string> headers = 2;
+  bytes params = 3;
+  map<string, string> bodyString = 4;
+}
+
+message BaseResponse {
+  bytes response = 1;
+  map<string, string> headers = 2;
+  int32 httpStatus = 3;
+}
+
+message MessageProto {
+  bytes text = 1;
+}
+
+// ------------------------------------Start Auth Service-------------------------------------
+service AuthService {
+  //for admin
+  rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
+  rpc AdminLogin(BaseRequest) returns (BaseResponse){}
+  rpc AdminForgotPassword(BaseRequest) returns (BaseResponse){}
+  rpc AdminResetPassword(BaseRequest) returns (BaseResponse){}
+  rpc AdminResetPasswordValidate(BaseRequest) returns (BaseResponse){}
+  rpc AdminChangePassword(BaseRequest) returns (BaseResponse){}
+  rpc AdminLogout(BaseRequest) returns (BaseResponse){}
+  //for customer
+  rpc CustomerValidateSession(SessionRequest) returns (SessionResponse){}
+  rpc CustomerLogin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerCreatePin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerVerifyPin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerChangePin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerForgotPin(BaseRequest) returns (BaseResponse){}
+  rpc CustomerLogout(BaseRequest) returns (BaseResponse){}
+  //for agent
+  rpc AgentValidateSession(SessionRequest) returns (SessionResponse){}
+  rpc AgentLogin(BaseRequest) returns (BaseResponse){}
+  rpc AgentVerifyOtpLogin(BaseRequest) returns (BaseResponse){}
+  rpc AgentLogout(BaseRequest) returns (BaseResponse){}
+  //for partner
+  rpc PartnerLogin(BaseRequest) returns (BaseResponse){}
+  //for client
+  rpc GetDataSession(SessionRequest) returns (SessionResponse){}
+}
+
+message SessionRequest {
+  string token = 1;
+  string signature = 2;
+  string requestId = 3;
+}
+
+message SessionResponse {
+  int32 status = 1;
+  string message = 2;
+  SessionData data = 3;
+  string requestId = 4;
+}
+
+message SessionData {
+  string username = 1;
+  string name = 2;
+  string type = 3;
+  string userId = 4;
+  string role = 5;
+}
+// ------------------------------------End Auth Service-------------------------------------
+
+// ------------------------------------Start User Service-------------------------------------
+service UserService {
+  //for clients grpc
+  rpc GetUsers(UserRequest) returns(UserResponse){}
+  rpc GetUser(UserRequest) returns(UserResponse){}
+  rpc CreateUser(UserRequest) returns(UserResponse){}
+  rpc UpdateUser(UserRequest) returns(UserResponse){}
+  rpc DeleteUser(UserRequest) returns(UserResponse){}
+  //for admin
+  rpc AdminGetUserType(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetListCustomerPersonal(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetListCustomerPartnership(BaseRequest) returns (BaseResponse){}
+  rpc AdminCreateCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminValidateCustomerPhone(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetDetailCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminUpdateCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminDeleteCustomer(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetListPartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetDataMasterPartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminGetDetailPartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminCreatePartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminUpdatePartner(BaseRequest) returns (BaseResponse){}
+  rpc AdminDeletePartner(BaseRequest) returns (BaseResponse){}
+  //for customer
+  rpc CustomerGetDashboard(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetPromo(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetDetail(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetCustomerHistory(BaseRequest) returns (BaseResponse){}
+  rpc CustomerUpdate(BaseRequest) returns (BaseResponse){}
+  rpc CustomerFavouriteAgent(BaseRequest) returns (BaseResponse){}
+  rpc CustomerUploadPhoto(BaseRequest) returns (BaseResponse){}
+  rpc CustomerDeletePhoto(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
+  rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
+  rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
+}
+
+message UserRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataUser user = 3;
+}
+
+message UserResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataUser dataUser = 5;
+  repeated DataUser listUser = 6;
+}
+
+message DataUser {
+  int64 created = 1;
+  int64 updated = 2;
+  int64 removed = 3;
+  string createdBy = 4;
+  string updatedBy = 5;
+  string id = 6;
+  string name = 7;
+  string address = 8;
+  string email = 9;
+  string phone = 10;
+  string ektp = 11;
+  string accountNumber = 12;
+  string photoUrl = 13;
+  int32 status = 14;
+  int32 registrationCode = 15;
+  string accessId = 16;
+  string agentId = 17;
+  string clientPin = 18;
+  bool firstLogin = 19;
+  string userType = 20;
+  string guarantorName = 21;
+  string identityNumber = 22;
+  string feePickup = 23;
+  int32 kanwilId = 24;
+  int32 kancaId = 25;
+  string partnerId = 26;
+  string kanwilName = 27;
+  string kancaName = 28;
+}
+// ------------------------------------End User Service-------------------------------------
+
+// ------------------------------------Start Order Service-------------------------------------
+service OrderService {
+  //for clients grpc
+  rpc GetSummary(OrderSummaryRequest) returns(OrderSummaryResponse){}
+  rpc GetOrders(OrderRequest) returns(OrderResponse){}
+  rpc GetOrder(OrderRequest) returns(OrderResponse){}
+  rpc CreateOrder(OrderRequest) returns(OrderResponse){}
+  rpc UpdateOrder(OrderRequest) returns(OrderResponse){}
+  rpc DeleteOrder(OrderRequest) returns(OrderResponse){}
+  //for customer
+  rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerConfirmOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetListOrderProcess(BaseRequest) returns (BaseResponse){}
+  rpc CustomerChangeStatus(BaseRequest) returns (BaseResponse){}
+  rpc CustomerCancelOrder(BaseRequest) returns (BaseResponse){}
+  rpc CustomerCheckOrder(BaseRequest) returns (BaseResponse){}
+  //for agent
+  rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentAcceptOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentPickupOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentGoingOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentConfirmCodeOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentUpdateAmountOrder(BaseRequest) returns (BaseResponse){}
+  rpc AgentGetFeeTransactionOrder(BaseRequest) returns (BaseResponse){}
+}
+
+message OrderSummary {
+  string createdDate = 1;
+  string startDate = 2;
+  string endDate = 3;
+  float depositAmount = 4;
+  float shippingFee = 5;
+  float insuranceFee = 6;
+  string agentId = 7;
+  float totalTransaction = 8;
+  float totalTransactionSuccess = 9;
+  float totalTransactionFailed = 10;
+}
+
+message OrderSummaryRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  OrderSummary params = 3;
+}
+
+message OrderSummaryResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  OrderSummary data = 5;
+}
+
+message OrderRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataUser user = 3;
+}
+
+message OrderResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataOrder dataOrder = 5;
+  repeated DataOrder listOrder = 6;
+}
+
+message DataOrder {
+  int64 created = 1;
+  int64 updated = 2;
+  int64 removed = 3;
+  string createdBy = 4;
+  string updatedBy = 5;
+  string id = 6;
+  string userId = 7;
+  string agentId = 8;
+  float depositAmount = 9;
+  float shippingFee = 10;
+  int32 shippingMethod = 11;
+  int32 orderStatusCustomer = 12;
+  string orderType = 13;
+  int32 progressPickup = 14;
+  string orderLater = 15;
+  string estimatedArrival = 16;
+  string estimatedPickup = 17;
+  string customerPlace = 18;
+  string customerAddress = 19;
+  float customerLatitude = 20;
+  float customerLongitude = 21;
+  float agentLatitude = 22;
+  float agentLongitude = 23;
+  int32 orderStatusAgent = 24;
+  float costOrder = 25;
+  bool amountStatus = 26;
+  int64 expiredTime = 27;
+  int64 completedTime = 28;
+  float distance = 29;
+  bool confirmButton = 30;
+  bool confirmButtonAgent = 31;
+  bool amountStatusInvalid = 32;
+  string orderCode = 33;
+  bool isCountdown = 34;
+  string locationDescription = 35;
+  int64 orderFinish = 36;
+  string expiredTimeExtend = 37;
+  string urlInvoice = 38;
+}
+
+// ------------------------------------End Order Service-------------------------------------
+
+// ------------------------------------Start Rating Service-------------------------------------
+service RatingService {
+  // for clients grpc
+  rpc CreateAgentRating(AgentRatingRequest) returns (AgentRatingResponse){}
+  rpc CreateCustomerRating(UserRatingRequest) returns (UserRatingResponse){}
+  rpc GetAgentRatings(AgentRatingRequest) returns (AgentRatingResponse){}
+  rpc GetAgentRatingTotal(AgentRatingRequest) returns (AgentRatingResponse){}
+  rpc GetCustomerRatings(UserRatingRequest) returns (UserRatingResponse){}
+  rpc GetCustomerRatingTotal(UserRatingRequest) returns (UserRatingResponse){}
+  // for customer
+  rpc CustomerCreateAgentRating(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetRatings(BaseRequest) returns (BaseResponse){}
+  rpc CustomerGetRatingTotal(BaseRequest) returns (BaseResponse){}
+  // for agent 
+  rpc AgentCreateCustomerRating(BaseRequest) returns (BaseResponse){}
+  rpc AgentGetRatings(BaseRequest) returns (BaseResponse){}
+  rpc AgentGetRatingTotal(BaseRequest) returns (BaseResponse){}
+  
+}
+
+message AgentRating {
+  string orderId = 1;
+  string agentId = 2;
+  int32 rating = 3;
+  bool ketepatanWaktu = 4;
+  bool kesopanan = 5;
+  bool ketelitian = 6;
+  bool kerapihan = 7;
+  string keterangan = 8;
+}
+
+message UserRating {
+  string orderId = 1;
+  string userId = 2;
+  int32 rating = 3;
+}
+
+message AgentRatingRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  AgentRating rating = 3;
+}
+
+message UserRatingRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  UserRating rating = 3;
+}
+
+message AgentRatingResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  repeated AgentRating ratingList = 6;
+  AgentRatingTotal ratingTotal = 7;
+}
+
+message UserRatingResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  repeated UserRating ratingList = 6;
+  UserRatingTotal ratingTotal = 7;
+}
+
+message AgentRatingTotal {
+  string agentId = 1;
+  double totalRating = 2;
+  double totalReviewer = 3;
+  double coverageRating = 4;
+}
+
+message UserRatingTotal {
+  string userId = 1;
+  double totalRating = 2;
+  double totalReviewer = 3;
+  double coverageRating = 4;
+}
+// ------------------------------------End Rating Service-------------------------------------
+
+// ------------------------------------Start Dashboard Service-------------------------------------
+service DashboardService {
+  //for client grpc
+  rpc GetMasterConfig(MasterConfigRequest) returns (MasterConfigResponse){}
+  rpc GetAdmins(AdminRequest) returns(AdminResponse){}
+  rpc GetAdmin(AdminRequest) returns(AdminResponse){}
+  rpc CreateAdmin(AdminRequest) returns(AdminResponse){}
+  rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
+  rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
+  //page dashboard
+  rpc GetSummary(BaseRequest) returns (BaseResponse){}
+  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
+  rpc GetDataExecutive(BaseRequest) returns (BaseResponse){}
+  rpc GetDataOperational(BaseRequest) returns (BaseResponse){}
+  rpc GetTopAgents(BaseRequest) returns (BaseResponse){}
+  //combo box
+  rpc FindAgents(BaseRequest) returns (BaseResponse){}
+  rpc FindOfficeBranches(BaseRequest) returns (BaseResponse){}
+  rpc FindOfficeRegionals(BaseRequest) returns (BaseResponse){}
+  //promo
+  rpc GetListPromo(BaseRequest) returns (BaseResponse){}
+  rpc GetDetailPromo(BaseRequest) returns (BaseResponse){}
+  rpc CreatePromo(BaseRequest) returns (BaseResponse){}
+  rpc UpdatePromo(BaseRequest) returns (BaseResponse){}
+  rpc DeletePromo(BaseRequest) returns (BaseResponse){}
+  rpc DownloadExecutive(BaseRequest) returns (BaseResponse){}
+  rpc DownloadOperational(BaseRequest) returns (BaseResponse){}
+  //CRUD Dashboard
+  rpc GetUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc GetDetailUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc CreateUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc UpdateUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc DeleteUserAdmin(BaseRequest) returns (BaseResponse){}
+  rpc CheckEmail(BaseRequest) returns (BaseResponse){}
+  rpc CheckPersonalNumber(BaseRequest) returns (BaseResponse){}
+  rpc ChangePhoto(BaseRequest) returns (BaseResponse){}
+  rpc DeletePhoto(BaseRequest) returns (BaseResponse){}
+  //CRUD Role
+  rpc GetListMenu(BaseRequest) returns (BaseResponse){}
+  rpc GetListOffice(BaseRequest) returns (BaseResponse){}
+  rpc GetListRole(BaseRequest) returns (BaseResponse){}
+  rpc GetListRoleStatic(BaseRequest) returns (BaseResponse){}
+  rpc GetDetailRole(BaseRequest) returns (BaseResponse){}
+  rpc CreateRole(BaseRequest) returns (BaseResponse){}
+  rpc UpdateRole(BaseRequest) returns (BaseResponse){}
+  rpc DeleteRole(BaseRequest) returns (BaseResponse){}
+  //Activity
+  rpc GetHistoryActivity(BaseRequest) returns (BaseResponse){}
+}
+
+message MasterConfigRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataMasterConfig masterConfig = 3;
+}
+
+message MasterConfigResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataMasterConfig dataMasterConfig = 5;
+  repeated DataMasterConfig listMasterConfig = 6;
+}
+
+message DataMasterConfig {
+  int32 id = 1;
+  string paramKey = 2;
+  string paramValue = 3;
+}
+
+message AdminRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  DataAdmin admin = 3;
+}
+
+message AdminResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  DataAdmin dataAdmin = 5;
+  repeated DataAdmin listAdmin = 6;
+}
+
+message DataAdmin {
+  int64 created = 1;
+  int64 updated = 2;
+  int64 removed = 3;
+  string createdBy = 4;
+  string updatedBy = 5;
+  string id = 6;
+  string userId = 7;
+  string name = 8;
+  string address = 9;
+  string email = 10;
+  string password = 11;
+  string phone = 12;
+  string photoUrl = 13;
+  string accessId = 14;
+  string resetCode = 15;
+  int64 resetExpiredTime = 16;
+  int32 idOfficeRegional = 17;
+  string personalNumber = 18;
+  bool isSuperAdmin = 19;
+  string role = 20;
+  int32 roleId = 21;
+}
+
+// ------------------------------------End Dashboard Service-------------------------------------
+
+// ------------------------------------Start Agent Service-------------------------------------
+
+// ------------------------------------End Agent Service-------------------------------------
