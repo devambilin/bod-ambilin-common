@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+import "proto/base.proto";
+
+service UserService {
+    //for clients grpc
+    rpc GetUsers(UserRequest) returns(UserResponse){}
+    rpc GetUser(UserRequest) returns(UserResponse){}
+    rpc CreateUser(UserRequest) returns(UserResponse){}
+    rpc UpdateUser(UserRequest) returns(UserResponse){}
+    rpc DeleteUser(UserRequest) returns(UserResponse){}
+    //for admin
+    rpc AdminGetUserType(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetListCustomerPersonal(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetListCustomerPartnership(BaseRequest) returns (BaseResponse){}
+    rpc AdminCreateCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AdminValidateCustomerPhone(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetDetailCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AdminUpdateCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AdminDeleteCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetListPartner(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetDataMasterPartner(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetDetailPartner(BaseRequest) returns (BaseResponse){}
+    rpc AdminCreatePartner(BaseRequest) returns (BaseResponse){}
+    rpc AdminUpdatePartner(BaseRequest) returns (BaseResponse){}
+    rpc AdminDeletePartner(BaseRequest) returns (BaseResponse){}
+    //for customer
+    rpc CustomerGetDashboard(BaseRequest) returns (BaseResponse){}
+    rpc CustomerGetPromo(BaseRequest) returns (BaseResponse){}
+    rpc CustomerGetDetail(BaseRequest) returns (BaseResponse){}
+    rpc CustomerGetCustomerHistory(BaseRequest) returns (BaseResponse){}
+    rpc CustomerUpdate(BaseRequest) returns (BaseResponse){}
+    rpc CustomerFavouriteAgent(BaseRequest) returns (BaseResponse){}
+    rpc CustomerUploadPhoto(BaseRequest) returns (BaseResponse){}
+    rpc CustomerDeletePhoto(BaseRequest) returns (BaseResponse){}
+    rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
+    rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
+    rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
+  }
+  
+  message UserRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    DataUser user = 3;
+  }
+  
+  message UserResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    DataUser dataUser = 5;
+    repeated DataUser listUser = 6;
+  }
+  
+  message DataUser {
+    int64 created = 1;
+    int64 updated = 2;
+    int64 removed = 3;
+    string createdBy = 4;
+    string updatedBy = 5;
+    string id = 6;
+    string name = 7;
+    string address = 8;
+    string email = 9;
+    string phone = 10;
+    string ektp = 11;
+    string accountNumber = 12;
+    string photoUrl = 13;
+    int32 status = 14;
+    int32 registrationCode = 15;
+    string accessId = 16;
+    string agentId = 17;
+    string clientPin = 18;
+    bool firstLogin = 19;
+    string userType = 20;
+    string guarantorName = 21;
+    string identityNumber = 22;
+    string feePickup = 23;
+    int32 kanwilId = 24;
+    int32 kancaId = 25;
+    string partnerId = 26;
+    string kanwilName = 27;
+    string kancaName = 28;
+  }

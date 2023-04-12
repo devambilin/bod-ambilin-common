@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+message BaseRequest {
+  string txType               = 1;
+  map<string, string> headers = 2;
+  bytes params = 3;
+  map<string, string> bodyString = 4;
+}
+  
+message BaseResponse {
+  bytes response = 1;
+  map<string, string> headers = 2;
+  int32 httpStatus = 3;
+}
+  
+message MessageProto {
+  bytes text = 1;
+}

@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+import "proto/base.proto";
+import "proto/user.proto";
+  
+service OrderService {
+    //for clients grpc
+    rpc GetOrders(OrderRequest) returns(OrderResponse){}
+    rpc GetOrder(OrderRequest) returns(OrderResponse){}
+    rpc CreateOrder(OrderRequest) returns(OrderResponse){}
+    rpc UpdateOrder(OrderRequest) returns(OrderResponse){}
+    rpc DeleteOrder(OrderRequest) returns(OrderResponse){}
+    //for customer
+    rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
+    rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
+    rpc CustomerConfirmOrder(BaseRequest) returns (BaseResponse){}
+    rpc CustomerGetListOrderProcess(BaseRequest) returns (BaseResponse){}
+    rpc CustomerChangeStatus(BaseRequest) returns (BaseResponse){}
+    rpc CustomerCancelOrder(BaseRequest) returns (BaseResponse){}
+    rpc CustomerCheckOrder(BaseRequest) returns (BaseResponse){}
+    //for agent
+    rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (BaseResponse){}
+    rpc AgentAcceptOrder(BaseRequest) returns (BaseResponse){}
+    rpc AgentPickupOrder(BaseRequest) returns (BaseResponse){}
+    rpc AgentGoingOrder(BaseRequest) returns (BaseResponse){}
+    rpc AgentConfirmCodeOrder(BaseRequest) returns (BaseResponse){}
+    rpc AgentUpdateAmountOrder(BaseRequest) returns (BaseResponse){}
+    rpc AgentGetFeeTransactionOrder(BaseRequest) returns (BaseResponse){}
+}
+
+message OrderRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    DataUser user = 3;
+}
+  
+message OrderResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    DataOrder dataOrder = 5;
+    repeated DataOrder listOrder = 6;
+}
+
+message DataOrder {
+    int64 created = 1;
+    int64 updated = 2;
+    int64 removed = 3;
+    string createdBy = 4;
+    string updatedBy = 5;
+    string id = 6;
+    string userId = 7;
+    string agentId = 8;
+    float depositAmount = 9;
+    float shippingFee = 10;
+    int32 shippingMethod = 11;
+    int32 orderStatusCustomer = 12;
+    string orderType = 13;
+    int32 progressPickup = 14;
+    string orderLater = 15;
+    string estimatedArrival = 16;
+    string estimatedPickup = 17;
+    string customerPlace = 18;
+    string customerAddress = 19;
+    float customerLatitude = 20;
+    float customerLongitude = 21;
+    float agentLatitude = 22;
+    float agentLongitude = 23;
+    int32 orderStatusAgent = 24;
+    float costOrder = 25;
+    bool amountStatus = 26;
+    int64 expiredTime = 27;
+    int64 completedTime = 28;
+    float distance = 29;
+    bool confirmButton = 30;
+    bool confirmButtonAgent = 31;
+    bool amountStatusInvalid = 32;
+    string orderCode = 33;
+    bool isCountdown = 34;
+    string locationDescription = 35;
+    int64 orderFinish = 36;
+    string expiredTimeExtend = 37;
+    string urlInvoice = 38;
+}

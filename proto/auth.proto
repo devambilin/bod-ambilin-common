@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+import "proto/base.proto";
+
+service AuthService {
+    //for admin
+    rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
+    rpc AdminLogin(BaseRequest) returns (BaseResponse){}
+    rpc AdminForgotPassword(BaseRequest) returns (BaseResponse){}
+    rpc AdminResetPassword(BaseRequest) returns (BaseResponse){}
+    rpc AdminResetPasswordValidate(BaseRequest) returns (BaseResponse){}
+    rpc AdminChangePassword(BaseRequest) returns (BaseResponse){}
+    rpc AdminLogout(BaseRequest) returns (BaseResponse){}
+    //for customer
+    rpc CustomerValidateSession(SessionRequest) returns (SessionResponse){}
+    rpc CustomerLogin(BaseRequest) returns (BaseResponse){}
+    rpc CustomerCreatePin(BaseRequest) returns (BaseResponse){}
+    rpc CustomerVerifyPin(BaseRequest) returns (BaseResponse){}
+    rpc CustomerChangePin(BaseRequest) returns (BaseResponse){}
+    rpc CustomerForgotPin(BaseRequest) returns (BaseResponse){}
+    rpc CustomerLogout(BaseRequest) returns (BaseResponse){}
+    //for agent
+    rpc AgentValidateSession(SessionRequest) returns (SessionResponse){}
+    rpc AgentLogin(BaseRequest) returns (BaseResponse){}
+    rpc AgentVerifyOtpLogin(BaseRequest) returns (BaseResponse){}
+    rpc AgentLogout(BaseRequest) returns (BaseResponse){}
+    //for partner
+    rpc PartnerLogin(BaseRequest) returns (BaseResponse){}
+}
+  
+message SessionRequest {
+    string token = 1;
+    string signature = 2;
+}
+  
+message SessionResponse {
+    int32 status = 1;
+    string message = 2;
+    SessionData data = 3;
+}
+  
+message SessionData {
+    string username = 1;
+    string name = 2;
+    string type = 3;
+    string userId = 4;
+    string role = 5;
+}
