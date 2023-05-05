@@ -22,7 +22,6 @@ service AuthService {
     rpc CustomerVerifyPin(BaseRequest) returns (BaseResponse){}
 	rpc CustomerVerifyChangePin(BaseRequest) returns (BaseResponse){}
     rpc CustomerChangePin(BaseRequest) returns (BaseResponse){}
-	rpc CustomerChangePinForgot(BaseRequest) returns (BaseResponse){}
     rpc CustomerForgotPin(BaseRequest) returns (BaseResponse){}
 	rpc CustomerVerifyOtpForgotPin(BaseRequest) returns (BaseResponse){}
     rpc CustomerLogout(BaseRequest) returns (BaseResponse){}

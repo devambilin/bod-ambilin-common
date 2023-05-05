@@ -52,7 +52,6 @@ type AuthService interface {
 	CustomerVerifyPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerVerifyChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
-	CustomerChangePinForgot(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerVerifyOtpForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
@@ -217,16 +216,6 @@ func (c *authService) CustomerChangePin(ctx context.Context, in *BaseRequest, op
 	return out, nil
 }
 
-func (c *authService) CustomerChangePinForgot(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthService.CustomerChangePinForgot", in)
-	out := new(BaseResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authService) CustomerForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
 	req := c.c.NewRequest(c.name, "AuthService.CustomerForgotPin", in)
 	out := new(BaseResponse)
@@ -326,7 +315,6 @@ type AuthServiceHandler interface {
 	CustomerVerifyPin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerVerifyChangePin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerChangePin(context.Context, *BaseRequest, *BaseResponse) error
-	CustomerChangePinForgot(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerForgotPin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerVerifyOtpForgotPin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerLogout(context.Context, *BaseRequest, *BaseResponse) error
@@ -355,7 +343,6 @@ func RegisterAuthServiceHandler(s server.Server, hdlr AuthServiceHandler, opts .
 		CustomerVerifyPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerVerifyChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
-		CustomerChangePinForgot(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerVerifyOtpForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error
@@ -430,10 +417,6 @@ func (h *authServiceHandler) CustomerVerifyChangePin(ctx context.Context, in *Ba
 
 func (h *authServiceHandler) CustomerChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
 	return h.AuthServiceHandler.CustomerChangePin(ctx, in, out)
-}
-
-func (h *authServiceHandler) CustomerChangePinForgot(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
-	return h.AuthServiceHandler.CustomerChangePinForgot(ctx, in, out)
 }
 
 func (h *authServiceHandler) CustomerForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
