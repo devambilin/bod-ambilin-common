@@ -9,6 +9,7 @@ service AuthService {
     //for admin
     rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
     rpc AdminLogin(BaseRequest) returns (BaseResponse){}
+	rpc AdminLoginValidate(BaseRequest) returns (BaseResponse){}
     rpc AdminForgotPassword(BaseRequest) returns (BaseResponse){}
     rpc AdminResetPassword(BaseRequest) returns (BaseResponse){}
     rpc AdminResetPasswordValidate(BaseRequest) returns (BaseResponse){}
@@ -19,8 +20,11 @@ service AuthService {
     rpc CustomerLogin(BaseRequest) returns (BaseResponse){}
     rpc CustomerCreatePin(BaseRequest) returns (BaseResponse){}
     rpc CustomerVerifyPin(BaseRequest) returns (BaseResponse){}
+	rpc CustomerVerifyChangePin(BaseRequest) returns (BaseResponse){}
     rpc CustomerChangePin(BaseRequest) returns (BaseResponse){}
+	rpc CustomerChangePinForgot(BaseRequest) returns (BaseResponse){}
     rpc CustomerForgotPin(BaseRequest) returns (BaseResponse){}
+	rpc CustomerVerifyOtpForgotPin(BaseRequest) returns (BaseResponse){}
     rpc CustomerLogout(BaseRequest) returns (BaseResponse){}
     //for agent
     rpc AgentValidateSession(SessionRequest) returns (SessionResponse){}

@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+import "proto/base.proto";
+
+service AgentService {
+    //for clients grpc
+    rpc GetAgents(AgentRequest) returns(AgentResponse){}
+    rpc GetAgent(AgentRequest) returns(AgentResponse){}
+    rpc CreateAgent(AgentRequest) returns(AgentResponse){}
+    rpc UpdateAgent(AgentRequest) returns(AgentResponse){}
+    rpc DeleteAgent(AgentRequest) returns(AgentResponse){}
+    //for admin
+    rpc AdminGetListAgent(BaseRequest) returns (BaseResponse){}
+    rpc AdminCreateAgent(BaseRequest) returns (BaseResponse){}
+    rpc AdminValidateMidAgent(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetDetailAgent(BaseRequest) returns (BaseResponse){}
+    rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
+    rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
+    //for agent
+    rpc AgentDashboard(BaseRequest) returns (BaseResponse){}
+    rpc AgentDetailAgent(BaseRequest) returns (BaseResponse){}
+    rpc AgentHistory(BaseRequest) returns (BaseResponse){}
+    rpc AgentListNotification(BaseRequest) returns (BaseResponse){}
+    rpc AgentDeleteNotification(BaseRequest) returns (BaseResponse){}
+    rpc AgentReadNotification(BaseRequest) returns (BaseResponse){}
+    rpc AgentUploadPhoto(BaseRequest) returns (BaseResponse){}
+    rpc AgentDeletePhoto(BaseRequest) returns (BaseResponse){}
+    rpc AgentCheckLimitPickup(BaseRequest) returns (BaseResponse){}
+    rpc AgentUpdateData(BaseRequest) returns (BaseResponse){}
+    rpc AgentChangeStatus(BaseRequest) returns (BaseResponse){}
+    rpc AgentSetLimitPickup(BaseRequest) returns (BaseResponse){}
+    rpc AgentGetListCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AgentGetLimitPickup(BaseRequest) returns (BaseResponse){}
+    rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
+    rpc AgentSetupLocation(BaseRequest) returns (BaseResponse){}
+    rpc AgentListVehicle(BaseRequest) returns (BaseResponse){}
+    rpc AgentSubmitVehicle(BaseRequest) returns (BaseResponse){}
+    //for customer
+    rpc CustomerGetDetailAgent(BaseRequest) returns (BaseResponse){}
+    rpc CustomerSearchAgent(BaseRequest) returns (BaseResponse){}
+    rpc CustomerPartnerDetailAgent(BaseRequest) returns (BaseResponse){}
+  }
+  
+  message AgentRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    DataAgent agent = 3;
+  }
+  
+  message AgentResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    DataAgent dataAgent = 5;
+    repeated DataAgent listAgent = 6;
+  }
+  
+  message DataAgent {
+    int64 created = 1;
+    int64 updated = 2;
+    int64 removed = 3;
+    string createdBy = 4;
+    string updatedBy = 5;
+    string id = 6;
+    string ktp = 7;
+    string fullName = 8;
+    string religion = 9;
+    string gender = 10;
+    string dateOfBirth = 11;
+    string placeOfBirth = 12;
+    string address = 13;
+    int32 zipCode = 14;
+    string addressDomicile = 15;
+    int32 zipCodeDomicile = 16;
+    string phone = 17;
+    string email = 18;
+    float longitude = 19;
+    float latitude = 20;
+    string image = 21;
+    bool notification = 22;
+    bool isOnline = 23;
+    string costInstant = 24;
+    int32 status = 25;
+    string costLater = 26;
+    string limitPickup = 27;
+    string mid = 28;
+    string photoUrl = 29;
+    string accessId = 30;
+    int32 kancaId = 31;
+    int32 pabId = 32;
+    bool firstLogin = 33;
+    int64 lastUpdateDataBrilink = 34;
+    string branchCode = 35;
+    string branchName = 36;
+    string regionCode = 37;
+    string regionName = 38;
+    string merchantCode = 39;
+    string vehicleCode = 40;
+    string numberPolice = 41;
+    bool setupLocation = 42;
+  }

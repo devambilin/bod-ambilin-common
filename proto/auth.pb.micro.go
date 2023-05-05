@@ -5,27 +5,21 @@ package proto
 
 import (
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
+	proto "google.golang.org/protobuf/proto"
 	math "math"
 )
 
 import (
 	context "context"
-	api "github.com/micro/micro/v3/service/api"
-	client "github.com/micro/micro/v3/service/client"
-	server "github.com/micro/micro/v3/service/server"
+	api "go-micro.dev/v4/api"
+	client "go-micro.dev/v4/client"
+	server "go-micro.dev/v4/server"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the proto package it is being compiled against.
-// A compilation error at this line likely means your copy of the
-// proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ api.Endpoint
@@ -45,6 +39,7 @@ type AuthService interface {
 	// for admin
 	AdminValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
 	AdminLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AdminLoginValidate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	AdminForgotPassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	AdminResetPassword(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	AdminResetPasswordValidate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
@@ -55,8 +50,11 @@ type AuthService interface {
 	CustomerLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerCreatePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerVerifyPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerVerifyChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerChangePinForgot(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	CustomerVerifyOtpForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerLogout(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	// for agent
 	AgentValidateSession(ctx context.Context, in *SessionRequest, opts ...client.CallOption) (*SessionResponse, error)
@@ -91,6 +89,16 @@ func (c *authService) AdminValidateSession(ctx context.Context, in *SessionReque
 
 func (c *authService) AdminLogin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
 	req := c.c.NewRequest(c.name, "AuthService.AdminLogin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) AdminLoginValidate(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.AdminLoginValidate", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -189,6 +197,16 @@ func (c *authService) CustomerVerifyPin(ctx context.Context, in *BaseRequest, op
 	return out, nil
 }
 
+func (c *authService) CustomerVerifyChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerVerifyChangePin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authService) CustomerChangePin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
 	req := c.c.NewRequest(c.name, "AuthService.CustomerChangePin", in)
 	out := new(BaseResponse)
@@ -199,8 +217,28 @@ func (c *authService) CustomerChangePin(ctx context.Context, in *BaseRequest, op
 	return out, nil
 }
 
+func (c *authService) CustomerChangePinForgot(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerChangePinForgot", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authService) CustomerForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
 	req := c.c.NewRequest(c.name, "AuthService.CustomerForgotPin", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authService) CustomerVerifyOtpForgotPin(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthService.CustomerVerifyOtpForgotPin", in)
 	out := new(BaseResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -275,6 +313,7 @@ type AuthServiceHandler interface {
 	// for admin
 	AdminValidateSession(context.Context, *SessionRequest, *SessionResponse) error
 	AdminLogin(context.Context, *BaseRequest, *BaseResponse) error
+	AdminLoginValidate(context.Context, *BaseRequest, *BaseResponse) error
 	AdminForgotPassword(context.Context, *BaseRequest, *BaseResponse) error
 	AdminResetPassword(context.Context, *BaseRequest, *BaseResponse) error
 	AdminResetPasswordValidate(context.Context, *BaseRequest, *BaseResponse) error
@@ -285,8 +324,11 @@ type AuthServiceHandler interface {
 	CustomerLogin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerCreatePin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerVerifyPin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerVerifyChangePin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerChangePin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerChangePinForgot(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerForgotPin(context.Context, *BaseRequest, *BaseResponse) error
+	CustomerVerifyOtpForgotPin(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerLogout(context.Context, *BaseRequest, *BaseResponse) error
 	// for agent
 	AgentValidateSession(context.Context, *SessionRequest, *SessionResponse) error
@@ -301,6 +343,7 @@ func RegisterAuthServiceHandler(s server.Server, hdlr AuthServiceHandler, opts .
 	type authService interface {
 		AdminValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error
 		AdminLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AdminLoginValidate(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		AdminForgotPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		AdminResetPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		AdminResetPasswordValidate(ctx context.Context, in *BaseRequest, out *BaseResponse) error
@@ -310,8 +353,11 @@ func RegisterAuthServiceHandler(s server.Server, hdlr AuthServiceHandler, opts .
 		CustomerLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerCreatePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerVerifyPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerVerifyChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerChangePinForgot(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		CustomerVerifyOtpForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		AgentValidateSession(ctx context.Context, in *SessionRequest, out *SessionResponse) error
 		AgentLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error
@@ -336,6 +382,10 @@ func (h *authServiceHandler) AdminValidateSession(ctx context.Context, in *Sessi
 
 func (h *authServiceHandler) AdminLogin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
 	return h.AuthServiceHandler.AdminLogin(ctx, in, out)
+}
+
+func (h *authServiceHandler) AdminLoginValidate(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.AdminLoginValidate(ctx, in, out)
 }
 
 func (h *authServiceHandler) AdminForgotPassword(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
@@ -374,12 +424,24 @@ func (h *authServiceHandler) CustomerVerifyPin(ctx context.Context, in *BaseRequ
 	return h.AuthServiceHandler.CustomerVerifyPin(ctx, in, out)
 }
 
+func (h *authServiceHandler) CustomerVerifyChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerVerifyChangePin(ctx, in, out)
+}
+
 func (h *authServiceHandler) CustomerChangePin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
 	return h.AuthServiceHandler.CustomerChangePin(ctx, in, out)
 }
 
+func (h *authServiceHandler) CustomerChangePinForgot(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerChangePinForgot(ctx, in, out)
+}
+
 func (h *authServiceHandler) CustomerForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
 	return h.AuthServiceHandler.CustomerForgotPin(ctx, in, out)
+}
+
+func (h *authServiceHandler) CustomerVerifyOtpForgotPin(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.AuthServiceHandler.CustomerVerifyOtpForgotPin(ctx, in, out)
 }
 
 func (h *authServiceHandler) CustomerLogout(ctx context.Context, in *BaseRequest, out *BaseResponse) error {

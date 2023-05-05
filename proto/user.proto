@@ -39,12 +39,17 @@ service UserService {
     rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
     rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
     rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
+    //for agent
+    rpc AgentRegisterCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AgentVerifyOtpRegisterCustomer(BaseRequest) returns (BaseResponse){}
+    rpc AgentFindUserType(BaseRequest) returns (BaseResponse){}
   }
   
   message UserRequest {
     string requestId = 1;
     string requestByService = 2;
     DataUser user = 3;
+	DataUserPartnership userPartnership = 4;
   }
   
   message UserResponse {
@@ -54,6 +59,8 @@ service UserService {
     string requestByService = 4;
     DataUser dataUser = 5;
     repeated DataUser listUser = 6;
+	DataUserPartnership dataUserPartnership = 7;
+	repeated DataUserPartnership listUserPartnership = 8;
   }
   
   message DataUser {
@@ -85,4 +92,15 @@ service UserService {
     string partnerId = 26;
     string kanwilName = 27;
     string kancaName = 28;
+  }
+  
+  message DataUserPartnership {
+	int64 created = 1;
+    int64 updated = 2;
+    int64 removed = 3;
+    string createdBy = 4;
+    string updatedBy = 5;
+    string id = 6;
+	string userId = 7;
+	string agentId = 8;
   }
