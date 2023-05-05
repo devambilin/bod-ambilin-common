@@ -5,27 +5,21 @@ package proto
 
 import (
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
+	proto "google.golang.org/protobuf/proto"
 	math "math"
 )
 
 import (
 	context "context"
-	api "github.com/micro/micro/v3/service/api"
-	client "github.com/micro/micro/v3/service/client"
-	server "github.com/micro/micro/v3/service/server"
+	api "go-micro.dev/v4/api"
+	client "go-micro.dev/v4/client"
+	server "go-micro.dev/v4/server"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the proto package it is being compiled against.
-// A compilation error at this line likely means your copy of the
-// proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ api.Endpoint
@@ -75,6 +69,10 @@ type UserService interface {
 	CustomerGetNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerReadNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 	CustomerDeleteNotification(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	// for agent
+	AgentRegisterCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentVerifyOtpRegisterCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
+	AgentFindUserType(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error)
 }
 
 type userService struct {
@@ -389,6 +387,36 @@ func (c *userService) CustomerDeleteNotification(ctx context.Context, in *BaseRe
 	return out, nil
 }
 
+func (c *userService) AgentRegisterCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AgentRegisterCustomer", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AgentVerifyOtpRegisterCustomer(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AgentVerifyOtpRegisterCustomer", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) AgentFindUserType(ctx context.Context, in *BaseRequest, opts ...client.CallOption) (*BaseResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.AgentFindUserType", in)
+	out := new(BaseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
@@ -425,6 +453,10 @@ type UserServiceHandler interface {
 	CustomerGetNotification(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerReadNotification(context.Context, *BaseRequest, *BaseResponse) error
 	CustomerDeleteNotification(context.Context, *BaseRequest, *BaseResponse) error
+	// for agent
+	AgentRegisterCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	AgentVerifyOtpRegisterCustomer(context.Context, *BaseRequest, *BaseResponse) error
+	AgentFindUserType(context.Context, *BaseRequest, *BaseResponse) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -459,6 +491,9 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		CustomerGetNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerReadNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 		CustomerDeleteNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentRegisterCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentVerifyOtpRegisterCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error
+		AgentFindUserType(ctx context.Context, in *BaseRequest, out *BaseResponse) error
 	}
 	type UserService struct {
 		userService
@@ -589,4 +624,16 @@ func (h *userServiceHandler) CustomerReadNotification(ctx context.Context, in *B
 
 func (h *userServiceHandler) CustomerDeleteNotification(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
 	return h.UserServiceHandler.CustomerDeleteNotification(ctx, in, out)
+}
+
+func (h *userServiceHandler) AgentRegisterCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AgentRegisterCustomer(ctx, in, out)
+}
+
+func (h *userServiceHandler) AgentVerifyOtpRegisterCustomer(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AgentVerifyOtpRegisterCustomer(ctx, in, out)
+}
+
+func (h *userServiceHandler) AgentFindUserType(ctx context.Context, in *BaseRequest, out *BaseResponse) error {
+	return h.UserServiceHandler.AgentFindUserType(ctx, in, out)
 }
