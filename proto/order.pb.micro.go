@@ -37,6 +37,7 @@ func NewOrderServiceEndpoints() []*api.Endpoint {
 
 type OrderService interface {
 	// for clients grpc
+	GetSummary(ctx context.Context, in *OrderSummaryRequest, opts ...client.CallOption) (*OrderSummaryResponse, error)
 	GetOrders(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
 	GetOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
 	CreateOrder(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error)
@@ -70,6 +71,16 @@ func NewOrderService(name string, c client.Client) OrderService {
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *orderService) GetSummary(ctx context.Context, in *OrderSummaryRequest, opts ...client.CallOption) (*OrderSummaryResponse, error) {
+	req := c.c.NewRequest(c.name, "OrderService.GetSummary", in)
+	out := new(OrderSummaryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *orderService) GetOrders(ctx context.Context, in *OrderRequest, opts ...client.CallOption) (*OrderResponse, error) {
@@ -266,6 +277,7 @@ func (c *orderService) AgentGetFeeTransactionOrder(ctx context.Context, in *Base
 
 type OrderServiceHandler interface {
 	// for clients grpc
+	GetSummary(context.Context, *OrderSummaryRequest, *OrderSummaryResponse) error
 	GetOrders(context.Context, *OrderRequest, *OrderResponse) error
 	GetOrder(context.Context, *OrderRequest, *OrderResponse) error
 	CreateOrder(context.Context, *OrderRequest, *OrderResponse) error
@@ -291,6 +303,7 @@ type OrderServiceHandler interface {
 
 func RegisterOrderServiceHandler(s server.Server, hdlr OrderServiceHandler, opts ...server.HandlerOption) error {
 	type orderService interface {
+		GetSummary(ctx context.Context, in *OrderSummaryRequest, out *OrderSummaryResponse) error
 		GetOrders(ctx context.Context, in *OrderRequest, out *OrderResponse) error
 		GetOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error
 		CreateOrder(ctx context.Context, in *OrderRequest, out *OrderResponse) error
@@ -320,6 +333,10 @@ func RegisterOrderServiceHandler(s server.Server, hdlr OrderServiceHandler, opts
 
 type orderServiceHandler struct {
 	OrderServiceHandler
+}
+
+func (h *orderServiceHandler) GetSummary(ctx context.Context, in *OrderSummaryRequest, out *OrderSummaryResponse) error {
+	return h.OrderServiceHandler.GetSummary(ctx, in, out)
 }
 
 func (h *orderServiceHandler) GetOrders(ctx context.Context, in *OrderRequest, out *OrderResponse) error {
