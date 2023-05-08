@@ -2,7 +2,7 @@ package constant
 
 const (
 	Success                 = "Success"
-	ParameterIsBlank        = "Parameter is not empty"
+	ParameterIsBlank        = "Parameter harus di isi"
 	Unauthorized            = "Session habis"
 	FailedInternalServer    = "Internal Server Error"
 	FailedDataNotFound      = "Data tidak ditemukan"

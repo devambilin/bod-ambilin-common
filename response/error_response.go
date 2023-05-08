@@ -1,6 +1,8 @@
 package response
 
 import (
+	"github.com/devambilin/bod-ambilin-common/constant"
+	"github.com/devambilin/bod-ambilin-common/model"
 	"github.com/devambilin/bod-ambilin-common/proto"
 	"net/http"
 )
@@ -8,20 +10,29 @@ import (
 func SessionExpire() *proto.BaseResponse {
 	return &proto.BaseResponse{
 		HttpStatus: http.StatusUnauthorized,
-		Response:   nil,
+		Response: ObjectToJson(&model.BaseResponseObject{
+			Code:    http.StatusUnauthorized,
+			Message: constant.Unauthorized,
+		}),
 	}
 }
 
 func InternalServerError() *proto.BaseResponse {
 	return &proto.BaseResponse{
 		HttpStatus: http.StatusInternalServerError,
-		Response:   nil,
+		Response: ObjectToJson(&model.BaseResponseObject{
+			Code:    http.StatusInternalServerError,
+			Message: constant.FailedInternalServer,
+		}),
 	}
 }
 
 func ParameterIsNotEmpty() *proto.BaseResponse {
 	return &proto.BaseResponse{
 		HttpStatus: http.StatusBadRequest,
-		Response:   nil,
+		Response: ObjectToJson(&model.BaseResponseObject{
+			Code:    http.StatusBadRequest,
+			Message: constant.ParameterIsBlank,
+		}),
 	}
 }
