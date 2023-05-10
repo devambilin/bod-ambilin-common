@@ -3,8 +3,6 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
-import "proto/base.proto";
-
 service AgentService {
     //for clients grpc
     rpc GetAgents(AgentRequest) returns(AgentResponse){}
@@ -13,35 +11,35 @@ service AgentService {
     rpc UpdateAgent(AgentRequest) returns(AgentResponse){}
     rpc DeleteAgent(AgentRequest) returns(AgentResponse){}
     //for admin
-    rpc AdminGetListAgent(BaseRequest) returns (BaseResponse){}
-    rpc AdminCreateAgent(BaseRequest) returns (BaseResponse){}
-    rpc AdminValidateMidAgent(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetDetailAgent(BaseRequest) returns (BaseResponse){}
-    rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
-    rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
-    //for agent
-    rpc AgentDashboard(BaseRequest) returns (BaseResponse){}
-    rpc AgentDetailAgent(BaseRequest) returns (BaseResponse){}
-    rpc AgentHistory(BaseRequest) returns (BaseResponse){}
-    rpc AgentListNotification(BaseRequest) returns (BaseResponse){}
-    rpc AgentDeleteNotification(BaseRequest) returns (BaseResponse){}
-    rpc AgentReadNotification(BaseRequest) returns (BaseResponse){}
-    rpc AgentUploadPhoto(BaseRequest) returns (BaseResponse){}
-    rpc AgentDeletePhoto(BaseRequest) returns (BaseResponse){}
-    rpc AgentCheckLimitPickup(BaseRequest) returns (BaseResponse){}
-    rpc AgentUpdateData(BaseRequest) returns (BaseResponse){}
-    rpc AgentChangeStatus(BaseRequest) returns (BaseResponse){}
-    rpc AgentSetLimitPickup(BaseRequest) returns (BaseResponse){}
-    rpc AgentGetListCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AgentGetLimitPickup(BaseRequest) returns (BaseResponse){}
-    rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
-    rpc AgentSetupLocation(BaseRequest) returns (BaseResponse){}
-    rpc AgentListVehicle(BaseRequest) returns (BaseResponse){}
-    rpc AgentSubmitVehicle(BaseRequest) returns (BaseResponse){}
-    //for customer
-    rpc CustomerGetDetailAgent(BaseRequest) returns (BaseResponse){}
-    rpc CustomerSearchAgent(BaseRequest) returns (BaseResponse){}
-    rpc CustomerPartnerDetailAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetListAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AdminCreateAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AdminValidateMidAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetDetailAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
+//    //for agent
+//    rpc AgentDashboard(BaseRequest) returns (BaseResponse){}
+//    rpc AgentDetailAgent(BaseRequest) returns (BaseResponse){}
+//    rpc AgentHistory(BaseRequest) returns (BaseResponse){}
+//    rpc AgentListNotification(BaseRequest) returns (BaseResponse){}
+//    rpc AgentDeleteNotification(BaseRequest) returns (BaseResponse){}
+//    rpc AgentReadNotification(BaseRequest) returns (BaseResponse){}
+//    rpc AgentUploadPhoto(BaseRequest) returns (BaseResponse){}
+//    rpc AgentDeletePhoto(BaseRequest) returns (BaseResponse){}
+//    rpc AgentCheckLimitPickup(BaseRequest) returns (BaseResponse){}
+//    rpc AgentUpdateData(BaseRequest) returns (BaseResponse){}
+//    rpc AgentChangeStatus(BaseRequest) returns (BaseResponse){}
+//    rpc AgentSetLimitPickup(BaseRequest) returns (BaseResponse){}
+//    rpc AgentGetListCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AgentGetLimitPickup(BaseRequest) returns (BaseResponse){}
+//    rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
+//    rpc AgentSetupLocation(BaseRequest) returns (BaseResponse){}
+//    rpc AgentListVehicle(BaseRequest) returns (BaseResponse){}
+//    rpc AgentSubmitVehicle(BaseRequest) returns (BaseResponse){}
+//    //for customer
+//    rpc CustomerGetDetailAgent(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerSearchAgent(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerPartnerDetailAgent(BaseRequest) returns (BaseResponse){}
   }
   
   message AgentRequest {

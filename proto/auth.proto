@@ -3,48 +3,141 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
-import "proto/base.proto";
+import "proto/dashboard.proto";
+import "proto/user.proto";
+import "proto/agent.proto";
 
 service AuthService {
     //for admin
     rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
-    rpc AdminLogin(BaseRequest) returns (BaseResponse){}
-	rpc AdminLoginValidate(BaseRequest) returns (BaseResponse){}
-    rpc AdminForgotPassword(BaseRequest) returns (BaseResponse){}
-    rpc AdminResetPassword(BaseRequest) returns (BaseResponse){}
-    rpc AdminResetPasswordValidate(BaseRequest) returns (BaseResponse){}
-    rpc AdminChangePassword(BaseRequest) returns (BaseResponse){}
-    rpc AdminLogout(BaseRequest) returns (BaseResponse){}
+    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse){}
+	  rpc AdminLoginValidate(AdminLoginRequest) returns (DefaultResponse){}
+    rpc AdminForgotPassword(AdminLoginRequest) returns (DefaultResponse){}
+    rpc AdminResetPassword(AdminResetPasswordRequest) returns (DefaultResponse){}
+    rpc AdminResetPasswordValidate(AdminResetPasswordRequest) returns (DefaultResponse){}
+    rpc AdminChangePassword(AdminChangePasswordRequest) returns (DefaultResponse){}
+    rpc AdminLogout(LogoutRequest) returns (DefaultResponse){}
     //for customer
     rpc CustomerValidateSession(SessionRequest) returns (SessionResponse){}
-    rpc CustomerLogin(BaseRequest) returns (BaseResponse){}
-    rpc CustomerCreatePin(BaseRequest) returns (BaseResponse){}
-    rpc CustomerVerifyPin(BaseRequest) returns (BaseResponse){}
-	rpc CustomerVerifyChangePin(BaseRequest) returns (BaseResponse){}
-    rpc CustomerChangePin(BaseRequest) returns (BaseResponse){}
-    rpc CustomerForgotPin(BaseRequest) returns (BaseResponse){}
-	rpc CustomerVerifyOtpForgotPin(BaseRequest) returns (BaseResponse){}
-    rpc CustomerLogout(BaseRequest) returns (BaseResponse){}
+    rpc CustomerLogin(CustomerLoginRequest) returns (CustomerLoginResponse){}
+    rpc CustomerCreatePin(CustomerLoginRequest) returns (CustomerLoginResponse){}
+    rpc CustomerVerifyPin(CustomerLoginRequest) returns (CustomerLoginResponse){}
+	  rpc CustomerVerifyChangePin(CustomerLoginRequest) returns (DefaultResponse){}
+    rpc CustomerChangePin(CustomerLoginRequest) returns (DefaultResponse){}
+    rpc CustomerForgotPin(CustomerLoginRequest) returns (DefaultResponse){}
+	  rpc CustomerVerifyOtpForgotPin(CustomerVerifyOtpRequest) returns (CustomerLoginResponse){}
+    rpc CustomerLogout(LogoutRequest) returns (DefaultResponse){}
     //for agent
     rpc AgentValidateSession(SessionRequest) returns (SessionResponse){}
-    rpc AgentLogin(BaseRequest) returns (BaseResponse){}
-    rpc AgentVerifyOtpLogin(BaseRequest) returns (BaseResponse){}
-    rpc AgentLogout(BaseRequest) returns (BaseResponse){}
+    rpc AgentLogin(AgentLoginRequest) returns (DefaultResponse){}
+    rpc AgentVerifyOtpLogin(AgentLoginRequest) returns (AgentLoginResponse){}
+    rpc AgentLogout(LogoutRequest) returns (DefaultResponse){}
     //for partner
-    rpc PartnerLogin(BaseRequest) returns (BaseResponse){}
+    rpc PartnerLogin(AgentLoginPartnerRequest) returns (AgentLoginResponse){}
 }
-  
+//for admin
+message AdminLoginRequest {
+    string requestId = 1;
+    string email = 2;
+    string password = 3;
+    string resCaptcha = 4;
+}
+
+message AdminLoginResponse {
+    string requestId = 1;
+    int32 status = 2;
+    string message = 3;
+    string token = 4;
+    DataAdmin dataAdmin = 5;
+}
+
+message AdminResetPasswordRequest {
+    string requestId = 1;
+    string email = 2;
+    string code = 3;
+    string password = 4;
+}
+
+message AdminChangePasswordRequest {
+    string requestId = 1;
+    string oldPassword = 2;
+    string newPassword = 3;
+}
+//for customer
+message CustomerLoginRequest {
+    string requestId = 1;
+    string phone = 2;
+    string pin = 3;
+}
+
+message CustomerLoginResponse {
+    string requestId = 1;
+    int32 status = 2;
+    string message = 3;
+    string token = 4;
+    DataUser dataUser = 5;
+}
+
+message CustomerVerifyOtpRequest {
+    string requestId = 1;
+    string phone = 2;
+    string otpCode = 3;
+}
+
+//for agent
+message AgentLoginRequest {
+    string requestId = 1;
+    string phone = 2;
+    string otpCode = 3;
+    string resCaptcha = 4;
+}
+
+message AgentLoginResponse {
+    string requestId = 1;
+    int32 status = 2;
+    string message = 3;
+    string token = 4;
+    DataAgent dataAgent = 5;
+}
+
+message AgentLoginPartnerRequest {
+    string requestId = 1;
+    string outletCode = 2;
+    string outletName = 3;
+    string merchantCode = 4;
+    string branchCode = 5;
+    string regionCode = 6;
+    string regionName = 7;
+    string branchName = 8;
+    string zipCode = 9;
+    string phoneNumber = 10;
+    string address = 11;
+    float longitude = 12;
+    float latitude = 13;
+}
+
+//for all
+message DefaultResponse {
+    string requestId = 1;
+    int32 status = 2;
+    string message = 3;
+}
+
+message LogoutRequest {
+    string requestId = 1;
+    string token = 2;
+}
+
 message SessionRequest {
     string token = 1;
     string signature = 2;
-	string requestId = 3;
 }
   
 message SessionResponse {
     int32 status = 1;
     string message = 2;
     SessionData data = 3;
-	string requestId = 4;
+	  string requestId = 4;
 }
   
 message SessionData {

@@ -3,8 +3,6 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
-import "proto/base.proto";
-
 service RatingService {
   // for clients grpc
   rpc CreateAgentRating(AgentRatingRequest) returns (AgentRatingResponse){}
@@ -14,13 +12,13 @@ service RatingService {
   rpc GetCustomerRatings(UserRatingRequest) returns (UserRatingResponse){}
   rpc GetCustomerRatingTotal(UserRatingRequest) returns (UserRatingResponse){}
   // for customer
-  rpc CustomerCreateAgentRating(BaseRequest) returns (BaseResponse){}
-  rpc CustomerGetRatings(BaseRequest) returns (BaseResponse){}
-  rpc CustomerGetRatingTotal(BaseRequest) returns (BaseResponse){}
-  // for agent 
-  rpc AgentCreateCustomerRating(BaseRequest) returns (BaseResponse){}
-  rpc AgentGetRatings(BaseRequest) returns (BaseResponse){}
-  rpc AgentGetRatingTotal(BaseRequest) returns (BaseResponse){}
+//  rpc CustomerCreateAgentRating(BaseRequest) returns (BaseResponse){}
+//  rpc CustomerGetRatings(BaseRequest) returns (BaseResponse){}
+//  rpc CustomerGetRatingTotal(BaseRequest) returns (BaseResponse){}
+//  // for agent
+//  rpc AgentCreateCustomerRating(BaseRequest) returns (BaseResponse){}
+//  rpc AgentGetRatings(BaseRequest) returns (BaseResponse){}
+//  rpc AgentGetRatingTotal(BaseRequest) returns (BaseResponse){}
   
 }
 

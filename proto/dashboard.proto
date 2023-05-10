@@ -3,8 +3,6 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
-import "proto/base.proto";
-
 service DashboardService {
   //for client grpc
   rpc GetMasterConfig(MasterConfigRequest) returns (MasterConfigResponse){}
@@ -14,44 +12,44 @@ service DashboardService {
   rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
   rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
   //page dashboard
-  rpc GetSummary(BaseRequest) returns (BaseResponse){}
-  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
-  rpc GetDataExecutive(BaseRequest) returns (BaseResponse){}
-  rpc GetDataOperational(BaseRequest) returns (BaseResponse){}
-  rpc GetTopAgents(BaseRequest) returns (BaseResponse){}
-  //combo box
-  rpc FindAgents(BaseRequest) returns (BaseResponse){}
-  rpc FindOfficeBranches(BaseRequest) returns (BaseResponse){}
-  rpc FindOfficeRegionals(BaseRequest) returns (BaseResponse){}
-  //promo
-  rpc GetListPromo(BaseRequest) returns (BaseResponse){}
-  rpc GetDetailPromo(BaseRequest) returns (BaseResponse){}
-  rpc CreatePromo(BaseRequest) returns (BaseResponse){}
-  rpc UpdatePromo(BaseRequest) returns (BaseResponse){}
-  rpc DeletePromo(BaseRequest) returns (BaseResponse){}
-  rpc DownloadExecutive(BaseRequest) returns (BaseResponse){}
-  rpc DownloadOperational(BaseRequest) returns (BaseResponse){}
-  //CRUD Dashboard
-  rpc GetUserAdmin(BaseRequest) returns (BaseResponse){}
-  rpc GetDetailUserAdmin(BaseRequest) returns (BaseResponse){}
-  rpc CreateUserAdmin(BaseRequest) returns (BaseResponse){}
-  rpc UpdateUserAdmin(BaseRequest) returns (BaseResponse){}
-  rpc DeleteUserAdmin(BaseRequest) returns (BaseResponse){}
-  rpc CheckEmail(BaseRequest) returns (BaseResponse){}
-  rpc CheckPersonalNumber(BaseRequest) returns (BaseResponse){}
-  rpc ChangePhoto(BaseRequest) returns (BaseResponse){}
-  rpc DeletePhoto(BaseRequest) returns (BaseResponse){}
-  //CRUD Role
-  rpc GetListMenu(BaseRequest) returns (BaseResponse){}
-  rpc GetListOffice(BaseRequest) returns (BaseResponse){}
-  rpc GetListRole(BaseRequest) returns (BaseResponse){}
-  rpc GetListRoleStatic(BaseRequest) returns (BaseResponse){}
-  rpc GetDetailRole(BaseRequest) returns (BaseResponse){}
-  rpc CreateRole(BaseRequest) returns (BaseResponse){}
-  rpc UpdateRole(BaseRequest) returns (BaseResponse){}
-  rpc DeleteRole(BaseRequest) returns (BaseResponse){}
-  //Activity
-  rpc GetHistoryActivity(BaseRequest) returns (BaseResponse){}
+//  rpc GetSummary(BaseRequest) returns (BaseResponse){}
+//  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
+//  rpc GetDataExecutive(BaseRequest) returns (BaseResponse){}
+//  rpc GetDataOperational(BaseRequest) returns (BaseResponse){}
+//  rpc GetTopAgents(BaseRequest) returns (BaseResponse){}
+//  //combo box
+//  rpc FindAgents(BaseRequest) returns (BaseResponse){}
+//  rpc FindOfficeBranches(BaseRequest) returns (BaseResponse){}
+//  rpc FindOfficeRegionals(BaseRequest) returns (BaseResponse){}
+//  //promo
+//  rpc GetListPromo(BaseRequest) returns (BaseResponse){}
+//  rpc GetDetailPromo(BaseRequest) returns (BaseResponse){}
+//  rpc CreatePromo(BaseRequest) returns (BaseResponse){}
+//  rpc UpdatePromo(BaseRequest) returns (BaseResponse){}
+//  rpc DeletePromo(BaseRequest) returns (BaseResponse){}
+//  rpc DownloadExecutive(BaseRequest) returns (BaseResponse){}
+//  rpc DownloadOperational(BaseRequest) returns (BaseResponse){}
+//  //CRUD Dashboard
+//  rpc GetUserAdmin(BaseRequest) returns (BaseResponse){}
+//  rpc GetDetailUserAdmin(BaseRequest) returns (BaseResponse){}
+//  rpc CreateUserAdmin(BaseRequest) returns (BaseResponse){}
+//  rpc UpdateUserAdmin(BaseRequest) returns (BaseResponse){}
+//  rpc DeleteUserAdmin(BaseRequest) returns (BaseResponse){}
+//  rpc CheckEmail(BaseRequest) returns (BaseResponse){}
+//  rpc CheckPersonalNumber(BaseRequest) returns (BaseResponse){}
+//  rpc ChangePhoto(BaseRequest) returns (BaseResponse){}
+//  rpc DeletePhoto(BaseRequest) returns (BaseResponse){}
+//  //CRUD Role
+//  rpc GetListMenu(BaseRequest) returns (BaseResponse){}
+//  rpc GetListOffice(BaseRequest) returns (BaseResponse){}
+//  rpc GetListRole(BaseRequest) returns (BaseResponse){}
+//  rpc GetListRoleStatic(BaseRequest) returns (BaseResponse){}
+//  rpc GetDetailRole(BaseRequest) returns (BaseResponse){}
+//  rpc CreateRole(BaseRequest) returns (BaseResponse){}
+//  rpc UpdateRole(BaseRequest) returns (BaseResponse){}
+//  rpc DeleteRole(BaseRequest) returns (BaseResponse){}
+//  //Activity
+//  rpc GetHistoryActivity(BaseRequest) returns (BaseResponse){}
 }
 
 message MasterConfigRequest {

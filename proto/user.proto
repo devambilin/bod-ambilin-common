@@ -3,8 +3,6 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
-import "proto/base.proto";
-
 service UserService {
     //for clients grpc
     rpc GetUsers(UserRequest) returns(UserResponse){}
@@ -13,36 +11,36 @@ service UserService {
     rpc UpdateUser(UserRequest) returns(UserResponse){}
     rpc DeleteUser(UserRequest) returns(UserResponse){}
     //for admin
-    rpc AdminGetUserType(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetListCustomerPersonal(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetListCustomerPartnership(BaseRequest) returns (BaseResponse){}
-    rpc AdminCreateCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AdminValidateCustomerPhone(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetDetailCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AdminUpdateCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AdminDeleteCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetListPartner(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetDataMasterPartner(BaseRequest) returns (BaseResponse){}
-    rpc AdminGetDetailPartner(BaseRequest) returns (BaseResponse){}
-    rpc AdminCreatePartner(BaseRequest) returns (BaseResponse){}
-    rpc AdminUpdatePartner(BaseRequest) returns (BaseResponse){}
-    rpc AdminDeletePartner(BaseRequest) returns (BaseResponse){}
-    //for customer
-    rpc CustomerGetDashboard(BaseRequest) returns (BaseResponse){}
-    rpc CustomerGetPromo(BaseRequest) returns (BaseResponse){}
-    rpc CustomerGetDetail(BaseRequest) returns (BaseResponse){}
-    rpc CustomerGetCustomerHistory(BaseRequest) returns (BaseResponse){}
-    rpc CustomerUpdate(BaseRequest) returns (BaseResponse){}
-    rpc CustomerFavouriteAgent(BaseRequest) returns (BaseResponse){}
-    rpc CustomerUploadPhoto(BaseRequest) returns (BaseResponse){}
-    rpc CustomerDeletePhoto(BaseRequest) returns (BaseResponse){}
-    rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
-    rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
-    rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
-    //for agent
-    rpc AgentRegisterCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AgentVerifyOtpRegisterCustomer(BaseRequest) returns (BaseResponse){}
-    rpc AgentFindUserType(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetUserType(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetListCustomerPersonal(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetListCustomerPartnership(BaseRequest) returns (BaseResponse){}
+//    rpc AdminCreateCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AdminValidateCustomerPhone(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetDetailCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AdminUpdateCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AdminDeleteCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetListPartner(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetDataMasterPartner(BaseRequest) returns (BaseResponse){}
+//    rpc AdminGetDetailPartner(BaseRequest) returns (BaseResponse){}
+//    rpc AdminCreatePartner(BaseRequest) returns (BaseResponse){}
+//    rpc AdminUpdatePartner(BaseRequest) returns (BaseResponse){}
+//    rpc AdminDeletePartner(BaseRequest) returns (BaseResponse){}
+//    //for customer
+//    rpc CustomerGetDashboard(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerGetPromo(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerGetDetail(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerGetCustomerHistory(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerUpdate(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerFavouriteAgent(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerUploadPhoto(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerDeletePhoto(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
+//    //for agent
+//    rpc AgentRegisterCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AgentVerifyOtpRegisterCustomer(BaseRequest) returns (BaseResponse){}
+//    rpc AgentFindUserType(BaseRequest) returns (BaseResponse){}
   }
   
   message UserRequest {

@@ -3,60 +3,31 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
-import "proto/base.proto";
 import "proto/user.proto";
-  
+
 service OrderService {
     //for clients grpc
-	rpc GetSummary(OrderSummaryRequest) returns(OrderSummaryResponse){}
     rpc GetOrders(OrderRequest) returns(OrderResponse){}
     rpc GetOrder(OrderRequest) returns(OrderResponse){}
     rpc CreateOrder(OrderRequest) returns(OrderResponse){}
     rpc UpdateOrder(OrderRequest) returns(OrderResponse){}
     rpc DeleteOrder(OrderRequest) returns(OrderResponse){}
     //for customer
-    rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
-    rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
-    rpc CustomerConfirmOrder(BaseRequest) returns (BaseResponse){}
-    rpc CustomerGetListOrderProcess(BaseRequest) returns (BaseResponse){}
-    rpc CustomerChangeStatus(BaseRequest) returns (BaseResponse){}
-    rpc CustomerCancelOrder(BaseRequest) returns (BaseResponse){}
-    rpc CustomerCheckOrder(BaseRequest) returns (BaseResponse){}
-    //for agent
-    rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (BaseResponse){}
-    rpc AgentAcceptOrder(BaseRequest) returns (BaseResponse){}
-    rpc AgentPickupOrder(BaseRequest) returns (BaseResponse){}
-    rpc AgentGoingOrder(BaseRequest) returns (BaseResponse){}
-    rpc AgentConfirmCodeOrder(BaseRequest) returns (BaseResponse){}
-    rpc AgentUpdateAmountOrder(BaseRequest) returns (BaseResponse){}
-    rpc AgentGetFeeTransactionOrder(BaseRequest) returns (BaseResponse){}
-}
-
-message OrderSummary {
-  string createdDate = 1;
-  string startDate = 2;
-  string endDate = 3;
-  float depositAmount = 4;
-  float shippingFee = 5;
-  float insuranceFee = 6;
-  string agentId = 7;
-  float totalTransaction = 8;
-  float totalTransactionSuccess = 9;
-  float totalTransactionFailed = 10;
-}
-
-message OrderSummaryRequest {
-  string requestId = 1;
-  string requestByService = 2;
-  OrderSummary params = 3;
-}
-
-message OrderSummaryResponse {
-  int32 status = 1;
-  string message = 2;
-  string requestId = 3;
-  string requestByService = 4;
-  OrderSummary data = 5;
+//    rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerConfirmOrder(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerGetListOrderProcess(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerChangeStatus(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerCancelOrder(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerCheckOrder(BaseRequest) returns (BaseResponse){}
+//    //for agent
+//    rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentAcceptOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentPickupOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentGoingOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentConfirmCodeOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentUpdateAmountOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentGetFeeTransactionOrder(BaseRequest) returns (BaseResponse){}
 }
 
 message OrderRequest {
