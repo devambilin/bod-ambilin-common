@@ -8,6 +8,10 @@ import "proto/user.proto";
 import "proto/agent.proto";
 
 service AuthService {
+	//for global
+	rpc GetDataSession(SessionRequest) returns (SessionResponse){}
+	rpc SendSms(SmsRequest) returns (SmsResponse){}
+	rpc SendEmail(MailRequest) returns (MailResponse){}
     //for admin
     rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
     rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse){}
@@ -146,4 +150,29 @@ message SessionData {
     string type = 3;
     string userId = 4;
     string role = 5;
+}
+
+message MailRequest {
+	string requestId = 1;
+	string type = 2;
+	string subject = 3;
+	string to = 4;
+}
+
+message MailResponse {
+	int32 status = 1;
+    string message = 2;
+	string requestId = 3;
+}
+
+message SmsRequest {
+	string requestId = 1;
+	string destination = 3;
+	string text = 4;
+}
+
+message SmsResponse {
+	int32 status = 1;
+    string message = 2;
+	string requestId = 3;
 }
