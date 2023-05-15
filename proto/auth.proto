@@ -8,10 +8,10 @@ import "proto/user.proto";
 import "proto/agent.proto";
 
 service AuthService {
-	//for global
+	  //for global
 	rpc GetDataSession(SessionRequest) returns (SessionResponse){}
-	rpc SendSms(SmsRequest) returns (SmsResponse){}
-	rpc SendEmail(MailRequest) returns (MailResponse){}
+	  rpc SendSms(SmsRequest) returns (SmsResponse){}
+	  rpc SendEmail(MailRequest) returns (MailResponse){}
     //for admin
     rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
     rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse){}
@@ -38,6 +38,7 @@ service AuthService {
     rpc AgentLogout(LogoutRequest) returns (DefaultResponse){}
     //for partner
     rpc PartnerLogin(AgentLoginPartnerRequest) returns (AgentLoginResponse){}
+    rpc PartnerDetail(PartnerRequest) returns (PartnerResponse){}
 }
 //for admin
 message AdminLoginRequest {
@@ -104,8 +105,7 @@ message AgentLoginResponse {
     DataAgent dataAgent = 5;
 }
 
-message AgentLoginPartnerRequest {
-    string requestId = 1;
+message DataPartner {
     string outletCode = 2;
     string outletName = 3;
     string merchantCode = 4;
@@ -118,6 +118,24 @@ message AgentLoginPartnerRequest {
     string address = 11;
     float longitude = 12;
     float latitude = 13;
+}
+
+message AgentLoginPartnerRequest {
+    string requestId = 1;
+    DataPartner dataPartner = 2;
+}
+
+message PartnerRequest {
+    string requestId = 1;
+    string clientId = 2;
+    string token = 3;
+}
+
+message PartnerResponse {
+    string requestId = 1;
+    int32 status = 2;
+    string message = 3;
+    DataPartner dataPartner = 4;
 }
 
 //for all
@@ -153,26 +171,29 @@ message SessionData {
 }
 
 message MailRequest {
-	string requestId = 1;
-	string type = 2;
-	string subject = 3;
-	string to = 4;
+	  string requestId = 1;
+	  string type = 2;
+	  string subject = 3;
+	  string to = 4;
+    string name = 5;
+    string url = 6;
+    string pathTemplate = 7;
 }
 
 message MailResponse {
-	int32 status = 1;
+	  int32 status = 1;
     string message = 2;
-	string requestId = 3;
+	  string requestId = 3;
 }
 
 message SmsRequest {
-	string requestId = 1;
-	string destination = 3;
-	string text = 4;
+    string requestId = 1;
+	  string destination = 2;
+	  string text = 3;
 }
 
 message SmsResponse {
-	int32 status = 1;
+	  int32 status = 1;
     string message = 2;
-	string requestId = 3;
+	  string requestId = 3;
 }
