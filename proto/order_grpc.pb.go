@@ -24,10 +24,25 @@ const _ = grpc.SupportPackageIsVersion7
 type OrderServiceClient interface {
 	// for clients grpc
 	GetOrders(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
-	GetOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
-	CreateOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
+	GetOrderDetail(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderDetailResponse, error)
+	GetOrderDetailAgent(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderDetailResponse, error)
+	CreateOrder(ctx context.Context, in *OrderInputRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 	UpdateOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 	DeleteOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
+	SendNotificationFirebase(ctx context.Context, in *FirebaseRequest, opts ...grpc.CallOption) (*OrderResponse, error)
+	OrderConfirm(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderConfirmResponse, error)
+	CountOrderAgent(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderTotalResponse, error)
+	CountOrderNasabah(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderTotalResponse, error)
+	ConfirmAgent(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderConfirmResponse, error)
+	OrderHistory(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderHistoryResponse, error)
+	ChangeStatusAgent(ctx context.Context, in *IncomingOrderRequest, opts ...grpc.CallOption) (*ChangeStatusAgentResponse, error)
+	ChangeStatusNasabah(ctx context.Context, in *IncomingOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error)
+	FinishOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error)
+	CancelOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error)
+	DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error)
+	UpdateNominal(ctx context.Context, in *UpdateNominalMessage, opts ...grpc.CallOption) (*UpdateNominalResponse, error)
+	OrderCheck(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderCheckResponse, error)
+	UpdateStatusCountdown(ctx context.Context, in *CountdownRequest, opts ...grpc.CallOption) (*UpdateStatusResponse, error)
 }
 
 type orderServiceClient struct {
@@ -47,16 +62,25 @@ func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderRequest, op
 	return out, nil
 }
 
-func (c *orderServiceClient) GetOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
-	out := new(OrderResponse)
-	err := c.cc.Invoke(ctx, "/proto.OrderService/GetOrder", in, out, opts...)
+func (c *orderServiceClient) GetOrderDetail(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderDetailResponse, error) {
+	out := new(OrderDetailResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/GetOrderDetail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *orderServiceClient) CreateOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
+func (c *orderServiceClient) GetOrderDetailAgent(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderDetailResponse, error) {
+	out := new(OrderDetailResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/GetOrderDetailAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) CreateOrder(ctx context.Context, in *OrderInputRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
 	out := new(OrderResponse)
 	err := c.cc.Invoke(ctx, "/proto.OrderService/CreateOrder", in, out, opts...)
 	if err != nil {
@@ -83,16 +107,157 @@ func (c *orderServiceClient) DeleteOrder(ctx context.Context, in *OrderRequest, 
 	return out, nil
 }
 
+func (c *orderServiceClient) SendNotificationFirebase(ctx context.Context, in *FirebaseRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
+	out := new(OrderResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/SendNotificationFirebase", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) OrderConfirm(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderConfirmResponse, error) {
+	out := new(OrderConfirmResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/OrderConfirm", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) CountOrderAgent(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderTotalResponse, error) {
+	out := new(OrderTotalResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/CountOrderAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) CountOrderNasabah(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderTotalResponse, error) {
+	out := new(OrderTotalResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/CountOrderNasabah", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) ConfirmAgent(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderConfirmResponse, error) {
+	out := new(OrderConfirmResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/ConfirmAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) OrderHistory(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderHistoryResponse, error) {
+	out := new(OrderHistoryResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/OrderHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) ChangeStatusAgent(ctx context.Context, in *IncomingOrderRequest, opts ...grpc.CallOption) (*ChangeStatusAgentResponse, error) {
+	out := new(ChangeStatusAgentResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/ChangeStatusAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) ChangeStatusNasabah(ctx context.Context, in *IncomingOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error) {
+	out := new(ChangeStatusNasabahResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/ChangeStatusNasabah", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) FinishOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
+	out := new(OrderResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/FinishOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) CancelOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
+	out := new(OrderResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/CancelOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error) {
+	out := new(ChangeStatusNasabahResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/DailyOrderSum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) UpdateNominal(ctx context.Context, in *UpdateNominalMessage, opts ...grpc.CallOption) (*UpdateNominalResponse, error) {
+	out := new(UpdateNominalResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/UpdateNominal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) OrderCheck(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderCheckResponse, error) {
+	out := new(OrderCheckResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/OrderCheck", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) UpdateStatusCountdown(ctx context.Context, in *CountdownRequest, opts ...grpc.CallOption) (*UpdateStatusResponse, error) {
+	out := new(UpdateStatusResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/UpdateStatusCountdown", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility
 type OrderServiceServer interface {
 	// for clients grpc
 	GetOrders(context.Context, *OrderRequest) (*OrderResponse, error)
-	GetOrder(context.Context, *OrderRequest) (*OrderResponse, error)
-	CreateOrder(context.Context, *OrderRequest) (*OrderResponse, error)
+	GetOrderDetail(context.Context, *OrderDetailRequest) (*OrderDetailResponse, error)
+	GetOrderDetailAgent(context.Context, *OrderDetailRequest) (*OrderDetailResponse, error)
+	CreateOrder(context.Context, *OrderInputRequest) (*OrderResponse, error)
 	UpdateOrder(context.Context, *OrderRequest) (*OrderResponse, error)
 	DeleteOrder(context.Context, *OrderRequest) (*OrderResponse, error)
+	SendNotificationFirebase(context.Context, *FirebaseRequest) (*OrderResponse, error)
+	OrderConfirm(context.Context, *OrderConfirmRequest) (*OrderConfirmResponse, error)
+	CountOrderAgent(context.Context, *CountOrderRequest) (*OrderTotalResponse, error)
+	CountOrderNasabah(context.Context, *CountOrderRequest) (*OrderTotalResponse, error)
+	ConfirmAgent(context.Context, *OrderConfirmRequest) (*OrderConfirmResponse, error)
+	OrderHistory(context.Context, *CountOrderRequest) (*OrderHistoryResponse, error)
+	ChangeStatusAgent(context.Context, *IncomingOrderRequest) (*ChangeStatusAgentResponse, error)
+	ChangeStatusNasabah(context.Context, *IncomingOrderRequest) (*ChangeStatusNasabahResponse, error)
+	FinishOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error)
+	CancelOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error)
+	DailyOrderSum(context.Context, *CountOrderRequest) (*ChangeStatusNasabahResponse, error)
+	UpdateNominal(context.Context, *UpdateNominalMessage) (*UpdateNominalResponse, error)
+	OrderCheck(context.Context, *CountOrderRequest) (*OrderCheckResponse, error)
+	UpdateStatusCountdown(context.Context, *CountdownRequest) (*UpdateStatusResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -103,10 +268,13 @@ type UnimplementedOrderServiceServer struct {
 func (UnimplementedOrderServiceServer) GetOrders(context.Context, *OrderRequest) (*OrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
 }
-func (UnimplementedOrderServiceServer) GetOrder(context.Context, *OrderRequest) (*OrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrder not implemented")
+func (UnimplementedOrderServiceServer) GetOrderDetail(context.Context, *OrderDetailRequest) (*OrderDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrderDetail not implemented")
 }
-func (UnimplementedOrderServiceServer) CreateOrder(context.Context, *OrderRequest) (*OrderResponse, error) {
+func (UnimplementedOrderServiceServer) GetOrderDetailAgent(context.Context, *OrderDetailRequest) (*OrderDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrderDetailAgent not implemented")
+}
+func (UnimplementedOrderServiceServer) CreateOrder(context.Context, *OrderInputRequest) (*OrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) UpdateOrder(context.Context, *OrderRequest) (*OrderResponse, error) {
@@ -114,6 +282,48 @@ func (UnimplementedOrderServiceServer) UpdateOrder(context.Context, *OrderReques
 }
 func (UnimplementedOrderServiceServer) DeleteOrder(context.Context, *OrderRequest) (*OrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) SendNotificationFirebase(context.Context, *FirebaseRequest) (*OrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendNotificationFirebase not implemented")
+}
+func (UnimplementedOrderServiceServer) OrderConfirm(context.Context, *OrderConfirmRequest) (*OrderConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderConfirm not implemented")
+}
+func (UnimplementedOrderServiceServer) CountOrderAgent(context.Context, *CountOrderRequest) (*OrderTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CountOrderAgent not implemented")
+}
+func (UnimplementedOrderServiceServer) CountOrderNasabah(context.Context, *CountOrderRequest) (*OrderTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CountOrderNasabah not implemented")
+}
+func (UnimplementedOrderServiceServer) ConfirmAgent(context.Context, *OrderConfirmRequest) (*OrderConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmAgent not implemented")
+}
+func (UnimplementedOrderServiceServer) OrderHistory(context.Context, *CountOrderRequest) (*OrderHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderHistory not implemented")
+}
+func (UnimplementedOrderServiceServer) ChangeStatusAgent(context.Context, *IncomingOrderRequest) (*ChangeStatusAgentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatusAgent not implemented")
+}
+func (UnimplementedOrderServiceServer) ChangeStatusNasabah(context.Context, *IncomingOrderRequest) (*ChangeStatusNasabahResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatusNasabah not implemented")
+}
+func (UnimplementedOrderServiceServer) FinishOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinishOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) CancelOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) DailyOrderSum(context.Context, *CountOrderRequest) (*ChangeStatusNasabahResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DailyOrderSum not implemented")
+}
+func (UnimplementedOrderServiceServer) UpdateNominal(context.Context, *UpdateNominalMessage) (*UpdateNominalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNominal not implemented")
+}
+func (UnimplementedOrderServiceServer) OrderCheck(context.Context, *CountOrderRequest) (*OrderCheckResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderCheck not implemented")
+}
+func (UnimplementedOrderServiceServer) UpdateStatusCountdown(context.Context, *CountdownRequest) (*UpdateStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStatusCountdown not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
 
@@ -146,26 +356,44 @@ func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderService_GetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderRequest)
+func _OrderService_GetOrderDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderDetailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServiceServer).GetOrder(ctx, in)
+		return srv.(OrderServiceServer).GetOrderDetail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.OrderService/GetOrder",
+		FullMethod: "/proto.OrderService/GetOrderDetail",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).GetOrder(ctx, req.(*OrderRequest))
+		return srv.(OrderServiceServer).GetOrderDetail(ctx, req.(*OrderDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_GetOrderDetailAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).GetOrderDetailAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/GetOrderDetailAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).GetOrderDetailAgent(ctx, req.(*OrderDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrderService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderRequest)
+	in := new(OrderInputRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -177,7 +405,7 @@ func _OrderService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/proto.OrderService/CreateOrder",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).CreateOrder(ctx, req.(*OrderRequest))
+		return srv.(OrderServiceServer).CreateOrder(ctx, req.(*OrderInputRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -218,6 +446,258 @@ func _OrderService_DeleteOrder_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_SendNotificationFirebase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FirebaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).SendNotificationFirebase(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/SendNotificationFirebase",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).SendNotificationFirebase(ctx, req.(*FirebaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_OrderConfirm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderConfirmRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).OrderConfirm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/OrderConfirm",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).OrderConfirm(ctx, req.(*OrderConfirmRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_CountOrderAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CountOrderAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/CountOrderAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CountOrderAgent(ctx, req.(*CountOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_CountOrderNasabah_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CountOrderNasabah(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/CountOrderNasabah",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CountOrderNasabah(ctx, req.(*CountOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_ConfirmAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderConfirmRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).ConfirmAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/ConfirmAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).ConfirmAgent(ctx, req.(*OrderConfirmRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_OrderHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).OrderHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/OrderHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).OrderHistory(ctx, req.(*CountOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_ChangeStatusAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IncomingOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).ChangeStatusAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/ChangeStatusAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).ChangeStatusAgent(ctx, req.(*IncomingOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_ChangeStatusNasabah_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IncomingOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).ChangeStatusNasabah(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/ChangeStatusNasabah",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).ChangeStatusNasabah(ctx, req.(*IncomingOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_FinishOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderConfirmRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).FinishOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/FinishOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).FinishOrder(ctx, req.(*OrderConfirmRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_CancelOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderConfirmRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CancelOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/CancelOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CancelOrder(ctx, req.(*OrderConfirmRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_DailyOrderSum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).DailyOrderSum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/DailyOrderSum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).DailyOrderSum(ctx, req.(*CountOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_UpdateNominal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNominalMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).UpdateNominal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/UpdateNominal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).UpdateNominal(ctx, req.(*UpdateNominalMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_OrderCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).OrderCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/OrderCheck",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).OrderCheck(ctx, req.(*CountOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_UpdateStatusCountdown_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountdownRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).UpdateStatusCountdown(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/UpdateStatusCountdown",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).UpdateStatusCountdown(ctx, req.(*CountdownRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -230,8 +710,12 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrderService_GetOrders_Handler,
 		},
 		{
-			MethodName: "GetOrder",
-			Handler:    _OrderService_GetOrder_Handler,
+			MethodName: "GetOrderDetail",
+			Handler:    _OrderService_GetOrderDetail_Handler,
+		},
+		{
+			MethodName: "GetOrderDetailAgent",
+			Handler:    _OrderService_GetOrderDetailAgent_Handler,
 		},
 		{
 			MethodName: "CreateOrder",
@@ -244,6 +728,62 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteOrder",
 			Handler:    _OrderService_DeleteOrder_Handler,
+		},
+		{
+			MethodName: "SendNotificationFirebase",
+			Handler:    _OrderService_SendNotificationFirebase_Handler,
+		},
+		{
+			MethodName: "OrderConfirm",
+			Handler:    _OrderService_OrderConfirm_Handler,
+		},
+		{
+			MethodName: "CountOrderAgent",
+			Handler:    _OrderService_CountOrderAgent_Handler,
+		},
+		{
+			MethodName: "CountOrderNasabah",
+			Handler:    _OrderService_CountOrderNasabah_Handler,
+		},
+		{
+			MethodName: "ConfirmAgent",
+			Handler:    _OrderService_ConfirmAgent_Handler,
+		},
+		{
+			MethodName: "OrderHistory",
+			Handler:    _OrderService_OrderHistory_Handler,
+		},
+		{
+			MethodName: "ChangeStatusAgent",
+			Handler:    _OrderService_ChangeStatusAgent_Handler,
+		},
+		{
+			MethodName: "ChangeStatusNasabah",
+			Handler:    _OrderService_ChangeStatusNasabah_Handler,
+		},
+		{
+			MethodName: "FinishOrder",
+			Handler:    _OrderService_FinishOrder_Handler,
+		},
+		{
+			MethodName: "CancelOrder",
+			Handler:    _OrderService_CancelOrder_Handler,
+		},
+		{
+			MethodName: "DailyOrderSum",
+			Handler:    _OrderService_DailyOrderSum_Handler,
+		},
+		{
+			MethodName: "UpdateNominal",
+			Handler:    _OrderService_UpdateNominal_Handler,
+		},
+		{
+			MethodName: "OrderCheck",
+			Handler:    _OrderService_OrderCheck_Handler,
+		},
+		{
+			MethodName: "UpdateStatusCountdown",
+			Handler:    _OrderService_UpdateStatusCountdown_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

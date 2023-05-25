@@ -1,4 +1,4 @@
 generate-proto:
-	protoc ${file} -I.  --micro_out=${GOPATH}/src/ --go_out=${GOPATH}/src/
+	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ${file}
 server:
 	go run cmd/main.go

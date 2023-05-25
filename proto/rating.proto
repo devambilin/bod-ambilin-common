@@ -4,22 +4,12 @@ package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
 service RatingService {
-  // for clients grpc
   rpc CreateAgentRating(AgentRatingRequest) returns (AgentRatingResponse){}
   rpc CreateCustomerRating(UserRatingRequest) returns (UserRatingResponse){}
-  rpc GetAgentRatings(AgentRatingRequest) returns (AgentRatingResponse){}
-  rpc GetAgentRatingTotal(AgentRatingRequest) returns (AgentRatingResponse){}
-  rpc GetCustomerRatings(UserRatingRequest) returns (UserRatingResponse){}
-  rpc GetCustomerRatingTotal(UserRatingRequest) returns (UserRatingResponse){}
-  // for customer
-//  rpc CustomerCreateAgentRating(BaseRequest) returns (BaseResponse){}
-//  rpc CustomerGetRatings(BaseRequest) returns (BaseResponse){}
-//  rpc CustomerGetRatingTotal(BaseRequest) returns (BaseResponse){}
-//  // for agent
-//  rpc AgentCreateCustomerRating(BaseRequest) returns (BaseResponse){}
-//  rpc AgentGetRatings(BaseRequest) returns (BaseResponse){}
-//  rpc AgentGetRatingTotal(BaseRequest) returns (BaseResponse){}
-  
+  rpc GetAgentRatings(AgentRatingRequest) returns (AgentRatingListResponse){}
+  rpc GetAgentRatingTotal(AgentRatingRequest) returns (AgentRatingTotalResponse){}
+  rpc GetCustomerRatings(UserRatingRequest) returns (UserRatingListResponse){}
+  rpc GetCustomerRatingTotal(UserRatingRequest) returns (UserRatingTotalResponse){}
 }
 
 message AgentRating {
@@ -55,9 +45,24 @@ message AgentRatingResponse {
   int32 status = 1;
   string message = 2;
   string requestId = 3;
+  AgentRating data = 4;
+}
+
+message AgentRatingListResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
   string requestByService = 4;
-  repeated AgentRating ratingList = 6;
-  AgentRatingTotal ratingTotal = 7;
+  repeated AgentRating data = 5;
+  int32 ratingTotal = 6;
+}
+
+message AgentRatingTotalResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  AgentRatingTotal data = 5;
 }
 
 message UserRatingResponse {
@@ -65,8 +70,24 @@ message UserRatingResponse {
   string message = 2;
   string requestId = 3;
   string requestByService = 4;
-  repeated UserRating ratingList = 6;
-  UserRatingTotal ratingTotal = 7;
+  UserRating data = 5;
+}
+
+message UserRatingListResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  repeated UserRating Data = 5;
+  UserRatingTotal ratingTotal = 6;
+}
+
+message UserRatingTotalResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  UserRatingTotal data = 5;
 }
 
 message AgentRatingTotal {

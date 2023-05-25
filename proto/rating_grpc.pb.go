@@ -22,13 +22,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RatingServiceClient interface {
-	// for clients grpc
 	CreateAgentRating(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error)
 	CreateCustomerRating(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error)
-	GetAgentRatings(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error)
-	GetAgentRatingTotal(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error)
-	GetCustomerRatings(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error)
-	GetCustomerRatingTotal(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error)
+	GetAgentRatings(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingListResponse, error)
+	GetAgentRatingTotal(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingTotalResponse, error)
+	GetCustomerRatings(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingListResponse, error)
+	GetCustomerRatingTotal(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingTotalResponse, error)
 }
 
 type ratingServiceClient struct {
@@ -57,8 +56,8 @@ func (c *ratingServiceClient) CreateCustomerRating(ctx context.Context, in *User
 	return out, nil
 }
 
-func (c *ratingServiceClient) GetAgentRatings(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error) {
-	out := new(AgentRatingResponse)
+func (c *ratingServiceClient) GetAgentRatings(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingListResponse, error) {
+	out := new(AgentRatingListResponse)
 	err := c.cc.Invoke(ctx, "/proto.RatingService/GetAgentRatings", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -66,8 +65,8 @@ func (c *ratingServiceClient) GetAgentRatings(ctx context.Context, in *AgentRati
 	return out, nil
 }
 
-func (c *ratingServiceClient) GetAgentRatingTotal(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error) {
-	out := new(AgentRatingResponse)
+func (c *ratingServiceClient) GetAgentRatingTotal(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingTotalResponse, error) {
+	out := new(AgentRatingTotalResponse)
 	err := c.cc.Invoke(ctx, "/proto.RatingService/GetAgentRatingTotal", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -75,8 +74,8 @@ func (c *ratingServiceClient) GetAgentRatingTotal(ctx context.Context, in *Agent
 	return out, nil
 }
 
-func (c *ratingServiceClient) GetCustomerRatings(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error) {
-	out := new(UserRatingResponse)
+func (c *ratingServiceClient) GetCustomerRatings(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingListResponse, error) {
+	out := new(UserRatingListResponse)
 	err := c.cc.Invoke(ctx, "/proto.RatingService/GetCustomerRatings", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -84,8 +83,8 @@ func (c *ratingServiceClient) GetCustomerRatings(ctx context.Context, in *UserRa
 	return out, nil
 }
 
-func (c *ratingServiceClient) GetCustomerRatingTotal(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error) {
-	out := new(UserRatingResponse)
+func (c *ratingServiceClient) GetCustomerRatingTotal(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingTotalResponse, error) {
+	out := new(UserRatingTotalResponse)
 	err := c.cc.Invoke(ctx, "/proto.RatingService/GetCustomerRatingTotal", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,13 +96,12 @@ func (c *ratingServiceClient) GetCustomerRatingTotal(ctx context.Context, in *Us
 // All implementations must embed UnimplementedRatingServiceServer
 // for forward compatibility
 type RatingServiceServer interface {
-	// for clients grpc
 	CreateAgentRating(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error)
 	CreateCustomerRating(context.Context, *UserRatingRequest) (*UserRatingResponse, error)
-	GetAgentRatings(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error)
-	GetAgentRatingTotal(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error)
-	GetCustomerRatings(context.Context, *UserRatingRequest) (*UserRatingResponse, error)
-	GetCustomerRatingTotal(context.Context, *UserRatingRequest) (*UserRatingResponse, error)
+	GetAgentRatings(context.Context, *AgentRatingRequest) (*AgentRatingListResponse, error)
+	GetAgentRatingTotal(context.Context, *AgentRatingRequest) (*AgentRatingTotalResponse, error)
+	GetCustomerRatings(context.Context, *UserRatingRequest) (*UserRatingListResponse, error)
+	GetCustomerRatingTotal(context.Context, *UserRatingRequest) (*UserRatingTotalResponse, error)
 	mustEmbedUnimplementedRatingServiceServer()
 }
 
@@ -117,16 +115,16 @@ func (UnimplementedRatingServiceServer) CreateAgentRating(context.Context, *Agen
 func (UnimplementedRatingServiceServer) CreateCustomerRating(context.Context, *UserRatingRequest) (*UserRatingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCustomerRating not implemented")
 }
-func (UnimplementedRatingServiceServer) GetAgentRatings(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error) {
+func (UnimplementedRatingServiceServer) GetAgentRatings(context.Context, *AgentRatingRequest) (*AgentRatingListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgentRatings not implemented")
 }
-func (UnimplementedRatingServiceServer) GetAgentRatingTotal(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error) {
+func (UnimplementedRatingServiceServer) GetAgentRatingTotal(context.Context, *AgentRatingRequest) (*AgentRatingTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgentRatingTotal not implemented")
 }
-func (UnimplementedRatingServiceServer) GetCustomerRatings(context.Context, *UserRatingRequest) (*UserRatingResponse, error) {
+func (UnimplementedRatingServiceServer) GetCustomerRatings(context.Context, *UserRatingRequest) (*UserRatingListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerRatings not implemented")
 }
-func (UnimplementedRatingServiceServer) GetCustomerRatingTotal(context.Context, *UserRatingRequest) (*UserRatingResponse, error) {
+func (UnimplementedRatingServiceServer) GetCustomerRatingTotal(context.Context, *UserRatingRequest) (*UserRatingTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerRatingTotal not implemented")
 }
 func (UnimplementedRatingServiceServer) mustEmbedUnimplementedRatingServiceServer() {}
