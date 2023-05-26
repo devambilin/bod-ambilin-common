@@ -40,7 +40,7 @@ type OrderServiceClient interface {
 	FinishOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 	CancelOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 	DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error)
-	UpdateNominal(ctx context.Context, in *UpdateNominalMessage, opts ...grpc.CallOption) (*UpdateNominalResponse, error)
+	UpdateNominal(ctx context.Context, in *UpdateNominalRequest, opts ...grpc.CallOption) (*UpdateNominalResponse, error)
 	OrderCheck(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderCheckResponse, error)
 	UpdateStatusCountdown(ctx context.Context, in *CountdownRequest, opts ...grpc.CallOption) (*UpdateStatusResponse, error)
 }
@@ -206,7 +206,7 @@ func (c *orderServiceClient) DailyOrderSum(ctx context.Context, in *CountOrderRe
 	return out, nil
 }
 
-func (c *orderServiceClient) UpdateNominal(ctx context.Context, in *UpdateNominalMessage, opts ...grpc.CallOption) (*UpdateNominalResponse, error) {
+func (c *orderServiceClient) UpdateNominal(ctx context.Context, in *UpdateNominalRequest, opts ...grpc.CallOption) (*UpdateNominalResponse, error) {
 	out := new(UpdateNominalResponse)
 	err := c.cc.Invoke(ctx, "/proto.OrderService/UpdateNominal", in, out, opts...)
 	if err != nil {
@@ -255,7 +255,7 @@ type OrderServiceServer interface {
 	FinishOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error)
 	CancelOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error)
 	DailyOrderSum(context.Context, *CountOrderRequest) (*ChangeStatusNasabahResponse, error)
-	UpdateNominal(context.Context, *UpdateNominalMessage) (*UpdateNominalResponse, error)
+	UpdateNominal(context.Context, *UpdateNominalRequest) (*UpdateNominalResponse, error)
 	OrderCheck(context.Context, *CountOrderRequest) (*OrderCheckResponse, error)
 	UpdateStatusCountdown(context.Context, *CountdownRequest) (*UpdateStatusResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
@@ -316,7 +316,7 @@ func (UnimplementedOrderServiceServer) CancelOrder(context.Context, *OrderConfir
 func (UnimplementedOrderServiceServer) DailyOrderSum(context.Context, *CountOrderRequest) (*ChangeStatusNasabahResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DailyOrderSum not implemented")
 }
-func (UnimplementedOrderServiceServer) UpdateNominal(context.Context, *UpdateNominalMessage) (*UpdateNominalResponse, error) {
+func (UnimplementedOrderServiceServer) UpdateNominal(context.Context, *UpdateNominalRequest) (*UpdateNominalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateNominal not implemented")
 }
 func (UnimplementedOrderServiceServer) OrderCheck(context.Context, *CountOrderRequest) (*OrderCheckResponse, error) {
@@ -645,7 +645,7 @@ func _OrderService_DailyOrderSum_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _OrderService_UpdateNominal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateNominalMessage)
+	in := new(UpdateNominalRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -657,7 +657,7 @@ func _OrderService_UpdateNominal_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: "/proto.OrderService/UpdateNominal",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).UpdateNominal(ctx, req.(*UpdateNominalMessage))
+		return srv.(OrderServiceServer).UpdateNominal(ctx, req.(*UpdateNominalRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

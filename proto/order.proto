@@ -24,7 +24,7 @@ service OrderService {
     rpc FinishOrder(OrderConfirmRequest) returns(OrderResponse){}
     rpc CancelOrder(OrderConfirmRequest) returns(OrderResponse){}
     rpc DailyOrderSum(CountOrderRequest) returns(ChangeStatusNasabahResponse){}
-    rpc UpdateNominal(UpdateNominalMessage) returns(UpdateNominalResponse){}
+    rpc UpdateNominal(UpdateNominalRequest) returns(UpdateNominalResponse){}
     rpc OrderCheck(CountOrderRequest) returns(OrderCheckResponse){}
     rpc UpdateStatusCountdown(CountdownRequest) returns(UpdateStatusResponse){}
     //for customer
@@ -62,15 +62,21 @@ message OrderInputRequest {
     float biayaNanti = 8;
     int32 distance = 9;
     string keterangan = 10;
+    string requestId = 11;
+    string requestByService = 12;
 }
 
 message OrderDetailRequest {
-    string transactionId = 1;
-    string userId = 2;
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    string userId = 4;
 }
 
 message CountOrderRequest {
-    string userId = 1;
+    string requestId = 1;
+    string requestByService = 2;
+    string userId = 3;
 }
 
 message OrderDetailResponse {
@@ -119,10 +125,12 @@ message OrderResponse {
 }
 
 message FirebaseRequest {
-    string firebaseUrl = 1;
-    string agentId = 2;
-    string transactionId = 3;
-    float nominal =4;
+    string requestId = 1;
+    string requestByService = 2;
+    string firebaseUrl = 3;
+    string agentId = 4;
+    string transactionId = 5;
+    float nominal = 6;
 }
 
 message OrderConfirmRequest {
@@ -169,12 +177,14 @@ message AgentConfirm {
 }
 
 message IncomingOrderRequest {
-    string transactionId = 1;
-    int32 status = 2;
-    float costOrder = 3;
-    string estimatePickup = 4;
-    bool statusNominal = 5;
-    bool statusNominalInvalid = 6;
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    int32 status = 4;
+    float costOrder = 5;
+    string estimatePickup = 6;
+    bool statusNominal = 7;
+    bool statusNominalInvalid = 8;
 }
 
 message OrderHistoryResponse {
@@ -230,9 +240,11 @@ message ResendOTPResponse {
     string requestByService = 4;
 }
 
-message UpdateNominalMessage {
-    string transactionId = 1;
-    float nominal = 2;
+message UpdateNominalRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    float nominal = 4;
 }
 
 message UpdateNominalResponse {
@@ -279,8 +291,10 @@ message ExtendResponse {
 }
 
 message CountdownRequest {
-    string transactionId = 1;
-    bool isCountdown = 2;
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    bool isCountdown = 4;
 }
 
 
