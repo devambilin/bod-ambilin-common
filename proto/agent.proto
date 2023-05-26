@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+import "proto/user.proto";
 
 service AgentService {
     //for clients grpc
@@ -18,28 +19,148 @@ service AgentService {
 //    rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
 //    rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
 //    //for agent
-//    rpc AgentDashboard(BaseRequest) returns (BaseResponse){}
-//    rpc AgentDetailAgent(BaseRequest) returns (BaseResponse){}
-//    rpc AgentHistory(BaseRequest) returns (BaseResponse){}
-//    rpc AgentListNotification(BaseRequest) returns (BaseResponse){}
-//    rpc AgentDeleteNotification(BaseRequest) returns (BaseResponse){}
-//    rpc AgentReadNotification(BaseRequest) returns (BaseResponse){}
-//    rpc AgentUploadPhoto(BaseRequest) returns (BaseResponse){}
-//    rpc AgentDeletePhoto(BaseRequest) returns (BaseResponse){}
-//    rpc AgentCheckLimitPickup(BaseRequest) returns (BaseResponse){}
-//    rpc AgentUpdateData(BaseRequest) returns (BaseResponse){}
-//    rpc AgentChangeStatus(BaseRequest) returns (BaseResponse){}
-//    rpc AgentSetLimitPickup(BaseRequest) returns (BaseResponse){}
-//    rpc AgentGetListCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AgentGetLimitPickup(BaseRequest) returns (BaseResponse){}
+    rpc AgentDashboard(AgentGlobalRequest) returns (AgentDashboardResponse){}
+    rpc AgentDetail(AgentGlobalRequest) returns (AgentGlobalResponse){}
+    rpc AgentHistory(AgentGlobalRequest) returns (AgentHistoryResponse){}
+    rpc AgentListNotification(AgentGlobalRequest) returns (AgentNotificationResponse){}
+    rpc AgentDeleteNotification(AgentGlobalRequest) returns (AgentGlobalResponse){}
+    rpc AgentReadNotification(AgentGlobalRequest) returns (AgentGlobalResponse){}
+    rpc AgentUploadPhoto(AgentPhotoRequest) returns (AgentGlobalResponse){}
+    rpc AgentDeletePhoto(AgentPhotoRequest) returns (AgentGlobalResponse){}
+    rpc AgentCheckLimitPickup(AgentGlobalRequest) returns (AgentGlobalResponse){}
+    rpc AgentUpdateData(AgentRequest) returns (AgentResponse){}
+    rpc AgentChangeStatus(AgentRequest) returns (AgentResponse){}
+    rpc AgentSetLimitPickup(AgentRequest) returns (AgentResponse){}
+    rpc AgentGetListCustomer(AgentGlobalRequest) returns (AgentGetListCustomerResponse){}
+    rpc AgentGetLimitPickup(AgentGlobalRequest) returns (AgentResponse){}
 //    rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
-//    rpc AgentSetupLocation(BaseRequest) returns (BaseResponse){}
-//    rpc AgentListVehicle(BaseRequest) returns (BaseResponse){}
-//    rpc AgentSubmitVehicle(BaseRequest) returns (BaseResponse){}
+    rpc AgentSetupLocation(AgentSetupLocationRequest) returns (AgentResponse){}
+    rpc AgentListVehicle(AgentVehicleRequest) returns (AgentVehicleResponse){}
+    rpc AgentSubmitVehicle(AgentVehicleRequest) returns (AgentResponse){}
 //    //for customer
-//    rpc CustomerGetDetailAgent(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerSearchAgent(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerPartnerDetailAgent(BaseRequest) returns (BaseResponse){}
+    rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentResponse){}
+  }
+
+  message AgentDetailCustomer {
+    string requestId = 1;
+    string requestByService = 2;
+    string agentId = 3;
+    int64 nominalSetoran = 4;
+    float nasabahLat = 5;
+    float nasabahLong = 6;
+  }
+
+  message AgentVehicleRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+  }
+  message AgentVehicleResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    repeated DataVehicle dataVehicles = 4;
+  }
+
+  message AgentSetupLocationRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+    string address = 4;
+    string addressDetail = 5;
+    float longitude = 6;
+    float latitude = 7;
+  }
+
+  message AgentGetListCustomerResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    repeated DataUser dataUsers = 4;
+  }
+
+  message AgentGlobalRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+  }
+
+  message AgentGlobalResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    DataAgent dataAgent = 4;
+  }
+
+  message AgentDashboardResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    DataAgent dataAgent = 4;
+    AgentDashboardSummaryToday summaryToday = 5;
+    AgentDashboardOrderProcess orderProcess = 6;
+    AgentDashboardNotification notification = 7;
+  }
+
+  message AgentDashboardSummaryToday {
+    int64 feeDiterima = 1;
+    int64 limitPickupCurrent = 2;
+    int64 limitPickupMax = 3;
+    int64 nominalPickup = 4;
+    int64 orderProcess = 5;
+    int64 orderFinished = 6;
+  }
+
+  message AgentDashboardNotification {
+    int64 id = 1;
+    int32 isRead = 2;
+    string title = 3;
+    string message = 4;
+    int64 createdTime = 5;
+    int64 createdTimeUnix = 6;
+  }
+
+  message AgentDashboardOrderProcess {
+    string nasabahTransId = 1;
+    string nasabahTimePickup = 2;
+    float nasabahPickupValue = 3;
+    string nasabahPhone = 4;
+    string nasabahName = 5;
+    float nasabahLongitude = 6;
+    float nasabahLatitude = 7;
+    string nasabahAddress = 8;
+    string nasabahPhotoUrl = 9;
+    int32 statusOrderNasabah = 10;
+    int32 statusOrderAgent = 11;
+    string orderType = 12;
+    int64 expiredTime = 13;
+    int64 expiredSecond = 14;
+    int64 expiredSecondStatic = 15;
+  }
+
+  message AgentHistoryResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string transactionId = 5;
+    string date = 6;
+    string detail = 7;
+    float nominal = 8;
+    int32 statusAgent = 9;
+  }
+
+  message AgentNotificationResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    AgentDashboardNotification dataNotification = 5;
+  }
+
+  message AgentPhotoRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+    string photoUrl = 4;
   }
   
   message AgentRequest {
@@ -100,4 +221,9 @@ service AgentService {
     string vehicleCode = 40;
     string numberPolice = 41;
     bool setupLocation = 42;
+  }
+
+  message DataVehicle {
+    string vehicleCode = 1;
+    string vehicleName = 2;
   }
