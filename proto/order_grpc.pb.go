@@ -39,10 +39,11 @@ type OrderServiceClient interface {
 	ChangeStatusNasabah(ctx context.Context, in *IncomingOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error)
 	FinishOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 	CancelOrder(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderResponse, error)
-	DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error)
+	DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*DailySumResponse, error)
 	UpdateNominal(ctx context.Context, in *UpdateNominalRequest, opts ...grpc.CallOption) (*UpdateNominalResponse, error)
 	OrderCheck(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderCheckResponse, error)
 	UpdateStatusCountdown(ctx context.Context, in *CountdownRequest, opts ...grpc.CallOption) (*UpdateStatusResponse, error)
+	ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderProcessResponse, error)
 }
 
 type orderServiceClient struct {
@@ -197,8 +198,8 @@ func (c *orderServiceClient) CancelOrder(ctx context.Context, in *OrderConfirmRe
 	return out, nil
 }
 
-func (c *orderServiceClient) DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*ChangeStatusNasabahResponse, error) {
-	out := new(ChangeStatusNasabahResponse)
+func (c *orderServiceClient) DailyOrderSum(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*DailySumResponse, error) {
+	out := new(DailySumResponse)
 	err := c.cc.Invoke(ctx, "/proto.OrderService/DailyOrderSum", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -233,6 +234,15 @@ func (c *orderServiceClient) UpdateStatusCountdown(ctx context.Context, in *Coun
 	return out, nil
 }
 
+func (c *orderServiceClient) ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderProcessResponse, error) {
+	out := new(OrderProcessResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/ProcessOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility
@@ -254,10 +264,11 @@ type OrderServiceServer interface {
 	ChangeStatusNasabah(context.Context, *IncomingOrderRequest) (*ChangeStatusNasabahResponse, error)
 	FinishOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error)
 	CancelOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error)
-	DailyOrderSum(context.Context, *CountOrderRequest) (*ChangeStatusNasabahResponse, error)
+	DailyOrderSum(context.Context, *CountOrderRequest) (*DailySumResponse, error)
 	UpdateNominal(context.Context, *UpdateNominalRequest) (*UpdateNominalResponse, error)
 	OrderCheck(context.Context, *CountOrderRequest) (*OrderCheckResponse, error)
 	UpdateStatusCountdown(context.Context, *CountdownRequest) (*UpdateStatusResponse, error)
+	ProcessOrder(context.Context, *OrderDetailRequest) (*OrderProcessResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -313,7 +324,7 @@ func (UnimplementedOrderServiceServer) FinishOrder(context.Context, *OrderConfir
 func (UnimplementedOrderServiceServer) CancelOrder(context.Context, *OrderConfirmRequest) (*OrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
 }
-func (UnimplementedOrderServiceServer) DailyOrderSum(context.Context, *CountOrderRequest) (*ChangeStatusNasabahResponse, error) {
+func (UnimplementedOrderServiceServer) DailyOrderSum(context.Context, *CountOrderRequest) (*DailySumResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DailyOrderSum not implemented")
 }
 func (UnimplementedOrderServiceServer) UpdateNominal(context.Context, *UpdateNominalRequest) (*UpdateNominalResponse, error) {
@@ -324,6 +335,9 @@ func (UnimplementedOrderServiceServer) OrderCheck(context.Context, *CountOrderRe
 }
 func (UnimplementedOrderServiceServer) UpdateStatusCountdown(context.Context, *CountdownRequest) (*UpdateStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateStatusCountdown not implemented")
+}
+func (UnimplementedOrderServiceServer) ProcessOrder(context.Context, *OrderDetailRequest) (*OrderProcessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
 
@@ -698,6 +712,24 @@ func _OrderService_UpdateStatusCountdown_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_ProcessOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).ProcessOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/ProcessOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).ProcessOrder(ctx, req.(*OrderDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -784,6 +816,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateStatusCountdown",
 			Handler:    _OrderService_UpdateStatusCountdown_Handler,
+		},
+		{
+			MethodName: "ProcessOrder",
+			Handler:    _OrderService_ProcessOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -23,10 +23,11 @@ service OrderService {
     rpc ChangeStatusNasabah(IncomingOrderRequest) returns(ChangeStatusNasabahResponse){}
     rpc FinishOrder(OrderConfirmRequest) returns(OrderResponse){}
     rpc CancelOrder(OrderConfirmRequest) returns(OrderResponse){}
-    rpc DailyOrderSum(CountOrderRequest) returns(ChangeStatusNasabahResponse){}
+    rpc DailyOrderSum(CountOrderRequest) returns(DailySumResponse){}
     rpc UpdateNominal(UpdateNominalRequest) returns(UpdateNominalResponse){}
     rpc OrderCheck(CountOrderRequest) returns(OrderCheckResponse){}
     rpc UpdateStatusCountdown(CountdownRequest) returns(UpdateStatusResponse){}
+    rpc ProcessOrder(OrderDetailRequest) returns(OrderProcessResponse){}
     //for customer
 //    rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
 //    rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
@@ -64,6 +65,7 @@ message OrderInputRequest {
     string keterangan = 10;
     string requestId = 11;
     string requestByService = 12;
+    string userId = 13;
 }
 
 message OrderDetailRequest {
@@ -77,6 +79,8 @@ message CountOrderRequest {
     string requestId = 1;
     string requestByService = 2;
     string userId = 3;
+    int32 page  = 4;
+    int32 limit = 5;
 }
 
 message OrderDetailResponse {
@@ -134,8 +138,10 @@ message FirebaseRequest {
 }
 
 message OrderConfirmRequest {
-    string transactionId = 1;
-    int64 otp = 2;
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    int64 otp = 4;
 }
 
 message OrderConfirmResponse {
@@ -144,6 +150,29 @@ message OrderConfirmResponse {
     string requestId = 3;
     string requestByService = 4;
     OrderStatus data = 5;
+}
+
+message OrderProcessRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    int64 otp = 4;
+}
+
+message OrderProcessResponse {
+    string requestId = 1;
+    string requestByService = 2;
+    string transactionId = 3;
+    OrderTransform data = 4;
+}
+
+message OrderTransform {
+    string id = 1;
+    string agentName = 2;
+    string agentAddress = 3;
+    string estimatedPickup = 4;
+    float setoran = 5;
+    string orderType = 6;
 }
 
 message OrderTotalResponse {
@@ -160,6 +189,7 @@ message TotalOrder {
 
 message OrderStatus {
     int64 orderStatus = 1;
+    int32 attempt = 2;
 }
 
 message AgentConfirmResponse {
@@ -185,6 +215,7 @@ message IncomingOrderRequest {
     string estimatePickup = 6;
     bool statusNominal = 7;
     bool statusNominalInvalid = 8;
+    string Id = 9;
 }
 
 message OrderHistoryResponse {
@@ -224,6 +255,23 @@ message ChangeStatusNasabah {
     int64 todayOngoingOrder = 5;
     int64 todayCompleteOrder = 6;
     int64 orderStatus = 7;
+}
+
+message DailySumResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    Summary data = 5;
+}
+
+message Summary {
+    int64 feeDiterima = 1;
+    int64 limitPickupCurrent = 2;
+    int64 limitPickupMax = 3;
+    int64 nominalPickup = 4;
+    int64 orderProccess = 5;
+    int64 orderFinished = 6;
 }
 
 message CancelOrderResponse {

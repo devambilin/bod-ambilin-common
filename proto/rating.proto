@@ -21,6 +21,7 @@ message AgentRating {
   bool ketelitian = 6;
   bool kerapihan = 7;
   string keterangan = 8;
+  string Id = 9;
 }
 
 message UserRating {
