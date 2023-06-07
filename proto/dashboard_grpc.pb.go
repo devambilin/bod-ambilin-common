@@ -31,8 +31,8 @@ type DashboardServiceClient interface {
 	UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
 	DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
 	// daily page
-	Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*structpb.Value, error)
-	DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*structpb.Value, error)
+	Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*structpb.Struct, error)
+	DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*structpb.Struct, error)
 }
 
 type dashboardServiceClient struct {
@@ -97,8 +97,8 @@ func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*structpb.Value, error) {
-	out := new(structpb.Value)
+func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*structpb.Struct, error) {
+	out := new(structpb.Struct)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/Summary", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -106,8 +106,8 @@ func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRe
 	return out, nil
 }
 
-func (c *dashboardServiceClient) DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*structpb.Value, error) {
-	out := new(structpb.Value)
+func (c *dashboardServiceClient) DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*structpb.Struct, error) {
+	out := new(structpb.Struct)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/DailyTable", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -127,8 +127,8 @@ type DashboardServiceServer interface {
 	UpdateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
 	DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
 	// daily page
-	Summary(context.Context, *DailySummaryRequest) (*structpb.Value, error)
-	DailyTable(context.Context, *DailyTableRequest) (*structpb.Value, error)
+	Summary(context.Context, *DailySummaryRequest) (*structpb.Struct, error)
+	DailyTable(context.Context, *DailyTableRequest) (*structpb.Struct, error)
 	mustEmbedUnimplementedDashboardServiceServer()
 }
 
@@ -154,10 +154,10 @@ func (UnimplementedDashboardServiceServer) UpdateAdmin(context.Context, *AdminRe
 func (UnimplementedDashboardServiceServer) DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) Summary(context.Context, *DailySummaryRequest) (*structpb.Value, error) {
+func (UnimplementedDashboardServiceServer) Summary(context.Context, *DailySummaryRequest) (*structpb.Struct, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Summary not implemented")
 }
-func (UnimplementedDashboardServiceServer) DailyTable(context.Context, *DailyTableRequest) (*structpb.Value, error) {
+func (UnimplementedDashboardServiceServer) DailyTable(context.Context, *DailyTableRequest) (*structpb.Struct, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DailyTable not implemented")
 }
 func (UnimplementedDashboardServiceServer) mustEmbedUnimplementedDashboardServiceServer() {}

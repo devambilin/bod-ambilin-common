@@ -14,8 +14,8 @@ service DashboardService {
   rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
   rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
   //daily page
-  rpc Summary(DailySummaryRequest) returns(google.protobuf.Value);
-  rpc DailyTable(DailyTableRequest) returns(google.protobuf.Value);
+  rpc Summary(DailySummaryRequest) returns(google.protobuf.Struct);
+  rpc DailyTable(DailyTableRequest) returns(google.protobuf.Struct);
   //page dashboard
 //  rpc GetSummary(BaseRequest) returns (BaseResponse){}
 //  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
