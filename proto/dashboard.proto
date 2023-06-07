@@ -3,6 +3,8 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
+import "google/protobuf/struct.proto";
+
 service DashboardService {
   //for client grpc
   rpc GetMasterConfig(MasterConfigRequest) returns (MasterConfigResponse){}
@@ -11,6 +13,9 @@ service DashboardService {
   rpc CreateAdmin(AdminRequest) returns(AdminResponse){}
   rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
   rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
+  //daily page
+  rpc Summary(DailySummaryRequest) returns(google.protobuf.Value);
+  rpc DailyTable(DailyTableRequest) returns(google.protobuf.Value);
   //page dashboard
 //  rpc GetSummary(BaseRequest) returns (BaseResponse){}
 //  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
@@ -71,6 +76,24 @@ message DataMasterConfig {
   int32 id = 1;
   string paramKey = 2;
   string paramValue = 3;
+}
+
+message DailySummaryRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string date = 3;
+}
+
+message DailyTableRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string date = 3;
+  string keyword = 4;
+  int32 kanwilId = 5;
+  int32 kancaId = 6;
+  int32 page = 7;
+  int32 limit = 8;
+  string status = 9;
 }
 
 message AdminRequest {

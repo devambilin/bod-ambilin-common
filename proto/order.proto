@@ -160,8 +160,8 @@ message OrderProcessRequest {
 }
 
 message OrderProcessResponse {
-    string requestId = 1;
-    string requestByService = 2;
+    int32 status = 1;
+    string message = 2;
     string transactionId = 3;
     OrderTransform data = 4;
 }
@@ -293,6 +293,7 @@ message UpdateNominalRequest {
     string requestByService = 2;
     string transactionId = 3;
     float nominal = 4;
+    string agentId = 5;
 }
 
 message UpdateNominalResponse {
@@ -343,6 +344,7 @@ message CountdownRequest {
     string requestByService = 2;
     string transactionId = 3;
     bool isCountdown = 4;
+    string agentId = 5;
 }
 
 

@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -29,6 +30,9 @@ type DashboardServiceClient interface {
 	CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
 	UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
 	DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
+	// daily page
+	Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*structpb.Value, error)
+	DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*structpb.Value, error)
 }
 
 type dashboardServiceClient struct {
@@ -93,6 +97,24 @@ func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
+func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*structpb.Value, error) {
+	out := new(structpb.Value)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/Summary", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*structpb.Value, error) {
+	out := new(structpb.Value)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/DailyTable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DashboardServiceServer is the server API for DashboardService service.
 // All implementations must embed UnimplementedDashboardServiceServer
 // for forward compatibility
@@ -104,6 +126,9 @@ type DashboardServiceServer interface {
 	CreateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
 	UpdateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
 	DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
+	// daily page
+	Summary(context.Context, *DailySummaryRequest) (*structpb.Value, error)
+	DailyTable(context.Context, *DailyTableRequest) (*structpb.Value, error)
 	mustEmbedUnimplementedDashboardServiceServer()
 }
 
@@ -128,6 +153,12 @@ func (UnimplementedDashboardServiceServer) UpdateAdmin(context.Context, *AdminRe
 }
 func (UnimplementedDashboardServiceServer) DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
+}
+func (UnimplementedDashboardServiceServer) Summary(context.Context, *DailySummaryRequest) (*structpb.Value, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Summary not implemented")
+}
+func (UnimplementedDashboardServiceServer) DailyTable(context.Context, *DailyTableRequest) (*structpb.Value, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DailyTable not implemented")
 }
 func (UnimplementedDashboardServiceServer) mustEmbedUnimplementedDashboardServiceServer() {}
 
@@ -250,6 +281,42 @@ func _DashboardService_DeleteAdmin_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DashboardService_Summary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DailySummaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).Summary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/Summary",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).Summary(ctx, req.(*DailySummaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_DailyTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DailyTableRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).DailyTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/DailyTable",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).DailyTable(ctx, req.(*DailyTableRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DashboardService_ServiceDesc is the grpc.ServiceDesc for DashboardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -280,6 +347,14 @@ var DashboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAdmin",
 			Handler:    _DashboardService_DeleteAdmin_Handler,
+		},
+		{
+			MethodName: "Summary",
+			Handler:    _DashboardService_Summary_Handler,
+		},
+		{
+			MethodName: "DailyTable",
+			Handler:    _DashboardService_DailyTable_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
