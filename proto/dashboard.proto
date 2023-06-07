@@ -14,8 +14,8 @@ service DashboardService {
   rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
   rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
   //daily page
-  rpc Summary(DailySummaryRequest) returns(google.protobuf.Struct);
-  rpc DailyTable(DailyTableRequest) returns(google.protobuf.Struct);
+  rpc Summary(DailySummaryRequest) returns(BaseResponse);
+  rpc DailyTable(DailyTableRequest) returns(BaseResponse);
   //page dashboard
 //  rpc GetSummary(BaseRequest) returns (BaseResponse){}
 //  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
@@ -109,6 +109,14 @@ message AdminResponse {
   string requestByService = 4;
   DataAdmin dataAdmin = 5;
   repeated DataAdmin listAdmin = 6;
+}
+
+message BaseResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  google.protobuf.Struct data = 5;
 }
 
 message DataAdmin {
