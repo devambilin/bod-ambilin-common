@@ -3,6 +3,7 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 import "proto/user.proto";
+import "google/protobuf/struct.proto";
 
 service AgentService {
     //for clients grpc
@@ -19,27 +20,34 @@ service AgentService {
 //    rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
 //    rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
 //    //for agent
-    rpc AgentDashboard(AgentGlobalRequest) returns (AgentDashboardResponse){}
-    rpc AgentDetail(AgentGlobalRequest) returns (AgentGlobalResponse){}
-    rpc AgentHistory(AgentGlobalRequest) returns (AgentHistoryResponse){}
-    rpc AgentListNotification(AgentGlobalRequest) returns (AgentNotificationResponse){}
-    rpc AgentDeleteNotification(AgentGlobalRequest) returns (AgentGlobalResponse){}
-    rpc AgentReadNotification(AgentGlobalRequest) returns (AgentGlobalResponse){}
-    rpc AgentUploadPhoto(AgentPhotoRequest) returns (AgentGlobalResponse){}
-    rpc AgentDeletePhoto(AgentPhotoRequest) returns (AgentGlobalResponse){}
-    rpc AgentCheckLimitPickup(AgentGlobalRequest) returns (AgentGlobalResponse){}
-    rpc AgentUpdateData(AgentRequest) returns (AgentResponse){}
-    rpc AgentChangeStatus(AgentRequest) returns (AgentResponse){}
-    rpc AgentSetLimitPickup(AgentRequest) returns (AgentResponse){}
-    rpc AgentGetListCustomer(AgentGlobalRequest) returns (AgentGetListCustomerResponse){}
-    rpc AgentGetLimitPickup(AgentGlobalRequest) returns (AgentResponse){}
+    rpc AgentDashboard(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentDetail(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentHistory(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentListNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentDeleteNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentReadNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentUploadPhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
+    rpc AgentDeletePhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
+    rpc AgentCheckLimitPickup(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentUpdateData(AgentRequest) returns (AgentBaseResponse){}
+    rpc AgentChangeStatus(AgentRequest) returns (AgentBaseResponse){}
+    rpc AgentSetLimitPickup(AgentRequest) returns (AgentBaseResponse){}
+    rpc AgentGetListCustomer(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentGetLimitPickup(AgentGlobalRequest) returns (AgentBaseResponse){}
 //    rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
-    rpc AgentSetupLocation(AgentSetupLocationRequest) returns (AgentResponse){}
-    rpc AgentListVehicle(AgentVehicleRequest) returns (AgentVehicleResponse){}
-    rpc AgentSubmitVehicle(AgentVehicleRequest) returns (AgentResponse){}
+    rpc AgentSetupLocation(AgentSetupLocationRequest) returns (AgentBaseResponse){}
+    rpc AgentListVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
+    rpc AgentSubmitVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
 //    //for customer
-    rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentResponse){}
+    rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentBaseResponse){}
   }
+
+message AgentBaseResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  google.protobuf.Struct data = 5;
+}
 
   message AgentDetailCustomer {
     string requestId = 1;
