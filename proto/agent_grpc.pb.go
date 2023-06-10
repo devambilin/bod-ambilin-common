@@ -37,26 +37,26 @@ type AgentServiceClient interface {
 	//	rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
 	//	rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
 	//	//for agent
-	AgentDashboard(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentDashboardResponse, error)
-	AgentDetail(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error)
-	AgentHistory(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentHistoryResponse, error)
-	AgentListNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentNotificationResponse, error)
-	AgentDeleteNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error)
-	AgentReadNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error)
-	AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error)
-	AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error)
-	AgentCheckLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error)
-	AgentUpdateData(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
-	AgentChangeStatus(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
-	AgentSetLimitPickup(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
-	AgentGetListCustomer(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGetListCustomerResponse, error)
-	AgentGetLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentResponse, error)
+	AgentDashboard(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentDetail(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentHistory(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentListNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentDeleteNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentReadNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentCheckLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentUpdateData(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentChangeStatus(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentSetLimitPickup(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentGetListCustomer(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentGetLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	// rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
-	AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentResponse, error)
-	AgentListVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentVehicleResponse, error)
-	AgentSubmitVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentResponse, error)
+	AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentListVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentSubmitVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	// //for customer
-	CustomerDetailAgent(ctx context.Context, in *AgentDetailCustomer, opts ...grpc.CallOption) (*AgentResponse, error)
+	CustomerDetailAgent(ctx context.Context, in *AgentDetailCustomer, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 }
 
 type agentServiceClient struct {
@@ -112,8 +112,8 @@ func (c *agentServiceClient) DeleteAgent(ctx context.Context, in *AgentRequest, 
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentDashboard(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentDashboardResponse, error) {
-	out := new(AgentDashboardResponse)
+func (c *agentServiceClient) AgentDashboard(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDashboard", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -121,8 +121,8 @@ func (c *agentServiceClient) AgentDashboard(ctx context.Context, in *AgentGlobal
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentDetail(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error) {
-	out := new(AgentGlobalResponse)
+func (c *agentServiceClient) AgentDetail(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDetail", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,8 +130,8 @@ func (c *agentServiceClient) AgentDetail(ctx context.Context, in *AgentGlobalReq
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentHistory(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentHistoryResponse, error) {
-	out := new(AgentHistoryResponse)
+func (c *agentServiceClient) AgentHistory(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentHistory", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -139,8 +139,8 @@ func (c *agentServiceClient) AgentHistory(ctx context.Context, in *AgentGlobalRe
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentListNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentNotificationResponse, error) {
-	out := new(AgentNotificationResponse)
+func (c *agentServiceClient) AgentListNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentListNotification", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -148,8 +148,8 @@ func (c *agentServiceClient) AgentListNotification(ctx context.Context, in *Agen
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentDeleteNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error) {
-	out := new(AgentGlobalResponse)
+func (c *agentServiceClient) AgentDeleteNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDeleteNotification", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -157,8 +157,8 @@ func (c *agentServiceClient) AgentDeleteNotification(ctx context.Context, in *Ag
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentReadNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error) {
-	out := new(AgentGlobalResponse)
+func (c *agentServiceClient) AgentReadNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentReadNotification", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -166,8 +166,8 @@ func (c *agentServiceClient) AgentReadNotification(ctx context.Context, in *Agen
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error) {
-	out := new(AgentGlobalResponse)
+func (c *agentServiceClient) AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentUploadPhoto", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -175,8 +175,8 @@ func (c *agentServiceClient) AgentUploadPhoto(ctx context.Context, in *AgentPhot
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error) {
-	out := new(AgentGlobalResponse)
+func (c *agentServiceClient) AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDeletePhoto", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -184,8 +184,8 @@ func (c *agentServiceClient) AgentDeletePhoto(ctx context.Context, in *AgentPhot
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentCheckLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGlobalResponse, error) {
-	out := new(AgentGlobalResponse)
+func (c *agentServiceClient) AgentCheckLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentCheckLimitPickup", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -193,8 +193,8 @@ func (c *agentServiceClient) AgentCheckLimitPickup(ctx context.Context, in *Agen
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentUpdateData(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) AgentUpdateData(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentUpdateData", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -202,8 +202,8 @@ func (c *agentServiceClient) AgentUpdateData(ctx context.Context, in *AgentReque
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentChangeStatus(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) AgentChangeStatus(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentChangeStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -211,8 +211,8 @@ func (c *agentServiceClient) AgentChangeStatus(ctx context.Context, in *AgentReq
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentSetLimitPickup(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) AgentSetLimitPickup(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentSetLimitPickup", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -220,8 +220,8 @@ func (c *agentServiceClient) AgentSetLimitPickup(ctx context.Context, in *AgentR
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentGetListCustomer(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentGetListCustomerResponse, error) {
-	out := new(AgentGetListCustomerResponse)
+func (c *agentServiceClient) AgentGetListCustomer(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentGetListCustomer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -229,8 +229,8 @@ func (c *agentServiceClient) AgentGetListCustomer(ctx context.Context, in *Agent
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentGetLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) AgentGetLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentGetLimitPickup", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -238,8 +238,8 @@ func (c *agentServiceClient) AgentGetLimitPickup(ctx context.Context, in *AgentG
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentSetupLocation", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -247,8 +247,8 @@ func (c *agentServiceClient) AgentSetupLocation(ctx context.Context, in *AgentSe
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentListVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentVehicleResponse, error) {
-	out := new(AgentVehicleResponse)
+func (c *agentServiceClient) AgentListVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentListVehicle", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -256,8 +256,8 @@ func (c *agentServiceClient) AgentListVehicle(ctx context.Context, in *AgentVehi
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentSubmitVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) AgentSubmitVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentSubmitVehicle", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -265,8 +265,8 @@ func (c *agentServiceClient) AgentSubmitVehicle(ctx context.Context, in *AgentVe
 	return out, nil
 }
 
-func (c *agentServiceClient) CustomerDetailAgent(ctx context.Context, in *AgentDetailCustomer, opts ...grpc.CallOption) (*AgentResponse, error) {
-	out := new(AgentResponse)
+func (c *agentServiceClient) CustomerDetailAgent(ctx context.Context, in *AgentDetailCustomer, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/CustomerDetailAgent", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -293,26 +293,26 @@ type AgentServiceServer interface {
 	//	rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
 	//	rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
 	//	//for agent
-	AgentDashboard(context.Context, *AgentGlobalRequest) (*AgentDashboardResponse, error)
-	AgentDetail(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error)
-	AgentHistory(context.Context, *AgentGlobalRequest) (*AgentHistoryResponse, error)
-	AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentNotificationResponse, error)
-	AgentDeleteNotification(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error)
-	AgentReadNotification(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error)
-	AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentGlobalResponse, error)
-	AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentGlobalResponse, error)
-	AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error)
-	AgentUpdateData(context.Context, *AgentRequest) (*AgentResponse, error)
-	AgentChangeStatus(context.Context, *AgentRequest) (*AgentResponse, error)
-	AgentSetLimitPickup(context.Context, *AgentRequest) (*AgentResponse, error)
-	AgentGetListCustomer(context.Context, *AgentGlobalRequest) (*AgentGetListCustomerResponse, error)
-	AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentResponse, error)
+	AgentDashboard(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentDetail(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentHistory(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentDeleteNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentReadNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
+	AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
+	AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentUpdateData(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AgentChangeStatus(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AgentSetLimitPickup(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AgentGetListCustomer(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	// rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
-	AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentResponse, error)
-	AgentListVehicle(context.Context, *AgentVehicleRequest) (*AgentVehicleResponse, error)
-	AgentSubmitVehicle(context.Context, *AgentVehicleRequest) (*AgentResponse, error)
+	AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentBaseResponse, error)
+	AgentListVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error)
+	AgentSubmitVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error)
 	// //for customer
-	CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentResponse, error)
+	CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentBaseResponse, error)
 	mustEmbedUnimplementedAgentServiceServer()
 }
 
@@ -335,58 +335,58 @@ func (UnimplementedAgentServiceServer) UpdateAgent(context.Context, *AgentReques
 func (UnimplementedAgentServiceServer) DeleteAgent(context.Context, *AgentRequest) (*AgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAgent not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentDashboard(context.Context, *AgentGlobalRequest) (*AgentDashboardResponse, error) {
+func (UnimplementedAgentServiceServer) AgentDashboard(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentDashboard not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentDetail(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error) {
+func (UnimplementedAgentServiceServer) AgentDetail(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentDetail not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentHistory(context.Context, *AgentGlobalRequest) (*AgentHistoryResponse, error) {
+func (UnimplementedAgentServiceServer) AgentHistory(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentHistory not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentNotificationResponse, error) {
+func (UnimplementedAgentServiceServer) AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentListNotification not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentDeleteNotification(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error) {
+func (UnimplementedAgentServiceServer) AgentDeleteNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentDeleteNotification not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentReadNotification(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error) {
+func (UnimplementedAgentServiceServer) AgentReadNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentReadNotification not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentGlobalResponse, error) {
+func (UnimplementedAgentServiceServer) AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentUploadPhoto not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentGlobalResponse, error) {
+func (UnimplementedAgentServiceServer) AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentDeletePhoto not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentGlobalResponse, error) {
+func (UnimplementedAgentServiceServer) AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentCheckLimitPickup not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentUpdateData(context.Context, *AgentRequest) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) AgentUpdateData(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentUpdateData not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentChangeStatus(context.Context, *AgentRequest) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) AgentChangeStatus(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentChangeStatus not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentSetLimitPickup(context.Context, *AgentRequest) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) AgentSetLimitPickup(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentSetLimitPickup not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentGetListCustomer(context.Context, *AgentGlobalRequest) (*AgentGetListCustomerResponse, error) {
+func (UnimplementedAgentServiceServer) AgentGetListCustomer(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentGetListCustomer not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentGetLimitPickup not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentSetupLocation not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentListVehicle(context.Context, *AgentVehicleRequest) (*AgentVehicleResponse, error) {
+func (UnimplementedAgentServiceServer) AgentListVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentListVehicle not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentSubmitVehicle(context.Context, *AgentVehicleRequest) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) AgentSubmitVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentSubmitVehicle not implemented")
 }
-func (UnimplementedAgentServiceServer) CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentResponse, error) {
+func (UnimplementedAgentServiceServer) CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerDetailAgent not implemented")
 }
 func (UnimplementedAgentServiceServer) mustEmbedUnimplementedAgentServiceServer() {}
