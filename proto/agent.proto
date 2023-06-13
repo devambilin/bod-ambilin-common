@@ -24,8 +24,8 @@ service AgentService {
     rpc AgentDetail(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentHistory(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentListNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
-    rpc AgentDeleteNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
-    rpc AgentReadNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentDeleteNotification(AgentNotificationRequest) returns (AgentBaseResponse){}
+    rpc AgentReadNotification(AgentNotificationRequest) returns (AgentBaseResponse){}
     rpc AgentUploadPhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
     rpc AgentDeletePhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
     rpc AgentCheckLimitPickup(AgentGlobalRequest) returns (AgentBaseResponse){}
@@ -42,12 +42,36 @@ service AgentService {
     rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentBaseResponse){}
   }
 
-message AgentBaseResponse {
-  int32 status = 1;
-  string message = 2;
-  string requestId = 3;
-  google.protobuf.Struct data = 5;
-}
+  message AgentBaseFilterRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    string keyword = 3;
+    google.protobuf.Struct otherParam = 4;
+  }
+
+  message AgentBaseFilterResponse {
+    int32 page = 1;
+    int32 limit = 2;
+    string keyword = 3;
+    google.protobuf.Struct otherParam = 4;
+    int32 totalPage = 5;
+    int32 totalRows = 6;
+    google.protobuf.Struct rows = 7;
+  }
+
+  message AgentNotificationRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+    string notificationId = 4;
+  }
+
+  message AgentBaseResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    google.protobuf.Struct data = 5;
+  }
 
   message AgentDetailCustomer {
     string requestId = 1;
@@ -91,6 +115,7 @@ message AgentBaseResponse {
     string requestId = 1;
     string requestByService = 2;
     string id = 3;
+    AgentBaseFilterRequest filter = 4;
   }
 
   message AgentGlobalResponse {
@@ -98,6 +123,7 @@ message AgentBaseResponse {
     string message = 2;
     string requestId = 3;
     DataAgent dataAgent = 4;
+    AgentBaseFilterRequest filter = 5;
   }
 
   message AgentDashboardResponse {

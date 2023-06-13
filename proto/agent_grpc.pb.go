@@ -41,8 +41,8 @@ type AgentServiceClient interface {
 	AgentDetail(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentHistory(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentListNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	AgentDeleteNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	AgentReadNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentDeleteNotification(ctx context.Context, in *AgentNotificationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentReadNotification(ctx context.Context, in *AgentNotificationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentCheckLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
@@ -148,7 +148,7 @@ func (c *agentServiceClient) AgentListNotification(ctx context.Context, in *Agen
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentDeleteNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+func (c *agentServiceClient) AgentDeleteNotification(ctx context.Context, in *AgentNotificationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
 	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDeleteNotification", in, out, opts...)
 	if err != nil {
@@ -157,7 +157,7 @@ func (c *agentServiceClient) AgentDeleteNotification(ctx context.Context, in *Ag
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentReadNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+func (c *agentServiceClient) AgentReadNotification(ctx context.Context, in *AgentNotificationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
 	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentReadNotification", in, out, opts...)
 	if err != nil {
@@ -297,8 +297,8 @@ type AgentServiceServer interface {
 	AgentDetail(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentHistory(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
-	AgentDeleteNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
-	AgentReadNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentDeleteNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error)
+	AgentReadNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error)
 	AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
 	AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
 	AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
@@ -347,10 +347,10 @@ func (UnimplementedAgentServiceServer) AgentHistory(context.Context, *AgentGloba
 func (UnimplementedAgentServiceServer) AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentListNotification not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentDeleteNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+func (UnimplementedAgentServiceServer) AgentDeleteNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentDeleteNotification not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentReadNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+func (UnimplementedAgentServiceServer) AgentReadNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentReadNotification not implemented")
 }
 func (UnimplementedAgentServiceServer) AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error) {
@@ -565,7 +565,7 @@ func _AgentService_AgentListNotification_Handler(srv interface{}, ctx context.Co
 }
 
 func _AgentService_AgentDeleteNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentGlobalRequest)
+	in := new(AgentNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -577,13 +577,13 @@ func _AgentService_AgentDeleteNotification_Handler(srv interface{}, ctx context.
 		FullMethod: "/proto.AgentService/AgentDeleteNotification",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentServiceServer).AgentDeleteNotification(ctx, req.(*AgentGlobalRequest))
+		return srv.(AgentServiceServer).AgentDeleteNotification(ctx, req.(*AgentNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AgentService_AgentReadNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentGlobalRequest)
+	in := new(AgentNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -595,7 +595,7 @@ func _AgentService_AgentReadNotification_Handler(srv interface{}, ctx context.Co
 		FullMethod: "/proto.AgentService/AgentReadNotification",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentServiceServer).AgentReadNotification(ctx, req.(*AgentGlobalRequest))
+		return srv.(AgentServiceServer).AgentReadNotification(ctx, req.(*AgentNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
