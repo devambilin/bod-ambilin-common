@@ -94,6 +94,8 @@ service AgentService {
     string requestId = 1;
     string requestByService = 2;
     string id = 3;
+    string vehicleCode = 4;
+    string numberPolice = 5;
   }
   message AgentVehicleResponse {
     int32 status = 1;
