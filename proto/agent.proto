@@ -33,14 +33,21 @@ service AgentService {
     rpc AgentSetLimitPickup(AgentRequest) returns (AgentBaseResponse){}
     rpc AgentGetListCustomer(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentGetLimitPickup(AgentGlobalRequest) returns (AgentBaseResponse){}
-    rpc AgentGetTutorial(AgentGlobalRequest) returns (AgentBaseResponse){}
-    rpc AgentUpdateTutorial(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentGetTutorial(AgentTutorialRequest) returns (AgentBaseResponse){}
+    rpc AgentUpdateTutorial(AgentTutorialRequest) returns (AgentBaseResponse){}
     rpc AgentGetPab(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentSetupLocation(AgentSetupLocationRequest) returns (AgentBaseResponse){}
     rpc AgentListVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
     rpc AgentSubmitVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
     //for customer
     rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentBaseResponse){}
+  }
+
+  message AgentTutorialRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string agentId = 3;
+    string param = 4;
   }
 
   message AgentBaseFilterRequest {

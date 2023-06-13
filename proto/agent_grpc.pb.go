@@ -49,8 +49,8 @@ type AgentServiceClient interface {
 	AgentSetLimitPickup(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentGetListCustomer(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentGetLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	AgentGetTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	AgentUpdateTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentGetTutorial(ctx context.Context, in *AgentTutorialRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentUpdateTutorial(ctx context.Context, in *AgentTutorialRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentGetPab(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentListVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
@@ -283,7 +283,7 @@ func (c *agentServiceClient) AgentGetLimitPickup(ctx context.Context, in *AgentG
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentGetTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+func (c *agentServiceClient) AgentGetTutorial(ctx context.Context, in *AgentTutorialRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
 	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentGetTutorial", in, out, opts...)
 	if err != nil {
@@ -292,7 +292,7 @@ func (c *agentServiceClient) AgentGetTutorial(ctx context.Context, in *AgentGlob
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentUpdateTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+func (c *agentServiceClient) AgentUpdateTutorial(ctx context.Context, in *AgentTutorialRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
 	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentUpdateTutorial", in, out, opts...)
 	if err != nil {
@@ -377,8 +377,8 @@ type AgentServiceServer interface {
 	AgentSetLimitPickup(context.Context, *AgentRequest) (*AgentBaseResponse, error)
 	AgentGetListCustomer(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
-	AgentGetTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
-	AgentUpdateTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentGetTutorial(context.Context, *AgentTutorialRequest) (*AgentBaseResponse, error)
+	AgentUpdateTutorial(context.Context, *AgentTutorialRequest) (*AgentBaseResponse, error)
 	AgentGetPab(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentBaseResponse, error)
 	AgentListVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error)
@@ -464,10 +464,10 @@ func (UnimplementedAgentServiceServer) AgentGetListCustomer(context.Context, *Ag
 func (UnimplementedAgentServiceServer) AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentGetLimitPickup not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentGetTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+func (UnimplementedAgentServiceServer) AgentGetTutorial(context.Context, *AgentTutorialRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentGetTutorial not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentUpdateTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+func (UnimplementedAgentServiceServer) AgentUpdateTutorial(context.Context, *AgentTutorialRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentUpdateTutorial not implemented")
 }
 func (UnimplementedAgentServiceServer) AgentGetPab(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
@@ -931,7 +931,7 @@ func _AgentService_AgentGetLimitPickup_Handler(srv interface{}, ctx context.Cont
 }
 
 func _AgentService_AgentGetTutorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentGlobalRequest)
+	in := new(AgentTutorialRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -943,13 +943,13 @@ func _AgentService_AgentGetTutorial_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/proto.AgentService/AgentGetTutorial",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentServiceServer).AgentGetTutorial(ctx, req.(*AgentGlobalRequest))
+		return srv.(AgentServiceServer).AgentGetTutorial(ctx, req.(*AgentTutorialRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AgentService_AgentUpdateTutorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentGlobalRequest)
+	in := new(AgentTutorialRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -961,7 +961,7 @@ func _AgentService_AgentUpdateTutorial_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/proto.AgentService/AgentUpdateTutorial",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentServiceServer).AgentUpdateTutorial(ctx, req.(*AgentGlobalRequest))
+		return srv.(AgentServiceServer).AgentUpdateTutorial(ctx, req.(*AgentTutorialRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
