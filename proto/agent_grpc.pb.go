@@ -29,33 +29,33 @@ type AgentServiceClient interface {
 	UpdateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
 	DeleteAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
 	// for admin
-	//
-	//	rpc AdminGetListAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminCreateAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminValidateMidAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminGetDetailAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
-	//	//for agent
+	AdminGetListAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AdminCreateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AdminValidateMidAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AdminGetDetailAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AdminUpdateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AdminDeleteAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	// for agent
 	AgentDashboard(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentDetail(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentHistory(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentListNotification(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentDeleteNotification(ctx context.Context, in *AgentNotificationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentReadNotification(ctx context.Context, in *AgentNotificationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentUpdatePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentCheckLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentUpdateData(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentChangeStatus(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentSetLimitPickup(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentGetListCustomer(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentGetLimitPickup(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	// rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
+	AgentGetTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentUpdateTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentGetPab(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentListVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AgentSubmitVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
-	// //for customer
+	// for customer
 	CustomerDetailAgent(ctx context.Context, in *AgentDetailCustomer, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 }
 
@@ -106,6 +106,60 @@ func (c *agentServiceClient) UpdateAgent(ctx context.Context, in *AgentRequest, 
 func (c *agentServiceClient) DeleteAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
 	out := new(AgentResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/DeleteAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AdminGetListAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AdminGetListAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AdminCreateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AdminCreateAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AdminValidateMidAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AdminValidateMidAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AdminGetDetailAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AdminGetDetailAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AdminUpdateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AdminUpdateAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AdminDeleteAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AdminDeleteAgent", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -166,18 +220,9 @@ func (c *agentServiceClient) AgentReadNotification(ctx context.Context, in *Agen
 	return out, nil
 }
 
-func (c *agentServiceClient) AgentUploadPhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+func (c *agentServiceClient) AgentUpdatePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
 	out := new(AgentBaseResponse)
-	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentUploadPhoto", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *agentServiceClient) AgentDeletePhoto(ctx context.Context, in *AgentPhotoRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
-	out := new(AgentBaseResponse)
-	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDeletePhoto", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentUpdatePhoto", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -238,6 +283,33 @@ func (c *agentServiceClient) AgentGetLimitPickup(ctx context.Context, in *AgentG
 	return out, nil
 }
 
+func (c *agentServiceClient) AgentGetTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentGetTutorial", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AgentUpdateTutorial(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentUpdateTutorial", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AgentGetPab(ctx context.Context, in *AgentGlobalRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentGetPab", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *agentServiceClient) AgentSetupLocation(ctx context.Context, in *AgentSetupLocationRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
 	out := new(AgentBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentSetupLocation", in, out, opts...)
@@ -285,33 +357,33 @@ type AgentServiceServer interface {
 	UpdateAgent(context.Context, *AgentRequest) (*AgentResponse, error)
 	DeleteAgent(context.Context, *AgentRequest) (*AgentResponse, error)
 	// for admin
-	//
-	//	rpc AdminGetListAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminCreateAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminValidateMidAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminGetDetailAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
-	//	rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
-	//	//for agent
+	AdminGetListAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AdminCreateAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AdminValidateMidAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AdminGetDetailAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AdminUpdateAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	AdminDeleteAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
+	// for agent
 	AgentDashboard(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentDetail(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentHistory(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentListNotification(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentDeleteNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error)
 	AgentReadNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error)
-	AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
-	AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
+	AgentUpdatePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error)
 	AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentUpdateData(context.Context, *AgentRequest) (*AgentBaseResponse, error)
 	AgentChangeStatus(context.Context, *AgentRequest) (*AgentBaseResponse, error)
 	AgentSetLimitPickup(context.Context, *AgentRequest) (*AgentBaseResponse, error)
 	AgentGetListCustomer(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
-	// rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
+	AgentGetTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentUpdateTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
+	AgentGetPab(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error)
 	AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentBaseResponse, error)
 	AgentListVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error)
 	AgentSubmitVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error)
-	// //for customer
+	// for customer
 	CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentBaseResponse, error)
 	mustEmbedUnimplementedAgentServiceServer()
 }
@@ -335,6 +407,24 @@ func (UnimplementedAgentServiceServer) UpdateAgent(context.Context, *AgentReques
 func (UnimplementedAgentServiceServer) DeleteAgent(context.Context, *AgentRequest) (*AgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAgent not implemented")
 }
+func (UnimplementedAgentServiceServer) AdminGetListAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetListAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) AdminCreateAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminCreateAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) AdminValidateMidAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminValidateMidAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) AdminGetDetailAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetDetailAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) AdminUpdateAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminUpdateAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) AdminDeleteAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminDeleteAgent not implemented")
+}
 func (UnimplementedAgentServiceServer) AgentDashboard(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentDashboard not implemented")
 }
@@ -353,11 +443,8 @@ func (UnimplementedAgentServiceServer) AgentDeleteNotification(context.Context, 
 func (UnimplementedAgentServiceServer) AgentReadNotification(context.Context, *AgentNotificationRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentReadNotification not implemented")
 }
-func (UnimplementedAgentServiceServer) AgentUploadPhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AgentUploadPhoto not implemented")
-}
-func (UnimplementedAgentServiceServer) AgentDeletePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AgentDeletePhoto not implemented")
+func (UnimplementedAgentServiceServer) AgentUpdatePhoto(context.Context, *AgentPhotoRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentUpdatePhoto not implemented")
 }
 func (UnimplementedAgentServiceServer) AgentCheckLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentCheckLimitPickup not implemented")
@@ -376,6 +463,15 @@ func (UnimplementedAgentServiceServer) AgentGetListCustomer(context.Context, *Ag
 }
 func (UnimplementedAgentServiceServer) AgentGetLimitPickup(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentGetLimitPickup not implemented")
+}
+func (UnimplementedAgentServiceServer) AgentGetTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentGetTutorial not implemented")
+}
+func (UnimplementedAgentServiceServer) AgentUpdateTutorial(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentUpdateTutorial not implemented")
+}
+func (UnimplementedAgentServiceServer) AgentGetPab(context.Context, *AgentGlobalRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentGetPab not implemented")
 }
 func (UnimplementedAgentServiceServer) AgentSetupLocation(context.Context, *AgentSetupLocationRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentSetupLocation not implemented")
@@ -492,6 +588,114 @@ func _AgentService_DeleteAgent_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AgentService_AdminGetListAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AdminGetListAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AdminGetListAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AdminGetListAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AdminCreateAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AdminCreateAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AdminCreateAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AdminCreateAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AdminValidateMidAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AdminValidateMidAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AdminValidateMidAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AdminValidateMidAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AdminGetDetailAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AdminGetDetailAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AdminGetDetailAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AdminGetDetailAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AdminUpdateAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AdminUpdateAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AdminUpdateAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AdminUpdateAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AdminDeleteAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AdminDeleteAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AdminDeleteAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AdminDeleteAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AgentService_AgentDashboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AgentGlobalRequest)
 	if err := dec(in); err != nil {
@@ -600,38 +804,20 @@ func _AgentService_AgentReadNotification_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentService_AgentUploadPhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AgentService_AgentUpdatePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AgentPhotoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AgentServiceServer).AgentUploadPhoto(ctx, in)
+		return srv.(AgentServiceServer).AgentUpdatePhoto(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.AgentService/AgentUploadPhoto",
+		FullMethod: "/proto.AgentService/AgentUpdatePhoto",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentServiceServer).AgentUploadPhoto(ctx, req.(*AgentPhotoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AgentService_AgentDeletePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentPhotoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AgentServiceServer).AgentDeletePhoto(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AgentService/AgentDeletePhoto",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentServiceServer).AgentDeletePhoto(ctx, req.(*AgentPhotoRequest))
+		return srv.(AgentServiceServer).AgentUpdatePhoto(ctx, req.(*AgentPhotoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -744,6 +930,60 @@ func _AgentService_AgentGetLimitPickup_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AgentService_AgentGetTutorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentGlobalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AgentGetTutorial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AgentGetTutorial",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AgentGetTutorial(ctx, req.(*AgentGlobalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AgentUpdateTutorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentGlobalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AgentUpdateTutorial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AgentUpdateTutorial",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AgentUpdateTutorial(ctx, req.(*AgentGlobalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AgentGetPab_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentGlobalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AgentGetPab(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AgentGetPab",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AgentGetPab(ctx, req.(*AgentGlobalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AgentService_AgentSetupLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AgentSetupLocationRequest)
 	if err := dec(in); err != nil {
@@ -844,6 +1084,30 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AgentService_DeleteAgent_Handler,
 		},
 		{
+			MethodName: "AdminGetListAgent",
+			Handler:    _AgentService_AdminGetListAgent_Handler,
+		},
+		{
+			MethodName: "AdminCreateAgent",
+			Handler:    _AgentService_AdminCreateAgent_Handler,
+		},
+		{
+			MethodName: "AdminValidateMidAgent",
+			Handler:    _AgentService_AdminValidateMidAgent_Handler,
+		},
+		{
+			MethodName: "AdminGetDetailAgent",
+			Handler:    _AgentService_AdminGetDetailAgent_Handler,
+		},
+		{
+			MethodName: "AdminUpdateAgent",
+			Handler:    _AgentService_AdminUpdateAgent_Handler,
+		},
+		{
+			MethodName: "AdminDeleteAgent",
+			Handler:    _AgentService_AdminDeleteAgent_Handler,
+		},
+		{
 			MethodName: "AgentDashboard",
 			Handler:    _AgentService_AgentDashboard_Handler,
 		},
@@ -868,12 +1132,8 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AgentService_AgentReadNotification_Handler,
 		},
 		{
-			MethodName: "AgentUploadPhoto",
-			Handler:    _AgentService_AgentUploadPhoto_Handler,
-		},
-		{
-			MethodName: "AgentDeletePhoto",
-			Handler:    _AgentService_AgentDeletePhoto_Handler,
+			MethodName: "AgentUpdatePhoto",
+			Handler:    _AgentService_AgentUpdatePhoto_Handler,
 		},
 		{
 			MethodName: "AgentCheckLimitPickup",
@@ -898,6 +1158,18 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AgentGetLimitPickup",
 			Handler:    _AgentService_AgentGetLimitPickup_Handler,
+		},
+		{
+			MethodName: "AgentGetTutorial",
+			Handler:    _AgentService_AgentGetTutorial_Handler,
+		},
+		{
+			MethodName: "AgentUpdateTutorial",
+			Handler:    _AgentService_AgentUpdateTutorial_Handler,
+		},
+		{
+			MethodName: "AgentGetPab",
+			Handler:    _AgentService_AgentGetPab_Handler,
 		},
 		{
 			MethodName: "AgentSetupLocation",

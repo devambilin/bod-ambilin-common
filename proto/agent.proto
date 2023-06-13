@@ -13,32 +13,33 @@ service AgentService {
     rpc UpdateAgent(AgentRequest) returns(AgentResponse){}
     rpc DeleteAgent(AgentRequest) returns(AgentResponse){}
     //for admin
-//    rpc AdminGetListAgent(BaseRequest) returns (BaseResponse){}
-//    rpc AdminCreateAgent(BaseRequest) returns (BaseResponse){}
-//    rpc AdminValidateMidAgent(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetDetailAgent(BaseRequest) returns (BaseResponse){}
-//    rpc AdminUpdateAgent(BaseRequest) returns (BaseResponse){}
-//    rpc AdminDeleteAgent(BaseRequest) returns (BaseResponse){}
-//    //for agent
+    rpc AdminGetListAgent(AgentRequest) returns (AgentBaseResponse){}
+    rpc AdminCreateAgent(AgentRequest) returns (AgentBaseResponse){}
+    rpc AdminValidateMidAgent(AgentRequest) returns (AgentBaseResponse){}
+    rpc AdminGetDetailAgent(AgentRequest) returns (AgentBaseResponse){}
+    rpc AdminUpdateAgent(AgentRequest) returns (AgentBaseResponse){}
+    rpc AdminDeleteAgent(AgentRequest) returns (AgentBaseResponse){}
+    //for agent
     rpc AgentDashboard(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentDetail(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentHistory(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentListNotification(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentDeleteNotification(AgentNotificationRequest) returns (AgentBaseResponse){}
     rpc AgentReadNotification(AgentNotificationRequest) returns (AgentBaseResponse){}
-    rpc AgentUploadPhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
-    rpc AgentDeletePhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
+    rpc AgentUpdatePhoto(AgentPhotoRequest) returns (AgentBaseResponse){}
     rpc AgentCheckLimitPickup(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentUpdateData(AgentRequest) returns (AgentBaseResponse){}
     rpc AgentChangeStatus(AgentRequest) returns (AgentBaseResponse){}
     rpc AgentSetLimitPickup(AgentRequest) returns (AgentBaseResponse){}
     rpc AgentGetListCustomer(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentGetLimitPickup(AgentGlobalRequest) returns (AgentBaseResponse){}
-//    rpc AgentGetPab(BaseRequest) returns (BaseResponse){}
+    rpc AgentGetTutorial(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentUpdateTutorial(AgentGlobalRequest) returns (AgentBaseResponse){}
+    rpc AgentGetPab(AgentGlobalRequest) returns (AgentBaseResponse){}
     rpc AgentSetupLocation(AgentSetupLocationRequest) returns (AgentBaseResponse){}
     rpc AgentListVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
     rpc AgentSubmitVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
-//    //for customer
+    //for customer
     rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentBaseResponse){}
   }
 
@@ -201,6 +202,7 @@ service AgentService {
     string requestId = 1;
     string requestByService = 2;
     DataAgent agent = 3;
+    AgentBaseFilterRequest filter = 4;
   }
   
   message AgentResponse {
