@@ -28,7 +28,7 @@ service OrderService {
     rpc UpdateNominal(UpdateNominalRequest) returns(OrderBaseResponse);
     rpc OrderCheck(CountOrderRequest) returns(OrderBaseResponse);
     rpc UpdateStatusCountdown(CountdownRequest) returns(OrderBaseResponse);
-    rpc ProcessOrder(OrderDetailRequest) returns(OrderBaseResponse);
+    rpc ProcessOrder(OrderDetailRequest) returns(OrderBaseListResponse);
     //for customer
 //    rpc CustomerSubmitOrder(BaseRequest) returns (OrderBaseResponse);
 //    rpc CustomerDetailOrder(BaseRequest) returns (OrderBaseResponse);
@@ -53,6 +53,14 @@ message OrderBaseResponse {
     string requestId = 3;
     string requestByService = 4;
     google.protobuf.Struct data = 5;
+}
+
+message OrderBaseListResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    google.protobuf.ListValue data = 5;
 }
 
 message OrderRequest {
@@ -91,15 +99,6 @@ message CountOrderRequest {
     int32 page  = 4;
     int32 limit = 5;
 }
-
-message OrderDetailResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    OrderDetail data = 5;
-}
-
 message OrderDetail {
     int64 orderStatus = 1;
     OrderAgent agent = 2;
@@ -127,15 +126,6 @@ message OrderNasabah {
     float nasabahLong = 5;
     string nasabahPhone = 6;
 }
-  
-message OrderResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    DataOrder dataOrder = 5;
-    repeated DataOrder listOrder = 6;
-}
 
 message FirebaseRequest {
     string requestId = 1;
@@ -151,14 +141,7 @@ message OrderConfirmRequest {
     string requestByService = 2;
     string transactionId = 3;
     int64 otp = 4;
-}
-
-message OrderConfirmResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    OrderStatus data = 5;
+    string agentId = 5;
 }
 
 message OrderProcessRequest {
@@ -166,13 +149,6 @@ message OrderProcessRequest {
     string requestByService = 2;
     string transactionId = 3;
     int64 otp = 4;
-}
-
-message OrderProcessResponse {
-    int32 status = 1;
-    string message = 2;
-    string transactionId = 3;
-    OrderTransform data = 4;
 }
 
 message OrderTransform {
@@ -184,14 +160,6 @@ message OrderTransform {
     string orderType = 6;
 }
 
-message OrderTotalResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    TotalOrder data = 5;
-}
-
 message TotalOrder {
     int64 totalOrder = 1;
 }
@@ -199,14 +167,6 @@ message TotalOrder {
 message OrderStatus {
     int64 orderStatus = 1;
     int32 attempt = 2;
-}
-
-message AgentConfirmResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    TotalOrder data = 5;
 }
 
 message AgentConfirm {
@@ -227,33 +187,9 @@ message IncomingOrderRequest {
     string Id = 9;
 }
 
-message OrderHistoryResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    OrderHistory data = 5;
-}
-
 message OrderHistory {
     repeated DataOrder dalamProses = 1;
     repeated DataOrder riwayat = 2;
-}
-
-message ChangeStatusAgentResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    OrderStatus data = 5;
-}
-
-message ChangeStatusNasabahResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    OrderStatus data = 5;
 }
 
 message ChangeStatusNasabah {
@@ -266,37 +202,6 @@ message ChangeStatusNasabah {
     int64 orderStatus = 7;
 }
 
-message DailySumResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    Summary data = 5;
-}
-
-message Summary {
-    int64 feeDiterima = 1;
-    int64 limitPickupCurrent = 2;
-    int64 limitPickupMax = 3;
-    int64 nominalPickup = 4;
-    int64 orderProccess = 5;
-    int64 orderFinished = 6;
-}
-
-message CancelOrderResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-}
-
-message ResendOTPResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-}
-
 message UpdateNominalRequest {
     string requestId = 1;
     string requestByService = 2;
@@ -305,47 +210,16 @@ message UpdateNominalRequest {
     string agentId = 5;
 }
 
-message UpdateNominalResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    UpdateNominal data = 5;
-}
-
 message UpdateNominal {
     float nominal = 1;
-}
-
-message OrderCheckResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    OrderCheck data = 5;
 }
 
 message OrderCheck {
     int64 submitStatus = 1;
 }
 
-message UpdateStatusResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
-    UpdateStatus data = 5;
-}
-
 message UpdateStatus {
     bool isCountdown = 1;
-}
-
-message ExtendResponse {
-    int32 status = 1;
-    string message = 2;
-    string requestId = 3;
-    string requestByService = 4;
 }
 
 message CountdownRequest {

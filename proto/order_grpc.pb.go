@@ -43,7 +43,7 @@ type OrderServiceClient interface {
 	UpdateNominal(ctx context.Context, in *UpdateNominalRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	OrderCheck(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	UpdateStatusCountdown(ctx context.Context, in *CountdownRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
-	ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
+	ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error)
 }
 
 type orderServiceClient struct {
@@ -234,8 +234,8 @@ func (c *orderServiceClient) UpdateStatusCountdown(ctx context.Context, in *Coun
 	return out, nil
 }
 
-func (c *orderServiceClient) ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
-	out := new(OrderBaseResponse)
+func (c *orderServiceClient) ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error) {
+	out := new(OrderBaseListResponse)
 	err := c.cc.Invoke(ctx, "/proto.OrderService/ProcessOrder", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -268,7 +268,7 @@ type OrderServiceServer interface {
 	UpdateNominal(context.Context, *UpdateNominalRequest) (*OrderBaseResponse, error)
 	OrderCheck(context.Context, *CountOrderRequest) (*OrderBaseResponse, error)
 	UpdateStatusCountdown(context.Context, *CountdownRequest) (*OrderBaseResponse, error)
-	ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseResponse, error)
+	ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseListResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -336,7 +336,7 @@ func (UnimplementedOrderServiceServer) OrderCheck(context.Context, *CountOrderRe
 func (UnimplementedOrderServiceServer) UpdateStatusCountdown(context.Context, *CountdownRequest) (*OrderBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateStatusCountdown not implemented")
 }
-func (UnimplementedOrderServiceServer) ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseResponse, error) {
+func (UnimplementedOrderServiceServer) ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
