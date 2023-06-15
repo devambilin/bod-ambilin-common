@@ -90,6 +90,7 @@ message OrderDetailRequest {
     string requestByService = 2;
     string transactionId = 3;
     string userId = 4;
+    string agentId = 5;
 }
 
 message CountOrderRequest {
