@@ -4,46 +4,55 @@ package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
 import "proto/user.proto";
+import "google/protobuf/struct.proto";
 
 service OrderService {
     //for clients grpc
-    rpc GetOrders(OrderRequest) returns(OrderResponse){}
-    rpc GetOrderDetail(OrderDetailRequest) returns(OrderDetailResponse){}
-    rpc GetOrderDetailAgent(OrderDetailRequest) returns(OrderDetailResponse){}
-    rpc CreateOrder(OrderInputRequest) returns(OrderResponse){}
-    rpc UpdateOrder(OrderRequest) returns(OrderResponse){}
-    rpc DeleteOrder(OrderRequest) returns(OrderResponse){}
-    rpc SendNotificationFirebase(FirebaseRequest) returns(OrderResponse){}
-    rpc OrderConfirm(OrderConfirmRequest) returns(OrderConfirmResponse){}
-    rpc CountOrderAgent(CountOrderRequest) returns(OrderTotalResponse){}
-    rpc CountOrderNasabah(CountOrderRequest) returns(OrderTotalResponse){}
-    rpc ConfirmAgent(OrderConfirmRequest) returns(OrderConfirmResponse){}
-    rpc OrderHistory(CountOrderRequest) returns(OrderHistoryResponse){}
-    rpc ChangeStatusAgent(IncomingOrderRequest) returns(ChangeStatusAgentResponse){}
-    rpc ChangeStatusNasabah(IncomingOrderRequest) returns(ChangeStatusNasabahResponse){}
-    rpc FinishOrder(OrderConfirmRequest) returns(OrderResponse){}
-    rpc CancelOrder(OrderConfirmRequest) returns(OrderResponse){}
-    rpc DailyOrderSum(CountOrderRequest) returns(DailySumResponse){}
-    rpc UpdateNominal(UpdateNominalRequest) returns(UpdateNominalResponse){}
-    rpc OrderCheck(CountOrderRequest) returns(OrderCheckResponse){}
-    rpc UpdateStatusCountdown(CountdownRequest) returns(UpdateStatusResponse){}
-    rpc ProcessOrder(OrderDetailRequest) returns(OrderProcessResponse){}
+    rpc GetOrders(OrderRequest) returns(OrderBaseResponse);
+    rpc GetOrderDetail(OrderDetailRequest) returns(OrderBaseResponse);
+    rpc GetOrderDetailAgent(OrderDetailRequest) returns(OrderBaseResponse);
+    rpc CreateOrder(OrderInputRequest) returns(OrderBaseResponse);
+    rpc UpdateOrder(OrderRequest) returns(OrderBaseResponse);
+    rpc DeleteOrder(OrderRequest) returns(OrderBaseResponse);
+    rpc SendNotificationFirebase(FirebaseRequest) returns(OrderBaseResponse);
+    rpc OrderConfirm(OrderConfirmRequest) returns(OrderBaseResponse);
+    rpc CountOrderAgent(CountOrderRequest) returns(OrderBaseResponse);
+    rpc CountOrderNasabah(CountOrderRequest) returns(OrderBaseResponse);
+    rpc ConfirmAgent(OrderConfirmRequest) returns(OrderBaseResponse);
+    rpc OrderHistory(CountOrderRequest) returns(OrderBaseResponse);
+    rpc ChangeStatusAgent(IncomingOrderRequest) returns(OrderBaseResponse);
+    rpc ChangeStatusNasabah(IncomingOrderRequest) returns(OrderBaseResponse);
+    rpc FinishOrder(OrderConfirmRequest) returns(OrderBaseResponse);
+    rpc CancelOrder(OrderConfirmRequest) returns(OrderBaseResponse);
+    rpc DailyOrderSum(CountOrderRequest) returns(OrderBaseResponse);
+    rpc UpdateNominal(UpdateNominalRequest) returns(OrderBaseResponse);
+    rpc OrderCheck(CountOrderRequest) returns(OrderBaseResponse);
+    rpc UpdateStatusCountdown(CountdownRequest) returns(OrderBaseResponse);
+    rpc ProcessOrder(OrderDetailRequest) returns(OrderBaseResponse);
     //for customer
-//    rpc CustomerSubmitOrder(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerDetailOrder(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerConfirmOrder(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerGetListOrderProcess(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerChangeStatus(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerCancelOrder(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerCheckOrder(BaseRequest) returns (BaseResponse){}
+//    rpc CustomerSubmitOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc CustomerDetailOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc CustomerConfirmOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc CustomerGetListOrderProcess(BaseRequest) returns (OrderBaseResponse);
+//    rpc CustomerChangeStatus(BaseRequest) returns (OrderBaseResponse);
+//    rpc CustomerCancelOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc CustomerCheckOrder(BaseRequest) returns (OrderBaseResponse);
 //    //for agent
-//    rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (BaseResponse){}
-//    rpc AgentAcceptOrder(BaseRequest) returns (BaseResponse){}
-//    rpc AgentPickupOrder(BaseRequest) returns (BaseResponse){}
-//    rpc AgentGoingOrder(BaseRequest) returns (BaseResponse){}
-//    rpc AgentConfirmCodeOrder(BaseRequest) returns (BaseResponse){}
-//    rpc AgentUpdateAmountOrder(BaseRequest) returns (BaseResponse){}
-//    rpc AgentGetFeeTransactionOrder(BaseRequest) returns (BaseResponse){}
+//    rpc AgentGetListProcessAndHistoryOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc AgentAcceptOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc AgentPickupOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc AgentGoingOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc AgentConfirmCodeOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc AgentUpdateAmountOrder(BaseRequest) returns (OrderBaseResponse);
+//    rpc AgentGetFeeTransactionOrder(BaseRequest) returns (OrderBaseResponse);
+}
+
+message OrderBaseResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    google.protobuf.Struct data = 5;
 }
 
 message OrderRequest {

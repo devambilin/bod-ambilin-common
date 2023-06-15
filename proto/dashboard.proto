@@ -63,6 +63,11 @@ message MasterConfigRequest {
   DataMasterConfig masterConfig = 3;
 }
 
+message BaseRequest {
+  string requestId = 1;
+  string requestByService = 2;
+}
+
 message MasterConfigResponse {
   int32 status = 1;
   string message = 2;
