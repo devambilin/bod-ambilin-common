@@ -29,6 +29,8 @@ service OrderService {
     rpc OrderCheck(CountOrderRequest) returns(OrderBaseResponse);
     rpc UpdateStatusCountdown(CountdownRequest) returns(OrderBaseResponse);
     rpc ProcessOrder(OrderDetailRequest) returns(OrderBaseListResponse);
+    rpc CheckOperational(CountOrderRequest) returns(OrderBaseListResponse);
+    rpc GetTransactionFee(OrderConfirmRequest) returns(OrderBaseListResponse);
     //for customer
 //    rpc CustomerSubmitOrder(BaseRequest) returns (OrderBaseResponse);
 //    rpc CustomerDetailOrder(BaseRequest) returns (OrderBaseResponse);
