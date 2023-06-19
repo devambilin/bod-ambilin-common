@@ -44,8 +44,8 @@ type OrderServiceClient interface {
 	OrderCheck(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	UpdateStatusCountdown(ctx context.Context, in *CountdownRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error)
-	CheckOperational(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error)
-	GetTransactionFee(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error)
+	CheckOperational(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
+	GetTransactionFee(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 }
 
 type orderServiceClient struct {
@@ -245,8 +245,8 @@ func (c *orderServiceClient) ProcessOrder(ctx context.Context, in *OrderDetailRe
 	return out, nil
 }
 
-func (c *orderServiceClient) CheckOperational(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error) {
-	out := new(OrderBaseListResponse)
+func (c *orderServiceClient) CheckOperational(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
+	out := new(OrderBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.OrderService/CheckOperational", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -254,8 +254,8 @@ func (c *orderServiceClient) CheckOperational(ctx context.Context, in *CountOrde
 	return out, nil
 }
 
-func (c *orderServiceClient) GetTransactionFee(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error) {
-	out := new(OrderBaseListResponse)
+func (c *orderServiceClient) GetTransactionFee(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
+	out := new(OrderBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.OrderService/GetTransactionFee", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -289,8 +289,8 @@ type OrderServiceServer interface {
 	OrderCheck(context.Context, *CountOrderRequest) (*OrderBaseResponse, error)
 	UpdateStatusCountdown(context.Context, *CountdownRequest) (*OrderBaseResponse, error)
 	ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseListResponse, error)
-	CheckOperational(context.Context, *CountOrderRequest) (*OrderBaseListResponse, error)
-	GetTransactionFee(context.Context, *OrderConfirmRequest) (*OrderBaseListResponse, error)
+	CheckOperational(context.Context, *CountOrderRequest) (*OrderBaseResponse, error)
+	GetTransactionFee(context.Context, *OrderConfirmRequest) (*OrderBaseResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -361,10 +361,10 @@ func (UnimplementedOrderServiceServer) UpdateStatusCountdown(context.Context, *C
 func (UnimplementedOrderServiceServer) ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessOrder not implemented")
 }
-func (UnimplementedOrderServiceServer) CheckOperational(context.Context, *CountOrderRequest) (*OrderBaseListResponse, error) {
+func (UnimplementedOrderServiceServer) CheckOperational(context.Context, *CountOrderRequest) (*OrderBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckOperational not implemented")
 }
-func (UnimplementedOrderServiceServer) GetTransactionFee(context.Context, *OrderConfirmRequest) (*OrderBaseListResponse, error) {
+func (UnimplementedOrderServiceServer) GetTransactionFee(context.Context, *OrderConfirmRequest) (*OrderBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionFee not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
