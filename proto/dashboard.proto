@@ -6,55 +6,132 @@ option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 import "google/protobuf/struct.proto";
 
 service DashboardService {
-  //for client grpc
-  rpc GetMasterConfig(MasterConfigRequest) returns (MasterConfigResponse){}
-  rpc GetAdmins(AdminRequest) returns(AdminResponse){}
-  rpc GetAdmin(AdminRequest) returns(AdminResponse){}
-  rpc CreateAdmin(AdminRequest) returns(AdminResponse){}
-  rpc UpdateAdmin(AdminRequest) returns(AdminResponse){}
-  rpc DeleteAdmin(AdminRequest) returns(AdminResponse){}
+  //Config
+  rpc GetMasterConfig(MasterConfigRequest) returns (MasterConfigResponse);
+  //Admin
+  rpc CreateAdminBrins(CreateAdminBrinsRequest) returns(DashboardBaseResponse);
+  rpc GetAdmins(AdminListRequest) returns(DashboardBaseResponse);
+  rpc GetAdmin(AdminRequest) returns(AdminResponse);
+  rpc CreateAdmin(AdminRequest) returns(AdminResponse);
+  rpc UpdateAdmin(AdminRequest) returns(AdminResponse);
+  rpc DeleteAdmin(AdminRequest) returns(AdminResponse);
+  rpc CheckEmailAdmin(AdminRequest) returns(DashboardBaseResponse);
+  rpc CheckPersonalNumberAdmin(AdminRequest) returns(DashboardBaseResponse);
+  rpc UploadPhotoAdmin(UploadPhotoRequest) returns(DashboardBaseResponse);
+  rpc RemovePhotoAdmin(AdminRequest) returns(DashboardBaseResponse);
   //daily page
-  rpc Summary(DailySummaryRequest) returns(BaseResponse);
-  rpc DailyTable(DailyTableRequest) returns(BaseResponse);
-  //page dashboard
-//  rpc GetSummary(BaseRequest) returns (BaseResponse){}
-//  rpc GetDataDaily(BaseRequest) returns (BaseResponse){}
-//  rpc GetDataExecutive(BaseRequest) returns (BaseResponse){}
-//  rpc GetDataOperational(BaseRequest) returns (BaseResponse){}
-//  rpc GetTopAgents(BaseRequest) returns (BaseResponse){}
-//  //combo box
-//  rpc FindAgents(BaseRequest) returns (BaseResponse){}
-//  rpc FindOfficeBranches(BaseRequest) returns (BaseResponse){}
-//  rpc FindOfficeRegionals(BaseRequest) returns (BaseResponse){}
-//  //promo
-//  rpc GetListPromo(BaseRequest) returns (BaseResponse){}
-//  rpc GetDetailPromo(BaseRequest) returns (BaseResponse){}
-//  rpc CreatePromo(BaseRequest) returns (BaseResponse){}
-//  rpc UpdatePromo(BaseRequest) returns (BaseResponse){}
-//  rpc DeletePromo(BaseRequest) returns (BaseResponse){}
-//  rpc DownloadExecutive(BaseRequest) returns (BaseResponse){}
-//  rpc DownloadOperational(BaseRequest) returns (BaseResponse){}
-//  //CRUD Dashboard
-//  rpc GetUserAdmin(BaseRequest) returns (BaseResponse){}
-//  rpc GetDetailUserAdmin(BaseRequest) returns (BaseResponse){}
-//  rpc CreateUserAdmin(BaseRequest) returns (BaseResponse){}
-//  rpc UpdateUserAdmin(BaseRequest) returns (BaseResponse){}
-//  rpc DeleteUserAdmin(BaseRequest) returns (BaseResponse){}
-//  rpc CheckEmail(BaseRequest) returns (BaseResponse){}
-//  rpc CheckPersonalNumber(BaseRequest) returns (BaseResponse){}
-//  rpc ChangePhoto(BaseRequest) returns (BaseResponse){}
-//  rpc DeletePhoto(BaseRequest) returns (BaseResponse){}
-//  //CRUD Role
-//  rpc GetListMenu(BaseRequest) returns (BaseResponse){}
-//  rpc GetListOffice(BaseRequest) returns (BaseResponse){}
-//  rpc GetListRole(BaseRequest) returns (BaseResponse){}
-//  rpc GetListRoleStatic(BaseRequest) returns (BaseResponse){}
-//  rpc GetDetailRole(BaseRequest) returns (BaseResponse){}
-//  rpc CreateRole(BaseRequest) returns (BaseResponse){}
-//  rpc UpdateRole(BaseRequest) returns (BaseResponse){}
-//  rpc DeleteRole(BaseRequest) returns (BaseResponse){}
-//  //Activity
-//  rpc GetHistoryActivity(BaseRequest) returns (BaseResponse){}
+  rpc Summary(DailySummaryRequest) returns(DashboardBaseResponse);
+  rpc DailyTable(DailyTableRequest) returns(DashboardBaseResponse);
+  //Filter
+  rpc GetKancaFilter(GetFilterRequest) returns(DashboardBaseListResponse);
+  rpc GetKanwilFilter(GetFilterRequest) returns(DashboardBaseListResponse);
+  rpc GetAgentFilter(GetFilterRequest) returns(DashboardBaseListResponse);
+  //Download
+  rpc Download(DownloadRequest) returns(DashboardBaseResponse);
+  //Menu
+  rpc ListMenu(DownloadRequest) returns(DashboardBaseListResponse);
+  //  //promo
+  rpc GetListPromo(PromoListRequest) returns (DashboardBaseResponse);
+  rpc GetDetailPromo(PromoRequest) returns (DashboardBaseResponse);
+  rpc CreatePromo(PromoCreateRequest) returns (DashboardBaseResponse);
+  rpc UpdatePromo(PromoCreateRequest) returns (DashboardBaseResponse);
+  rpc ChangePicturePromo(PromoImageUpdateRequest) returns(DashboardBaseResponse);
+  rpc DeletePromo(PromoRequest) returns (DashboardBaseResponse);
+  //record
+  rpc TopRatedAgents(TopRatedAgentsMessage) returns (DashboardBaseResponse);
+  //  rpc DownloadExecutive(BaseRequest) returns (DashboardBaseResponse){}
+  //  rpc DownloadOperational(BaseRequest) returns (DashboardBaseResponse){}
+  //  //CRUD Role
+  //  rpc GetListMenu(BaseRequest) returns (DashboardBaseResponse){}
+  rpc GetListOfficeRole(RoleRequest) returns (DashboardBaseListResponse);
+  rpc GetListRole(RoleRequest) returns (DashboardBaseResponse);
+  rpc GetListRoleStatic(RoleRequest) returns (DashboardBaseListResponse);
+  rpc GetDetailRole(RoleRequest) returns (DashboardBaseResponse);
+  rpc CreateRole(RoleCreateRequest) returns (DashboardBaseResponse);
+  rpc UpdateRole(RoleCreateRequest) returns (DashboardBaseResponse);
+  rpc DeleteRole(RoleCreateRequest) returns (DashboardBaseResponse);
+  //Activity
+  rpc GetHistoryActivity(HistoryActivityRequest) returns (DashboardBaseResponse);
+  //Statistics
+  rpc GetStatistics(DownloadRequest) returns(DashboardBaseResponse);
+}
+
+
+
+message RoleCreateRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  int32 roleId = 3;
+  string roleName = 4;
+  repeated DataMenu listRoleMenu = 5;
+}
+
+message DataMenu {
+  int32 menuId = 1;
+  int32 submenuId = 2;
+  string menuName = 3;
+  string sumbenuName = 4;
+  bool isSubMenu = 5;
+  bool isRead = 6;
+  bool isCreate = 7;
+  bool isDelete = 8;
+  bool isUpdate = 9;
+}
+
+message RoleRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string keyword = 3;
+  int32 page = 4;
+  int32 limit = 5;
+  string roleId = 6;
+}
+
+message TopRatedAgentsMessage {
+  string requestId = 1;
+  string requestByService = 2;
+  int64 startDate = 3;
+  int64 endDate = 4;
+  int32 page = 5;
+  int32 limit = 6;
+  int32 kancaId = 7;
+  int32 kanwilId = 8;
+  string status = 9;
+}
+
+message PromoImageUpdateRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string promoId = 3;
+  bytes file = 4;
+}
+
+message PromoListRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string keyword = 3;
+  string startDate = 4;
+  string endDate = 5;
+  int32 page = 6;
+  int32 limit = 7;
+}
+
+message PromoRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string promoId = 3;
+}
+
+message PromoCreateRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string promoId = 3;
+  string startDate = 4;
+  string expireDate = 5;
+  int32 position = 6;
+  bool status = 7;
+  string title = 8;
+  string description = 9;
 }
 
 message MasterConfigRequest {
@@ -63,9 +140,51 @@ message MasterConfigRequest {
   DataMasterConfig masterConfig = 3;
 }
 
+message DownloadRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  int64 startDate = 3;
+  int64 endDate = 4;
+  string agentId = 5;
+  int32 kancaId = 6;
+  int32 kanwilId = 7;
+}
+
+message GetFilterRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string keyword = 3;
+  string kancaId = 4;
+  string kanwilId = 5;
+  string agentId = 6;
+}
+
+message HistoryActivityRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string keyword = 3;
+  string channelCode = 4;
+  int32 page = 5;
+  int32 limit = 6;
+}
+
+message UploadPhotoRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  bytes file = 3;
+}
+
+message CreateAdminBrinsRequest {
+  string name = 1;
+  string email = 2;
+  string personalNumber = 3;
+  string password = 4;
+}
+
 message BaseRequest {
   string requestId = 1;
   string requestByService = 2;
+  string adminId = 3;
 }
 
 message MasterConfigResponse {
@@ -107,6 +226,15 @@ message AdminRequest {
   DataAdmin admin = 3;
 }
 
+message AdminListRequest {
+  string requestId = 1;
+  string requestByService = 2;
+  string keyword = 3;
+  int32 page = 4;
+  int32 limit = 5;
+  int32 kanwilId = 6;
+}
+
 message AdminResponse {
   int32 status = 1;
   string message = 2;
@@ -116,12 +244,20 @@ message AdminResponse {
   repeated DataAdmin listAdmin = 6;
 }
 
-message BaseResponse {
+message DashboardBaseResponse {
   int32 status = 1;
   string message = 2;
   string requestId = 3;
   string requestByService = 4;
   google.protobuf.Struct data = 5;
+}
+
+message DashboardBaseListResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  google.protobuf.ListValue data = 5;
 }
 
 message DataAdmin {
