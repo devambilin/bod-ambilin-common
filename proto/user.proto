@@ -55,6 +55,7 @@ service UserService {
     string message = 2;
     string requestId = 3;
     google.protobuf.Struct data = 5;
+    google.protobuf.ListValue listData = 6;
   }
 
   message UserBaseFilterRequest {
