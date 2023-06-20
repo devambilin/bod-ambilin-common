@@ -22,16 +22,54 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DashboardServiceClient interface {
-	// for client grpc
+	// Config
 	GetMasterConfig(ctx context.Context, in *MasterConfigRequest, opts ...grpc.CallOption) (*MasterConfigResponse, error)
-	GetAdmins(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
+	// Admin
+	CreateAdminBrins(ctx context.Context, in *CreateAdminBrinsRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	GetAdmins(ctx context.Context, in *AdminListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	GetAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
-	CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
-	UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
-	DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
+	CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	CheckEmailAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	CheckPersonalNumberAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	UploadPhotoAdmin(ctx context.Context, in *UploadPhotoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	RemovePhotoAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	// daily page
-	Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*BaseResponse, error)
-	DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*BaseResponse, error)
+	Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	// Filter
+	GetKancaFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	GetKanwilFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	GetAgentFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	// Download
+	Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	// Menu
+	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	// //promo
+	GetListPromo(ctx context.Context, in *PromoListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	GetDetailPromo(ctx context.Context, in *PromoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	CreatePromo(ctx context.Context, in *PromoCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	UpdatePromo(ctx context.Context, in *PromoCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	ChangePicturePromo(ctx context.Context, in *PromoImageUpdateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	DeletePromo(ctx context.Context, in *PromoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	// record
+	TopRatedAgents(ctx context.Context, in *TopRatedAgentsMessage, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	// rpc DownloadExecutive(BaseRequest) returns (DashboardBaseResponse){}
+	// rpc DownloadOperational(BaseRequest) returns (DashboardBaseResponse){}
+	// //CRUD Role
+	// rpc GetListMenu(BaseRequest) returns (DashboardBaseResponse){}
+	GetListOfficeRole(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	GetListRole(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	GetListRoleStatic(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	GetDetailRole(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	CreateRole(ctx context.Context, in *RoleCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	UpdateRole(ctx context.Context, in *RoleCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	DeleteRole(ctx context.Context, in *RoleCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	// Activity
+	GetHistoryActivity(ctx context.Context, in *HistoryActivityRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	// Statistics
+	GetStatistics(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 }
 
 type dashboardServiceClient struct {
@@ -51,8 +89,17 @@ func (c *dashboardServiceClient) GetMasterConfig(ctx context.Context, in *Master
 	return out, nil
 }
 
-func (c *dashboardServiceClient) GetAdmins(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) CreateAdminBrins(ctx context.Context, in *CreateAdminBrinsRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/CreateAdminBrins", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetAdmins(ctx context.Context, in *AdminListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetAdmins", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,8 +116,8 @@ func (c *dashboardServiceClient) GetAdmin(ctx context.Context, in *AdminRequest,
 	return out, nil
 }
 
-func (c *dashboardServiceClient) CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/CreateAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -78,8 +125,8 @@ func (c *dashboardServiceClient) CreateAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/UpdateAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -87,8 +134,8 @@ func (c *dashboardServiceClient) UpdateAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/DeleteAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -96,8 +143,44 @@ func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*BaseResponse, error) {
-	out := new(BaseResponse)
+func (c *dashboardServiceClient) CheckEmailAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/CheckEmailAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) CheckPersonalNumberAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/CheckPersonalNumberAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) UploadPhotoAdmin(ctx context.Context, in *UploadPhotoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/UploadPhotoAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) RemovePhotoAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/RemovePhotoAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/Summary", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -105,9 +188,198 @@ func (c *dashboardServiceClient) Summary(ctx context.Context, in *DailySummaryRe
 	return out, nil
 }
 
-func (c *dashboardServiceClient) DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*BaseResponse, error) {
-	out := new(BaseResponse)
+func (c *dashboardServiceClient) DailyTable(ctx context.Context, in *DailyTableRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/DailyTable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetKancaFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetKancaFilter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetKanwilFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetKanwilFilter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetAgentFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetAgentFilter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/Download", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/ListMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetListPromo(ctx context.Context, in *PromoListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetListPromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetDetailPromo(ctx context.Context, in *PromoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetDetailPromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) CreatePromo(ctx context.Context, in *PromoCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/CreatePromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) UpdatePromo(ctx context.Context, in *PromoCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/UpdatePromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) ChangePicturePromo(ctx context.Context, in *PromoImageUpdateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/ChangePicturePromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) DeletePromo(ctx context.Context, in *PromoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/DeletePromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) TopRatedAgents(ctx context.Context, in *TopRatedAgentsMessage, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/TopRatedAgents", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetListOfficeRole(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetListOfficeRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetListRole(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetListRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetListRoleStatic(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetListRoleStatic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetDetailRole(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetDetailRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) CreateRole(ctx context.Context, in *RoleCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/CreateRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) UpdateRole(ctx context.Context, in *RoleCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/UpdateRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) DeleteRole(ctx context.Context, in *RoleCreateRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/DeleteRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetHistoryActivity(ctx context.Context, in *HistoryActivityRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetHistoryActivity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) GetStatistics(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetStatistics", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,16 +390,54 @@ func (c *dashboardServiceClient) DailyTable(ctx context.Context, in *DailyTableR
 // All implementations must embed UnimplementedDashboardServiceServer
 // for forward compatibility
 type DashboardServiceServer interface {
-	// for client grpc
+	// Config
 	GetMasterConfig(context.Context, *MasterConfigRequest) (*MasterConfigResponse, error)
-	GetAdmins(context.Context, *AdminRequest) (*AdminResponse, error)
+	// Admin
+	CreateAdminBrins(context.Context, *CreateAdminBrinsRequest) (*DashboardBaseResponse, error)
+	GetAdmins(context.Context, *AdminListRequest) (*DashboardBaseResponse, error)
 	GetAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
-	CreateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
-	UpdateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
-	DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
+	CreateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	UpdateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	DeleteAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	CheckEmailAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	CheckPersonalNumberAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	UploadPhotoAdmin(context.Context, *UploadPhotoRequest) (*DashboardBaseResponse, error)
+	RemovePhotoAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
 	// daily page
-	Summary(context.Context, *DailySummaryRequest) (*BaseResponse, error)
-	DailyTable(context.Context, *DailyTableRequest) (*BaseResponse, error)
+	Summary(context.Context, *DailySummaryRequest) (*DashboardBaseResponse, error)
+	DailyTable(context.Context, *DailyTableRequest) (*DashboardBaseResponse, error)
+	// Filter
+	GetKancaFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error)
+	GetKanwilFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error)
+	GetAgentFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error)
+	// Download
+	Download(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
+	// Menu
+	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error)
+	// //promo
+	GetListPromo(context.Context, *PromoListRequest) (*DashboardBaseResponse, error)
+	GetDetailPromo(context.Context, *PromoRequest) (*DashboardBaseResponse, error)
+	CreatePromo(context.Context, *PromoCreateRequest) (*DashboardBaseResponse, error)
+	UpdatePromo(context.Context, *PromoCreateRequest) (*DashboardBaseResponse, error)
+	ChangePicturePromo(context.Context, *PromoImageUpdateRequest) (*DashboardBaseResponse, error)
+	DeletePromo(context.Context, *PromoRequest) (*DashboardBaseResponse, error)
+	// record
+	TopRatedAgents(context.Context, *TopRatedAgentsMessage) (*DashboardBaseResponse, error)
+	// rpc DownloadExecutive(BaseRequest) returns (DashboardBaseResponse){}
+	// rpc DownloadOperational(BaseRequest) returns (DashboardBaseResponse){}
+	// //CRUD Role
+	// rpc GetListMenu(BaseRequest) returns (DashboardBaseResponse){}
+	GetListOfficeRole(context.Context, *RoleRequest) (*DashboardBaseListResponse, error)
+	GetListRole(context.Context, *RoleRequest) (*DashboardBaseResponse, error)
+	GetListRoleStatic(context.Context, *RoleRequest) (*DashboardBaseListResponse, error)
+	GetDetailRole(context.Context, *RoleRequest) (*DashboardBaseResponse, error)
+	CreateRole(context.Context, *RoleCreateRequest) (*DashboardBaseResponse, error)
+	UpdateRole(context.Context, *RoleCreateRequest) (*DashboardBaseResponse, error)
+	DeleteRole(context.Context, *RoleCreateRequest) (*DashboardBaseResponse, error)
+	// Activity
+	GetHistoryActivity(context.Context, *HistoryActivityRequest) (*DashboardBaseResponse, error)
+	// Statistics
+	GetStatistics(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
 	mustEmbedUnimplementedDashboardServiceServer()
 }
 
@@ -138,26 +448,104 @@ type UnimplementedDashboardServiceServer struct {
 func (UnimplementedDashboardServiceServer) GetMasterConfig(context.Context, *MasterConfigRequest) (*MasterConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMasterConfig not implemented")
 }
-func (UnimplementedDashboardServiceServer) GetAdmins(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) CreateAdminBrins(context.Context, *CreateAdminBrinsRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAdminBrins not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetAdmins(context.Context, *AdminListRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAdmins not implemented")
 }
 func (UnimplementedDashboardServiceServer) GetAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) CreateAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) CreateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) UpdateAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) UpdateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) DeleteAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) Summary(context.Context, *DailySummaryRequest) (*BaseResponse, error) {
+func (UnimplementedDashboardServiceServer) CheckEmailAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckEmailAdmin not implemented")
+}
+func (UnimplementedDashboardServiceServer) CheckPersonalNumberAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckPersonalNumberAdmin not implemented")
+}
+func (UnimplementedDashboardServiceServer) UploadPhotoAdmin(context.Context, *UploadPhotoRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadPhotoAdmin not implemented")
+}
+func (UnimplementedDashboardServiceServer) RemovePhotoAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemovePhotoAdmin not implemented")
+}
+func (UnimplementedDashboardServiceServer) Summary(context.Context, *DailySummaryRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Summary not implemented")
 }
-func (UnimplementedDashboardServiceServer) DailyTable(context.Context, *DailyTableRequest) (*BaseResponse, error) {
+func (UnimplementedDashboardServiceServer) DailyTable(context.Context, *DailyTableRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DailyTable not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetKancaFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKancaFilter not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetKanwilFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKanwilFilter not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetAgentFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgentFilter not implemented")
+}
+func (UnimplementedDashboardServiceServer) Download(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Download not implemented")
+}
+func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMenu not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetListPromo(context.Context, *PromoListRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListPromo not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetDetailPromo(context.Context, *PromoRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDetailPromo not implemented")
+}
+func (UnimplementedDashboardServiceServer) CreatePromo(context.Context, *PromoCreateRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePromo not implemented")
+}
+func (UnimplementedDashboardServiceServer) UpdatePromo(context.Context, *PromoCreateRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePromo not implemented")
+}
+func (UnimplementedDashboardServiceServer) ChangePicturePromo(context.Context, *PromoImageUpdateRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangePicturePromo not implemented")
+}
+func (UnimplementedDashboardServiceServer) DeletePromo(context.Context, *PromoRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePromo not implemented")
+}
+func (UnimplementedDashboardServiceServer) TopRatedAgents(context.Context, *TopRatedAgentsMessage) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TopRatedAgents not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetListOfficeRole(context.Context, *RoleRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListOfficeRole not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetListRole(context.Context, *RoleRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListRole not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetListRoleStatic(context.Context, *RoleRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListRoleStatic not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetDetailRole(context.Context, *RoleRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDetailRole not implemented")
+}
+func (UnimplementedDashboardServiceServer) CreateRole(context.Context, *RoleCreateRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
+}
+func (UnimplementedDashboardServiceServer) UpdateRole(context.Context, *RoleCreateRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
+}
+func (UnimplementedDashboardServiceServer) DeleteRole(context.Context, *RoleCreateRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetHistoryActivity(context.Context, *HistoryActivityRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHistoryActivity not implemented")
+}
+func (UnimplementedDashboardServiceServer) GetStatistics(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStatistics not implemented")
 }
 func (UnimplementedDashboardServiceServer) mustEmbedUnimplementedDashboardServiceServer() {}
 
@@ -190,8 +578,26 @@ func _DashboardService_GetMasterConfig_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DashboardService_CreateAdminBrins_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAdminBrinsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).CreateAdminBrins(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/CreateAdminBrins",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).CreateAdminBrins(ctx, req.(*CreateAdminBrinsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DashboardService_GetAdmins_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AdminRequest)
+	in := new(AdminListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -203,7 +609,7 @@ func _DashboardService_GetAdmins_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: "/proto.DashboardService/GetAdmins",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DashboardServiceServer).GetAdmins(ctx, req.(*AdminRequest))
+		return srv.(DashboardServiceServer).GetAdmins(ctx, req.(*AdminListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -280,6 +686,78 @@ func _DashboardService_DeleteAdmin_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DashboardService_CheckEmailAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).CheckEmailAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/CheckEmailAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).CheckEmailAdmin(ctx, req.(*AdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_CheckPersonalNumberAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).CheckPersonalNumberAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/CheckPersonalNumberAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).CheckPersonalNumberAdmin(ctx, req.(*AdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_UploadPhotoAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadPhotoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).UploadPhotoAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/UploadPhotoAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).UploadPhotoAdmin(ctx, req.(*UploadPhotoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_RemovePhotoAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).RemovePhotoAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/RemovePhotoAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).RemovePhotoAdmin(ctx, req.(*AdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DashboardService_Summary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DailySummaryRequest)
 	if err := dec(in); err != nil {
@@ -316,6 +794,384 @@ func _DashboardService_DailyTable_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DashboardService_GetKancaFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFilterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetKancaFilter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetKancaFilter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetKancaFilter(ctx, req.(*GetFilterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetKanwilFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFilterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetKanwilFilter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetKanwilFilter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetKanwilFilter(ctx, req.(*GetFilterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetAgentFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFilterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetAgentFilter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetAgentFilter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetAgentFilter(ctx, req.(*GetFilterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_Download_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).Download(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/Download",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).Download(ctx, req.(*DownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_ListMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).ListMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/ListMenu",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).ListMenu(ctx, req.(*DownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetListPromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PromoListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetListPromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetListPromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetListPromo(ctx, req.(*PromoListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetDetailPromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PromoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetDetailPromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetDetailPromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetDetailPromo(ctx, req.(*PromoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_CreatePromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PromoCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).CreatePromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/CreatePromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).CreatePromo(ctx, req.(*PromoCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_UpdatePromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PromoCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).UpdatePromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/UpdatePromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).UpdatePromo(ctx, req.(*PromoCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_ChangePicturePromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PromoImageUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).ChangePicturePromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/ChangePicturePromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).ChangePicturePromo(ctx, req.(*PromoImageUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_DeletePromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PromoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).DeletePromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/DeletePromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).DeletePromo(ctx, req.(*PromoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_TopRatedAgents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopRatedAgentsMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).TopRatedAgents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/TopRatedAgents",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).TopRatedAgents(ctx, req.(*TopRatedAgentsMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetListOfficeRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetListOfficeRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetListOfficeRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetListOfficeRole(ctx, req.(*RoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetListRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetListRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetListRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetListRole(ctx, req.(*RoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetListRoleStatic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetListRoleStatic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetListRoleStatic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetListRoleStatic(ctx, req.(*RoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetDetailRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetDetailRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetDetailRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetDetailRole(ctx, req.(*RoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_CreateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).CreateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/CreateRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).CreateRole(ctx, req.(*RoleCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_UpdateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).UpdateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/UpdateRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).UpdateRole(ctx, req.(*RoleCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).DeleteRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/DeleteRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).DeleteRole(ctx, req.(*RoleCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetHistoryActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HistoryActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetHistoryActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetHistoryActivity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetHistoryActivity(ctx, req.(*HistoryActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_GetStatistics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).GetStatistics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/GetStatistics",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).GetStatistics(ctx, req.(*DownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DashboardService_ServiceDesc is the grpc.ServiceDesc for DashboardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,6 +1182,10 @@ var DashboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMasterConfig",
 			Handler:    _DashboardService_GetMasterConfig_Handler,
+		},
+		{
+			MethodName: "CreateAdminBrins",
+			Handler:    _DashboardService_CreateAdminBrins_Handler,
 		},
 		{
 			MethodName: "GetAdmins",
@@ -348,12 +1208,112 @@ var DashboardService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _DashboardService_DeleteAdmin_Handler,
 		},
 		{
+			MethodName: "CheckEmailAdmin",
+			Handler:    _DashboardService_CheckEmailAdmin_Handler,
+		},
+		{
+			MethodName: "CheckPersonalNumberAdmin",
+			Handler:    _DashboardService_CheckPersonalNumberAdmin_Handler,
+		},
+		{
+			MethodName: "UploadPhotoAdmin",
+			Handler:    _DashboardService_UploadPhotoAdmin_Handler,
+		},
+		{
+			MethodName: "RemovePhotoAdmin",
+			Handler:    _DashboardService_RemovePhotoAdmin_Handler,
+		},
+		{
 			MethodName: "Summary",
 			Handler:    _DashboardService_Summary_Handler,
 		},
 		{
 			MethodName: "DailyTable",
 			Handler:    _DashboardService_DailyTable_Handler,
+		},
+		{
+			MethodName: "GetKancaFilter",
+			Handler:    _DashboardService_GetKancaFilter_Handler,
+		},
+		{
+			MethodName: "GetKanwilFilter",
+			Handler:    _DashboardService_GetKanwilFilter_Handler,
+		},
+		{
+			MethodName: "GetAgentFilter",
+			Handler:    _DashboardService_GetAgentFilter_Handler,
+		},
+		{
+			MethodName: "Download",
+			Handler:    _DashboardService_Download_Handler,
+		},
+		{
+			MethodName: "ListMenu",
+			Handler:    _DashboardService_ListMenu_Handler,
+		},
+		{
+			MethodName: "GetListPromo",
+			Handler:    _DashboardService_GetListPromo_Handler,
+		},
+		{
+			MethodName: "GetDetailPromo",
+			Handler:    _DashboardService_GetDetailPromo_Handler,
+		},
+		{
+			MethodName: "CreatePromo",
+			Handler:    _DashboardService_CreatePromo_Handler,
+		},
+		{
+			MethodName: "UpdatePromo",
+			Handler:    _DashboardService_UpdatePromo_Handler,
+		},
+		{
+			MethodName: "ChangePicturePromo",
+			Handler:    _DashboardService_ChangePicturePromo_Handler,
+		},
+		{
+			MethodName: "DeletePromo",
+			Handler:    _DashboardService_DeletePromo_Handler,
+		},
+		{
+			MethodName: "TopRatedAgents",
+			Handler:    _DashboardService_TopRatedAgents_Handler,
+		},
+		{
+			MethodName: "GetListOfficeRole",
+			Handler:    _DashboardService_GetListOfficeRole_Handler,
+		},
+		{
+			MethodName: "GetListRole",
+			Handler:    _DashboardService_GetListRole_Handler,
+		},
+		{
+			MethodName: "GetListRoleStatic",
+			Handler:    _DashboardService_GetListRoleStatic_Handler,
+		},
+		{
+			MethodName: "GetDetailRole",
+			Handler:    _DashboardService_GetDetailRole_Handler,
+		},
+		{
+			MethodName: "CreateRole",
+			Handler:    _DashboardService_CreateRole_Handler,
+		},
+		{
+			MethodName: "UpdateRole",
+			Handler:    _DashboardService_UpdateRole_Handler,
+		},
+		{
+			MethodName: "DeleteRole",
+			Handler:    _DashboardService_DeleteRole_Handler,
+		},
+		{
+			MethodName: "GetHistoryActivity",
+			Handler:    _DashboardService_GetHistoryActivity_Handler,
+		},
+		{
+			MethodName: "GetStatistics",
+			Handler:    _DashboardService_GetStatistics_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
