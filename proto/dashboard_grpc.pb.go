@@ -28,9 +28,9 @@ type DashboardServiceClient interface {
 	CreateAdminBrins(ctx context.Context, in *CreateAdminBrinsRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	GetAdmins(ctx context.Context, in *AdminListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	GetAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
-	CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
-	UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
-	DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
+	CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	CheckEmailAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	CheckPersonalNumberAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	UploadPhotoAdmin(ctx context.Context, in *UploadPhotoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
@@ -116,8 +116,8 @@ func (c *dashboardServiceClient) GetAdmin(ctx context.Context, in *AdminRequest,
 	return out, nil
 }
 
-func (c *dashboardServiceClient) CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) CreateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/CreateAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -125,8 +125,8 @@ func (c *dashboardServiceClient) CreateAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) UpdateAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/UpdateAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -134,8 +134,8 @@ func (c *dashboardServiceClient) UpdateAdmin(ctx context.Context, in *AdminReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
-	out := new(AdminResponse)
+func (c *dashboardServiceClient) DeleteAdmin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/DeleteAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -396,9 +396,9 @@ type DashboardServiceServer interface {
 	CreateAdminBrins(context.Context, *CreateAdminBrinsRequest) (*DashboardBaseResponse, error)
 	GetAdmins(context.Context, *AdminListRequest) (*DashboardBaseResponse, error)
 	GetAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
-	CreateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
-	UpdateAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
-	DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error)
+	CreateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	UpdateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
+	DeleteAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
 	CheckEmailAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
 	CheckPersonalNumberAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error)
 	UploadPhotoAdmin(context.Context, *UploadPhotoRequest) (*DashboardBaseResponse, error)
@@ -457,13 +457,13 @@ func (UnimplementedDashboardServiceServer) GetAdmins(context.Context, *AdminList
 func (UnimplementedDashboardServiceServer) GetAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) CreateAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) CreateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) UpdateAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) UpdateAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdmin not implemented")
 }
-func (UnimplementedDashboardServiceServer) DeleteAdmin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedDashboardServiceServer) DeleteAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
 }
 func (UnimplementedDashboardServiceServer) CheckEmailAdmin(context.Context, *AdminRequest) (*DashboardBaseResponse, error) {

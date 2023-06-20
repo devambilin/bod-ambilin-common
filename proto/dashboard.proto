@@ -12,9 +12,9 @@ service DashboardService {
   rpc CreateAdminBrins(CreateAdminBrinsRequest) returns(DashboardBaseResponse);
   rpc GetAdmins(AdminListRequest) returns(DashboardBaseResponse);
   rpc GetAdmin(AdminRequest) returns(AdminResponse);
-  rpc CreateAdmin(AdminRequest) returns(AdminResponse);
-  rpc UpdateAdmin(AdminRequest) returns(AdminResponse);
-  rpc DeleteAdmin(AdminRequest) returns(AdminResponse);
+  rpc CreateAdmin(AdminRequest) returns(DashboardBaseResponse);
+  rpc UpdateAdmin(AdminRequest) returns(DashboardBaseResponse);
+  rpc DeleteAdmin(AdminRequest) returns(DashboardBaseResponse);
   rpc CheckEmailAdmin(AdminRequest) returns(DashboardBaseResponse);
   rpc CheckPersonalNumberAdmin(AdminRequest) returns(DashboardBaseResponse);
   rpc UploadPhotoAdmin(UploadPhotoRequest) returns(DashboardBaseResponse);
