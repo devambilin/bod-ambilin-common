@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+import "google/protobuf/struct.proto";
 
 service UserService {
     //for clients grpc
@@ -11,43 +12,65 @@ service UserService {
     rpc UpdateUser(UserRequest) returns(UserResponse){}
     rpc DeleteUser(UserRequest) returns(UserResponse){}
     //for admin
-//    rpc AdminGetUserType(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetListCustomerPersonal(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetListCustomerPartnership(BaseRequest) returns (BaseResponse){}
-//    rpc AdminCreateCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AdminValidateCustomerPhone(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetDetailCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AdminUpdateCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AdminDeleteCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetListPartner(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetDataMasterPartner(BaseRequest) returns (BaseResponse){}
-//    rpc AdminGetDetailPartner(BaseRequest) returns (BaseResponse){}
-//    rpc AdminCreatePartner(BaseRequest) returns (BaseResponse){}
-//    rpc AdminUpdatePartner(BaseRequest) returns (BaseResponse){}
-//    rpc AdminDeletePartner(BaseRequest) returns (BaseResponse){}
+    rpc AdminGetUserType(UserGlobalRequest) returns (UserBaseResponse){}
+    rpc AdminGetListCustomerPersonal(UserRequest) returns (UserBaseResponse){}
+    rpc AdminGetListCustomerPartnership(UserRequest) returns (UserBaseResponse){}
+    rpc AdminCreateCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc AdminValidateCustomerPhone(UserRequest) returns (UserBaseResponse){}
+    rpc AdminGetDetailCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc AdminUpdateCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc AdminDeleteCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc AdminGetListPartner(UserRequest) returns (UserBaseResponse){}
+    rpc AdminGetDataMasterPartner(UserRequest) returns (UserBaseResponse){}
+    rpc AdminGetDetailPartner(UserRequest) returns (UserBaseResponse){}
+    rpc AdminCreatePartner(UserRequest) returns (UserBaseResponse){}
+    rpc AdminUpdatePartner(UserRequest) returns (UserBaseResponse){}
+    rpc AdminDeletePartner(UserRequest) returns (UserBaseResponse){}
 //    //for customer
-//    rpc CustomerGetDashboard(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerGetPromo(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerGetDetail(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerGetCustomerHistory(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerUpdate(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerFavouriteAgent(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerUploadPhoto(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerDeletePhoto(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerGetNotification(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerReadNotification(BaseRequest) returns (BaseResponse){}
-//    rpc CustomerDeleteNotification(BaseRequest) returns (BaseResponse){}
+    rpc CustomerGetDashboard(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerGetPromo(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerGetDetail(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerGetCustomerHistory(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerUpdate(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerFavouriteAgent(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerUploadPhoto(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerDeletePhoto(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerGetNotification(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerReadNotification(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerDeleteNotification(UserRequest) returns (UserBaseResponse){}
 //    //for agent
-//    rpc AgentRegisterCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AgentVerifyOtpRegisterCustomer(BaseRequest) returns (BaseResponse){}
-//    rpc AgentFindUserType(BaseRequest) returns (BaseResponse){}
+    rpc AgentRegisterCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc AgentVerifyOtpRegisterCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc AgentFindUserType(UserRequest) returns (UserBaseResponse){}
+  }
+
+  message UserGlobalRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+    UserBaseFilterRequest filter = 4;
+  }
+
+  message UserBaseResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    google.protobuf.Struct data = 5;
+  }
+
+  message UserBaseFilterRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    string keyword = 3;
+    google.protobuf.Struct otherParam = 4;
   }
   
   message UserRequest {
     string requestId = 1;
     string requestByService = 2;
     DataUser user = 3;
-	DataUserPartnership userPartnership = 4;
+	  DataUserPartnership userPartnership = 4;
+    UserBaseFilterRequest filter = 5;
   }
   
   message UserResponse {
@@ -57,8 +80,8 @@ service UserService {
     string requestByService = 4;
     DataUser dataUser = 5;
     repeated DataUser listUser = 6;
-	DataUserPartnership dataUserPartnership = 7;
-	repeated DataUserPartnership listUserPartnership = 8;
+	  DataUserPartnership dataUserPartnership = 7;
+	  repeated DataUserPartnership listUserPartnership = 8;
   }
   
   message DataUser {
@@ -93,12 +116,12 @@ service UserService {
   }
   
   message DataUserPartnership {
-	int64 created = 1;
+	  int64 created = 1;
     int64 updated = 2;
     int64 removed = 3;
     string createdBy = 4;
     string updatedBy = 5;
     string id = 6;
-	string userId = 7;
-	string agentId = 8;
+	  string userId = 7;
+	  string agentId = 8;
   }

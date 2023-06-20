@@ -28,6 +28,37 @@ type UserServiceClient interface {
 	CreateUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	UpdateUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	DeleteUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	// for admin
+	AdminGetUserType(ctx context.Context, in *UserGlobalRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminGetListCustomerPersonal(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminGetListCustomerPartnership(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminCreateCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminValidateCustomerPhone(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminGetDetailCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminUpdateCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminDeleteCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminGetListPartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminGetDataMasterPartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminGetDetailPartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminCreatePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminUpdatePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AdminDeletePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	// //for customer
+	CustomerGetDashboard(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetPromo(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetDetail(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetCustomerHistory(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerUpdate(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerFavouriteAgent(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerUploadPhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerDeletePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerReadNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerDeleteNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	// //for agent
+	AgentRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AgentVerifyOtpRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AgentFindUserType(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 }
 
 type userServiceClient struct {
@@ -83,6 +114,258 @@ func (c *userServiceClient) DeleteUser(ctx context.Context, in *UserRequest, opt
 	return out, nil
 }
 
+func (c *userServiceClient) AdminGetUserType(ctx context.Context, in *UserGlobalRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetUserType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminGetListCustomerPersonal(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetListCustomerPersonal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminGetListCustomerPartnership(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetListCustomerPartnership", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminCreateCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminCreateCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminValidateCustomerPhone(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminValidateCustomerPhone", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminGetDetailCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetDetailCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminUpdateCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminUpdateCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminDeleteCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminDeleteCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminGetListPartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetListPartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminGetDataMasterPartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetDataMasterPartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminGetDetailPartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminGetDetailPartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminCreatePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminCreatePartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminUpdatePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminUpdatePartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminDeletePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AdminDeletePartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerGetDashboard(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetDashboard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerGetPromo(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetPromo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerGetDetail(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetDetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerGetCustomerHistory(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetCustomerHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerUpdate(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerUpdate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerFavouriteAgent(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerFavouriteAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerUploadPhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerUploadPhoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerDeletePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerDeletePhoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerGetNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetNotification", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerReadNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerReadNotification", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerDeleteNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerDeleteNotification", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AgentRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AgentRegisterCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AgentVerifyOtpRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AgentVerifyOtpRegisterCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AgentFindUserType(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AgentFindUserType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -93,6 +376,37 @@ type UserServiceServer interface {
 	CreateUser(context.Context, *UserRequest) (*UserResponse, error)
 	UpdateUser(context.Context, *UserRequest) (*UserResponse, error)
 	DeleteUser(context.Context, *UserRequest) (*UserResponse, error)
+	// for admin
+	AdminGetUserType(context.Context, *UserGlobalRequest) (*UserBaseResponse, error)
+	AdminGetListCustomerPersonal(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminGetListCustomerPartnership(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminCreateCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminValidateCustomerPhone(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminGetDetailCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminUpdateCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminDeleteCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminGetListPartner(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminGetDataMasterPartner(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminGetDetailPartner(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminCreatePartner(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminUpdatePartner(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AdminDeletePartner(context.Context, *UserRequest) (*UserBaseResponse, error)
+	// //for customer
+	CustomerGetDashboard(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerGetPromo(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerGetDetail(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerGetCustomerHistory(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerUpdate(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerFavouriteAgent(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerUploadPhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerDeletePhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerGetNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerReadNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerDeleteNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
+	// //for agent
+	AgentRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AgentVerifyOtpRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AgentFindUserType(context.Context, *UserRequest) (*UserBaseResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -114,6 +428,90 @@ func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UserRequest) 
 }
 func (UnimplementedUserServiceServer) DeleteUser(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetUserType(context.Context, *UserGlobalRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetUserType not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetListCustomerPersonal(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetListCustomerPersonal not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetListCustomerPartnership(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetListCustomerPartnership not implemented")
+}
+func (UnimplementedUserServiceServer) AdminCreateCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminCreateCustomer not implemented")
+}
+func (UnimplementedUserServiceServer) AdminValidateCustomerPhone(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminValidateCustomerPhone not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetDetailCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetDetailCustomer not implemented")
+}
+func (UnimplementedUserServiceServer) AdminUpdateCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminUpdateCustomer not implemented")
+}
+func (UnimplementedUserServiceServer) AdminDeleteCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminDeleteCustomer not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetListPartner(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetListPartner not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetDataMasterPartner(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetDataMasterPartner not implemented")
+}
+func (UnimplementedUserServiceServer) AdminGetDetailPartner(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetDetailPartner not implemented")
+}
+func (UnimplementedUserServiceServer) AdminCreatePartner(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminCreatePartner not implemented")
+}
+func (UnimplementedUserServiceServer) AdminUpdatePartner(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminUpdatePartner not implemented")
+}
+func (UnimplementedUserServiceServer) AdminDeletePartner(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminDeletePartner not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerGetDashboard(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetDashboard not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerGetPromo(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetPromo not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerGetDetail(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetDetail not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerGetCustomerHistory(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetCustomerHistory not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerUpdate(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerUpdate not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerFavouriteAgent(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerFavouriteAgent not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerUploadPhoto(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerUploadPhoto not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerDeletePhoto(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerDeletePhoto not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerGetNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetNotification not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerReadNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerReadNotification not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerDeleteNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerDeleteNotification not implemented")
+}
+func (UnimplementedUserServiceServer) AgentRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentRegisterCustomer not implemented")
+}
+func (UnimplementedUserServiceServer) AgentVerifyOtpRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentVerifyOtpRegisterCustomer not implemented")
+}
+func (UnimplementedUserServiceServer) AgentFindUserType(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentFindUserType not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -218,6 +616,510 @@ func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_AdminGetUserType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserGlobalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetUserType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetUserType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetUserType(ctx, req.(*UserGlobalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminGetListCustomerPersonal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetListCustomerPersonal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetListCustomerPersonal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetListCustomerPersonal(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminGetListCustomerPartnership_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetListCustomerPartnership(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetListCustomerPartnership",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetListCustomerPartnership(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminCreateCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminCreateCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminCreateCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminCreateCustomer(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminValidateCustomerPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminValidateCustomerPhone(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminValidateCustomerPhone",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminValidateCustomerPhone(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminGetDetailCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetDetailCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetDetailCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetDetailCustomer(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminUpdateCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminUpdateCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminUpdateCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminUpdateCustomer(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminDeleteCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminDeleteCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminDeleteCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminDeleteCustomer(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminGetListPartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetListPartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetListPartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetListPartner(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminGetDataMasterPartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetDataMasterPartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetDataMasterPartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetDataMasterPartner(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminGetDetailPartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminGetDetailPartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminGetDetailPartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminGetDetailPartner(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminCreatePartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminCreatePartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminCreatePartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminCreatePartner(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminUpdatePartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminUpdatePartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminUpdatePartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminUpdatePartner(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminDeletePartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminDeletePartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AdminDeletePartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminDeletePartner(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerGetDashboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetDashboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetDashboard",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetDashboard(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerGetPromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetPromo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetPromo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetPromo(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerGetDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetDetail(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerGetCustomerHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetCustomerHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetCustomerHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetCustomerHistory(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerUpdate(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerFavouriteAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerFavouriteAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerFavouriteAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerFavouriteAgent(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerUploadPhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerUploadPhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerUploadPhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerUploadPhoto(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerDeletePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerDeletePhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerDeletePhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerDeletePhoto(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerGetNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetNotification",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetNotification(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerReadNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerReadNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerReadNotification",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerReadNotification(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerDeleteNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerDeleteNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerDeleteNotification",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerDeleteNotification(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AgentRegisterCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AgentRegisterCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AgentRegisterCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AgentRegisterCustomer(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AgentVerifyOtpRegisterCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AgentVerifyOtpRegisterCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AgentVerifyOtpRegisterCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AgentVerifyOtpRegisterCustomer(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AgentFindUserType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AgentFindUserType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AgentFindUserType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AgentFindUserType(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -244,6 +1146,118 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUser",
 			Handler:    _UserService_DeleteUser_Handler,
+		},
+		{
+			MethodName: "AdminGetUserType",
+			Handler:    _UserService_AdminGetUserType_Handler,
+		},
+		{
+			MethodName: "AdminGetListCustomerPersonal",
+			Handler:    _UserService_AdminGetListCustomerPersonal_Handler,
+		},
+		{
+			MethodName: "AdminGetListCustomerPartnership",
+			Handler:    _UserService_AdminGetListCustomerPartnership_Handler,
+		},
+		{
+			MethodName: "AdminCreateCustomer",
+			Handler:    _UserService_AdminCreateCustomer_Handler,
+		},
+		{
+			MethodName: "AdminValidateCustomerPhone",
+			Handler:    _UserService_AdminValidateCustomerPhone_Handler,
+		},
+		{
+			MethodName: "AdminGetDetailCustomer",
+			Handler:    _UserService_AdminGetDetailCustomer_Handler,
+		},
+		{
+			MethodName: "AdminUpdateCustomer",
+			Handler:    _UserService_AdminUpdateCustomer_Handler,
+		},
+		{
+			MethodName: "AdminDeleteCustomer",
+			Handler:    _UserService_AdminDeleteCustomer_Handler,
+		},
+		{
+			MethodName: "AdminGetListPartner",
+			Handler:    _UserService_AdminGetListPartner_Handler,
+		},
+		{
+			MethodName: "AdminGetDataMasterPartner",
+			Handler:    _UserService_AdminGetDataMasterPartner_Handler,
+		},
+		{
+			MethodName: "AdminGetDetailPartner",
+			Handler:    _UserService_AdminGetDetailPartner_Handler,
+		},
+		{
+			MethodName: "AdminCreatePartner",
+			Handler:    _UserService_AdminCreatePartner_Handler,
+		},
+		{
+			MethodName: "AdminUpdatePartner",
+			Handler:    _UserService_AdminUpdatePartner_Handler,
+		},
+		{
+			MethodName: "AdminDeletePartner",
+			Handler:    _UserService_AdminDeletePartner_Handler,
+		},
+		{
+			MethodName: "CustomerGetDashboard",
+			Handler:    _UserService_CustomerGetDashboard_Handler,
+		},
+		{
+			MethodName: "CustomerGetPromo",
+			Handler:    _UserService_CustomerGetPromo_Handler,
+		},
+		{
+			MethodName: "CustomerGetDetail",
+			Handler:    _UserService_CustomerGetDetail_Handler,
+		},
+		{
+			MethodName: "CustomerGetCustomerHistory",
+			Handler:    _UserService_CustomerGetCustomerHistory_Handler,
+		},
+		{
+			MethodName: "CustomerUpdate",
+			Handler:    _UserService_CustomerUpdate_Handler,
+		},
+		{
+			MethodName: "CustomerFavouriteAgent",
+			Handler:    _UserService_CustomerFavouriteAgent_Handler,
+		},
+		{
+			MethodName: "CustomerUploadPhoto",
+			Handler:    _UserService_CustomerUploadPhoto_Handler,
+		},
+		{
+			MethodName: "CustomerDeletePhoto",
+			Handler:    _UserService_CustomerDeletePhoto_Handler,
+		},
+		{
+			MethodName: "CustomerGetNotification",
+			Handler:    _UserService_CustomerGetNotification_Handler,
+		},
+		{
+			MethodName: "CustomerReadNotification",
+			Handler:    _UserService_CustomerReadNotification_Handler,
+		},
+		{
+			MethodName: "CustomerDeleteNotification",
+			Handler:    _UserService_CustomerDeleteNotification_Handler,
+		},
+		{
+			MethodName: "AgentRegisterCustomer",
+			Handler:    _UserService_AgentRegisterCustomer_Handler,
+		},
+		{
+			MethodName: "AgentVerifyOtpRegisterCustomer",
+			Handler:    _UserService_AgentVerifyOtpRegisterCustomer_Handler,
+		},
+		{
+			MethodName: "AgentFindUserType",
+			Handler:    _UserService_AgentFindUserType_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
