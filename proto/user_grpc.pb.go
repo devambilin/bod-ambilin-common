@@ -43,7 +43,7 @@ type UserServiceClient interface {
 	AdminCreatePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	AdminUpdatePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	AdminDeletePartner(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	// //for customer
+	// for customer
 	CustomerGetDashboard(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerGetPromo(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerGetDetail(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
@@ -54,10 +54,14 @@ type UserServiceClient interface {
 	CustomerGetNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerReadNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerDeleteNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	// //for agent
-	AgentRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	AgentVerifyOtpRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerFindAddressMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerFindAddressDetailMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	// for agent
+	AgentRegisterCustomer(ctx context.Context, in *AgentRegisterCustomerRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AgentVerifyOtpRegisterCustomer(ctx context.Context, in *AgentRegisterCustomerRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	AgentFindUserType(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AgentFindAddressMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	AgentFindAddressDetailMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 }
 
 type userServiceClient struct {
@@ -329,7 +333,25 @@ func (c *userServiceClient) CustomerDeleteNotification(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *userServiceClient) AgentRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+func (c *userServiceClient) CustomerFindAddressMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerFindAddressMaps", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerFindAddressDetailMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerFindAddressDetailMaps", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AgentRegisterCustomer(ctx context.Context, in *AgentRegisterCustomerRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/AgentRegisterCustomer", in, out, opts...)
 	if err != nil {
@@ -338,7 +360,7 @@ func (c *userServiceClient) AgentRegisterCustomer(ctx context.Context, in *UserR
 	return out, nil
 }
 
-func (c *userServiceClient) AgentVerifyOtpRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+func (c *userServiceClient) AgentVerifyOtpRegisterCustomer(ctx context.Context, in *AgentRegisterCustomerRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/AgentVerifyOtpRegisterCustomer", in, out, opts...)
 	if err != nil {
@@ -350,6 +372,24 @@ func (c *userServiceClient) AgentVerifyOtpRegisterCustomer(ctx context.Context, 
 func (c *userServiceClient) AgentFindUserType(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/AgentFindUserType", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AgentFindAddressMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AgentFindAddressMaps", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AgentFindAddressDetailMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/AgentFindAddressDetailMaps", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -381,7 +421,7 @@ type UserServiceServer interface {
 	AdminCreatePartner(context.Context, *UserRequest) (*UserBaseResponse, error)
 	AdminUpdatePartner(context.Context, *UserRequest) (*UserBaseResponse, error)
 	AdminDeletePartner(context.Context, *UserRequest) (*UserBaseResponse, error)
-	// //for customer
+	// for customer
 	CustomerGetDashboard(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerGetPromo(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerGetDetail(context.Context, *UserRequest) (*UserBaseResponse, error)
@@ -392,10 +432,14 @@ type UserServiceServer interface {
 	CustomerGetNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
 	CustomerReadNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
 	CustomerDeleteNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
-	// //for agent
-	AgentRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
-	AgentVerifyOtpRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerFindAddressMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error)
+	CustomerFindAddressDetailMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error)
+	// for agent
+	AgentRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error)
+	AgentVerifyOtpRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error)
 	AgentFindUserType(context.Context, *UserRequest) (*UserBaseResponse, error)
+	AgentFindAddressMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error)
+	AgentFindAddressDetailMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -490,14 +534,26 @@ func (UnimplementedUserServiceServer) CustomerReadNotification(context.Context, 
 func (UnimplementedUserServiceServer) CustomerDeleteNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerDeleteNotification not implemented")
 }
-func (UnimplementedUserServiceServer) AgentRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+func (UnimplementedUserServiceServer) CustomerFindAddressMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerFindAddressMaps not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerFindAddressDetailMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerFindAddressDetailMaps not implemented")
+}
+func (UnimplementedUserServiceServer) AgentRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentRegisterCustomer not implemented")
 }
-func (UnimplementedUserServiceServer) AgentVerifyOtpRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
+func (UnimplementedUserServiceServer) AgentVerifyOtpRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentVerifyOtpRegisterCustomer not implemented")
 }
 func (UnimplementedUserServiceServer) AgentFindUserType(context.Context, *UserRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentFindUserType not implemented")
+}
+func (UnimplementedUserServiceServer) AgentFindAddressMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentFindAddressMaps not implemented")
+}
+func (UnimplementedUserServiceServer) AgentFindAddressDetailMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentFindAddressDetailMaps not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -1034,8 +1090,44 @@ func _UserService_CustomerDeleteNotification_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_CustomerFindAddressMaps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerFindAddressMaps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerFindAddressMaps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerFindAddressMaps(ctx, req.(*FindAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerFindAddressDetailMaps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerFindAddressDetailMaps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerFindAddressDetailMaps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerFindAddressDetailMaps(ctx, req.(*FindAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_AgentRegisterCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(AgentRegisterCustomerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1047,13 +1139,13 @@ func _UserService_AgentRegisterCustomer_Handler(srv interface{}, ctx context.Con
 		FullMethod: "/proto.UserService/AgentRegisterCustomer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).AgentRegisterCustomer(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).AgentRegisterCustomer(ctx, req.(*AgentRegisterCustomerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_AgentVerifyOtpRegisterCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(AgentRegisterCustomerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1065,7 +1157,7 @@ func _UserService_AgentVerifyOtpRegisterCustomer_Handler(srv interface{}, ctx co
 		FullMethod: "/proto.UserService/AgentVerifyOtpRegisterCustomer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).AgentVerifyOtpRegisterCustomer(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).AgentVerifyOtpRegisterCustomer(ctx, req.(*AgentRegisterCustomerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1084,6 +1176,42 @@ func _UserService_AgentFindUserType_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).AgentFindUserType(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AgentFindAddressMaps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AgentFindAddressMaps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AgentFindAddressMaps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AgentFindAddressMaps(ctx, req.(*FindAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AgentFindAddressDetailMaps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AgentFindAddressDetailMaps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/AgentFindAddressDetailMaps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AgentFindAddressDetailMaps(ctx, req.(*FindAddressRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1212,6 +1340,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_CustomerDeleteNotification_Handler,
 		},
 		{
+			MethodName: "CustomerFindAddressMaps",
+			Handler:    _UserService_CustomerFindAddressMaps_Handler,
+		},
+		{
+			MethodName: "CustomerFindAddressDetailMaps",
+			Handler:    _UserService_CustomerFindAddressDetailMaps_Handler,
+		},
+		{
 			MethodName: "AgentRegisterCustomer",
 			Handler:    _UserService_AgentRegisterCustomer_Handler,
 		},
@@ -1222,6 +1358,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AgentFindUserType",
 			Handler:    _UserService_AgentFindUserType_Handler,
+		},
+		{
+			MethodName: "AgentFindAddressMaps",
+			Handler:    _UserService_AgentFindAddressMaps_Handler,
+		},
+		{
+			MethodName: "AgentFindAddressDetailMaps",
+			Handler:    _UserService_AgentFindAddressDetailMaps_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

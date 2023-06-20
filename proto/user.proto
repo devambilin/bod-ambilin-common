@@ -26,7 +26,7 @@ service UserService {
     rpc AdminCreatePartner(UserRequest) returns (UserBaseResponse){}
     rpc AdminUpdatePartner(UserRequest) returns (UserBaseResponse){}
     rpc AdminDeletePartner(UserRequest) returns (UserBaseResponse){}
-//    //for customer
+    //for customer
     rpc CustomerGetDashboard(UserRequest) returns (UserBaseResponse){}
     rpc CustomerGetPromo(UserRequest) returns (UserBaseResponse){}
     rpc CustomerGetDetail(UserRequest) returns (UserBaseResponse){}
@@ -37,10 +37,33 @@ service UserService {
     rpc CustomerGetNotification(UserNotificationRequest) returns (UserBaseResponse){}
     rpc CustomerReadNotification(UserNotificationRequest) returns (UserBaseResponse){}
     rpc CustomerDeleteNotification(UserNotificationRequest) returns (UserBaseResponse){}
-//    //for agent
-    rpc AgentRegisterCustomer(UserRequest) returns (UserBaseResponse){}
-    rpc AgentVerifyOtpRegisterCustomer(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerFindAddressMaps(FindAddressRequest) returns (UserBaseResponse){}
+    rpc CustomerFindAddressDetailMaps(FindAddressRequest) returns (UserBaseResponse){}
+   //for agent
+    rpc AgentRegisterCustomer(AgentRegisterCustomerRequest) returns (UserBaseResponse){}
+    rpc AgentVerifyOtpRegisterCustomer(AgentRegisterCustomerRequest) returns (UserBaseResponse){}
     rpc AgentFindUserType(UserRequest) returns (UserBaseResponse){}
+    rpc AgentFindAddressMaps(FindAddressRequest) returns (UserBaseResponse){}
+    rpc AgentFindAddressDetailMaps(FindAddressRequest) returns (UserBaseResponse){}
+  }
+
+  message FindAddressRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string agentId = 3;
+    string userId = 4;
+    string address = 5;
+    string placeId = 6;
+  }
+
+  message AgentRegisterCustomerRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string agentId = 3;
+    string customerPhone = 4;
+    string customerName = 5;
+    string customerAddress = 6;
+    string otpCode = 7;
   }
 
   message UserNotificationRequest {
