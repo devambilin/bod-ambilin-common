@@ -57,6 +57,9 @@ type AgentServiceClient interface {
 	AgentSubmitVehicle(ctx context.Context, in *AgentVehicleRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	// for customer
 	CustomerDetailAgent(ctx context.Context, in *AgentDetailCustomer, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	// from service search agent for customer
+	AgentSearch(ctx context.Context, in *AgentSearchRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
+	AgentDetailPartner(ctx context.Context, in *AgentDetailPartnerRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 }
 
 type agentServiceClient struct {
@@ -346,6 +349,24 @@ func (c *agentServiceClient) CustomerDetailAgent(ctx context.Context, in *AgentD
 	return out, nil
 }
 
+func (c *agentServiceClient) AgentSearch(ctx context.Context, in *AgentSearchRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentSearch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) AgentDetailPartner(ctx context.Context, in *AgentDetailPartnerRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error) {
+	out := new(AgentBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/AgentDetailPartner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AgentServiceServer is the server API for AgentService service.
 // All implementations must embed UnimplementedAgentServiceServer
 // for forward compatibility
@@ -385,6 +406,9 @@ type AgentServiceServer interface {
 	AgentSubmitVehicle(context.Context, *AgentVehicleRequest) (*AgentBaseResponse, error)
 	// for customer
 	CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentBaseResponse, error)
+	// from service search agent for customer
+	AgentSearch(context.Context, *AgentSearchRequest) (*AgentBaseResponse, error)
+	AgentDetailPartner(context.Context, *AgentDetailPartnerRequest) (*AgentBaseResponse, error)
 	mustEmbedUnimplementedAgentServiceServer()
 }
 
@@ -484,6 +508,12 @@ func (UnimplementedAgentServiceServer) AgentSubmitVehicle(context.Context, *Agen
 }
 func (UnimplementedAgentServiceServer) CustomerDetailAgent(context.Context, *AgentDetailCustomer) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerDetailAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) AgentSearch(context.Context, *AgentSearchRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentSearch not implemented")
+}
+func (UnimplementedAgentServiceServer) AgentDetailPartner(context.Context, *AgentDetailPartnerRequest) (*AgentBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentDetailPartner not implemented")
 }
 func (UnimplementedAgentServiceServer) mustEmbedUnimplementedAgentServiceServer() {}
 
@@ -1056,6 +1086,42 @@ func _AgentService_CustomerDetailAgent_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AgentService_AgentSearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AgentSearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AgentSearch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AgentSearch(ctx, req.(*AgentSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_AgentDetailPartner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentDetailPartnerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).AgentDetailPartner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/AgentDetailPartner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).AgentDetailPartner(ctx, req.(*AgentDetailPartnerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AgentService_ServiceDesc is the grpc.ServiceDesc for AgentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1186,6 +1252,14 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CustomerDetailAgent",
 			Handler:    _AgentService_CustomerDetailAgent_Handler,
+		},
+		{
+			MethodName: "AgentSearch",
+			Handler:    _AgentService_AgentSearch_Handler,
+		},
+		{
+			MethodName: "AgentDetailPartner",
+			Handler:    _AgentService_AgentDetailPartner_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

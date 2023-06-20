@@ -41,6 +41,27 @@ service AgentService {
     rpc AgentSubmitVehicle(AgentVehicleRequest) returns (AgentBaseResponse){}
     //for customer
     rpc CustomerDetailAgent(AgentDetailCustomer) returns (AgentBaseResponse){}
+    //from service search agent for customer
+    rpc AgentSearch(AgentSearchRequest) returns (AgentBaseResponse){}
+    rpc AgentDetailPartner(AgentDetailPartnerRequest) returns (AgentBaseResponse){}
+}
+
+  message AgentSearchRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+    float longitude = 4;
+    float latitude = 5;
+    int64 radius = 6;
+    int64 amount = 7;
+  }
+
+  message AgentDetailPartnerRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string id = 3;
+    string clientId = 4;
+    string token = 5;
   }
 
   message AgentTutorialRequest {
@@ -65,6 +86,7 @@ service AgentService {
     int32 totalPage = 5;
     int32 totalRows = 6;
     google.protobuf.Struct rows = 7;
+    google.protobuf.ListValue listRows = 8;
   }
 
   message AgentNotificationRequest {
@@ -79,6 +101,7 @@ service AgentService {
     string message = 2;
     string requestId = 3;
     google.protobuf.Struct data = 5;
+    google.protobuf.ListValue listData = 6;
   }
 
   message AgentDetailCustomer {

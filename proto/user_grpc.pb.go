@@ -51,9 +51,9 @@ type UserServiceClient interface {
 	CustomerUpdate(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerFavouriteAgent(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerUpdatePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	CustomerGetNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	CustomerReadNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	CustomerDeleteNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerReadNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerDeleteNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	// //for agent
 	AgentRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	AgentVerifyOtpRegisterCustomer(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
@@ -302,7 +302,7 @@ func (c *userServiceClient) CustomerUpdatePhoto(ctx context.Context, in *UserReq
 	return out, nil
 }
 
-func (c *userServiceClient) CustomerGetNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+func (c *userServiceClient) CustomerGetNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetNotification", in, out, opts...)
 	if err != nil {
@@ -311,7 +311,7 @@ func (c *userServiceClient) CustomerGetNotification(ctx context.Context, in *Use
 	return out, nil
 }
 
-func (c *userServiceClient) CustomerReadNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+func (c *userServiceClient) CustomerReadNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerReadNotification", in, out, opts...)
 	if err != nil {
@@ -320,7 +320,7 @@ func (c *userServiceClient) CustomerReadNotification(ctx context.Context, in *Us
 	return out, nil
 }
 
-func (c *userServiceClient) CustomerDeleteNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+func (c *userServiceClient) CustomerDeleteNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerDeleteNotification", in, out, opts...)
 	if err != nil {
@@ -389,9 +389,9 @@ type UserServiceServer interface {
 	CustomerUpdate(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerFavouriteAgent(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerUpdatePhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
-	CustomerGetNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
-	CustomerReadNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
-	CustomerDeleteNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerGetNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
+	CustomerReadNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
+	CustomerDeleteNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
 	// //for agent
 	AgentRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
 	AgentVerifyOtpRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error)
@@ -481,13 +481,13 @@ func (UnimplementedUserServiceServer) CustomerFavouriteAgent(context.Context, *U
 func (UnimplementedUserServiceServer) CustomerUpdatePhoto(context.Context, *UserRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerUpdatePhoto not implemented")
 }
-func (UnimplementedUserServiceServer) CustomerGetNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
+func (UnimplementedUserServiceServer) CustomerGetNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetNotification not implemented")
 }
-func (UnimplementedUserServiceServer) CustomerReadNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
+func (UnimplementedUserServiceServer) CustomerReadNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerReadNotification not implemented")
 }
-func (UnimplementedUserServiceServer) CustomerDeleteNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
+func (UnimplementedUserServiceServer) CustomerDeleteNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerDeleteNotification not implemented")
 }
 func (UnimplementedUserServiceServer) AgentRegisterCustomer(context.Context, *UserRequest) (*UserBaseResponse, error) {
@@ -981,7 +981,7 @@ func _UserService_CustomerUpdatePhoto_Handler(srv interface{}, ctx context.Conte
 }
 
 func _UserService_CustomerGetNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(UserNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -993,13 +993,13 @@ func _UserService_CustomerGetNotification_Handler(srv interface{}, ctx context.C
 		FullMethod: "/proto.UserService/CustomerGetNotification",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CustomerGetNotification(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).CustomerGetNotification(ctx, req.(*UserNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_CustomerReadNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(UserNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1011,13 +1011,13 @@ func _UserService_CustomerReadNotification_Handler(srv interface{}, ctx context.
 		FullMethod: "/proto.UserService/CustomerReadNotification",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CustomerReadNotification(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).CustomerReadNotification(ctx, req.(*UserNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_CustomerDeleteNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(UserNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1029,7 +1029,7 @@ func _UserService_CustomerDeleteNotification_Handler(srv interface{}, ctx contex
 		FullMethod: "/proto.UserService/CustomerDeleteNotification",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CustomerDeleteNotification(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).CustomerDeleteNotification(ctx, req.(*UserNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
