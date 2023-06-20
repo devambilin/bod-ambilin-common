@@ -33,8 +33,7 @@ service UserService {
     rpc CustomerGetCustomerHistory(UserRequest) returns (UserBaseResponse){}
     rpc CustomerUpdate(UserRequest) returns (UserBaseResponse){}
     rpc CustomerFavouriteAgent(UserRequest) returns (UserBaseResponse){}
-    rpc CustomerUploadPhoto(UserRequest) returns (UserBaseResponse){}
-    rpc CustomerDeletePhoto(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerUpdatePhoto(UserRequest) returns (UserBaseResponse){}
     rpc CustomerGetNotification(UserRequest) returns (UserBaseResponse){}
     rpc CustomerReadNotification(UserRequest) returns (UserBaseResponse){}
     rpc CustomerDeleteNotification(UserRequest) returns (UserBaseResponse){}

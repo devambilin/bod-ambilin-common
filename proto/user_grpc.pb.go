@@ -50,8 +50,7 @@ type UserServiceClient interface {
 	CustomerGetCustomerHistory(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerUpdate(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerFavouriteAgent(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	CustomerUploadPhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
-	CustomerDeletePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerUpdatePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerGetNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerReadNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerDeleteNotification(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
@@ -294,18 +293,9 @@ func (c *userServiceClient) CustomerFavouriteAgent(ctx context.Context, in *User
 	return out, nil
 }
 
-func (c *userServiceClient) CustomerUploadPhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+func (c *userServiceClient) CustomerUpdatePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
-	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerUploadPhoto", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) CustomerDeletePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
-	out := new(UserBaseResponse)
-	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerDeletePhoto", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerUpdatePhoto", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -398,8 +388,7 @@ type UserServiceServer interface {
 	CustomerGetCustomerHistory(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerUpdate(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerFavouriteAgent(context.Context, *UserRequest) (*UserBaseResponse, error)
-	CustomerUploadPhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
-	CustomerDeletePhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerUpdatePhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerGetNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerReadNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerDeleteNotification(context.Context, *UserRequest) (*UserBaseResponse, error)
@@ -489,11 +478,8 @@ func (UnimplementedUserServiceServer) CustomerUpdate(context.Context, *UserReque
 func (UnimplementedUserServiceServer) CustomerFavouriteAgent(context.Context, *UserRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerFavouriteAgent not implemented")
 }
-func (UnimplementedUserServiceServer) CustomerUploadPhoto(context.Context, *UserRequest) (*UserBaseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CustomerUploadPhoto not implemented")
-}
-func (UnimplementedUserServiceServer) CustomerDeletePhoto(context.Context, *UserRequest) (*UserBaseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CustomerDeletePhoto not implemented")
+func (UnimplementedUserServiceServer) CustomerUpdatePhoto(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerUpdatePhoto not implemented")
 }
 func (UnimplementedUserServiceServer) CustomerGetNotification(context.Context, *UserRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetNotification not implemented")
@@ -976,38 +962,20 @@ func _UserService_CustomerFavouriteAgent_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_CustomerUploadPhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_CustomerUpdatePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).CustomerUploadPhoto(ctx, in)
+		return srv.(UserServiceServer).CustomerUpdatePhoto(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.UserService/CustomerUploadPhoto",
+		FullMethod: "/proto.UserService/CustomerUpdatePhoto",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CustomerUploadPhoto(ctx, req.(*UserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_CustomerDeletePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).CustomerDeletePhoto(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.UserService/CustomerDeletePhoto",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CustomerDeletePhoto(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).CustomerUpdatePhoto(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1228,12 +1196,8 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_CustomerFavouriteAgent_Handler,
 		},
 		{
-			MethodName: "CustomerUploadPhoto",
-			Handler:    _UserService_CustomerUploadPhoto_Handler,
-		},
-		{
-			MethodName: "CustomerDeletePhoto",
-			Handler:    _UserService_CustomerDeletePhoto_Handler,
+			MethodName: "CustomerUpdatePhoto",
+			Handler:    _UserService_CustomerUpdatePhoto_Handler,
 		},
 		{
 			MethodName: "CustomerGetNotification",
