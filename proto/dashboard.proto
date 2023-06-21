@@ -105,7 +105,8 @@ message PromoImageUpdateRequest {
   string requestId = 1;
   string requestByService = 2;
   string promoId = 3;
-  bytes file = 4;
+  string imageUrl = 4;
+  string adminId = 5;
 }
 
 message PromoListRequest {
@@ -134,6 +135,7 @@ message PromoCreateRequest {
   bool status = 7;
   string title = 8;
   string description = 9;
+  string adminId = 10;
 }
 
 message MasterConfigRequest {
