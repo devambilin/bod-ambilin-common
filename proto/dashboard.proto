@@ -64,6 +64,7 @@ message RoleCreateRequest {
   int32 roleId = 3;
   string roleName = 4;
   repeated DataMenu listRoleMenu = 5;
+  string userId = 6;
 }
 
 message DataMenu {
@@ -85,6 +86,7 @@ message RoleRequest {
   int32 page = 4;
   int32 limit = 5;
   string roleId = 6;
+  string userId = 7;
 }
 
 message TopRatedAgentsMessage {
@@ -172,6 +174,8 @@ message UploadPhotoRequest {
   string requestId = 1;
   string requestByService = 2;
   bytes file = 3;
+  string filename = 4;
+  string adminId = 5;
 }
 
 message CreateAdminBrinsRequest {
