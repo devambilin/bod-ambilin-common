@@ -152,6 +152,7 @@ message DownloadRequest {
   string agentId = 5;
   int32 kancaId = 6;
   int32 kanwilId = 7;
+  string menu = 8;
 }
 
 message GetFilterRequest {
