@@ -71,6 +71,7 @@ service UserService {
     string requestByService = 2;
     string id = 3;
     string notificationId = 4;
+    UserBaseFilterRequest filter = 5;
   }
 
   message UserGlobalRequest {
@@ -86,6 +87,7 @@ service UserService {
     string requestId = 3;
     google.protobuf.Struct data = 5;
     google.protobuf.ListValue listData = 6;
+    google.protobuf.Value dataValue = 7;
   }
 
   message UserBaseFilterRequest {
