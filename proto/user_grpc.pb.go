@@ -48,6 +48,7 @@ type UserServiceClient interface {
 	CustomerGetPromo(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerGetDetail(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerGetCustomerHistory(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetCustomerOrderProcess(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerUpdate(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerFavouriteAgent(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerUpdatePhoto(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
@@ -56,6 +57,8 @@ type UserServiceClient interface {
 	CustomerDeleteNotification(ctx context.Context, in *UserNotificationRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerFindAddressMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	CustomerFindAddressDetailMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerGetTutorial(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
+	CustomerUpdateTutorial(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	// for agent
 	AgentRegisterCustomer(ctx context.Context, in *AgentRegisterCustomerRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
 	AgentVerifyOtpRegisterCustomer(ctx context.Context, in *AgentRegisterCustomerRequest, opts ...grpc.CallOption) (*UserBaseResponse, error)
@@ -279,6 +282,15 @@ func (c *userServiceClient) CustomerGetCustomerHistory(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *userServiceClient) CustomerGetCustomerOrderProcess(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetCustomerOrderProcess", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) CustomerUpdate(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerUpdate", in, out, opts...)
@@ -345,6 +357,24 @@ func (c *userServiceClient) CustomerFindAddressMaps(ctx context.Context, in *Fin
 func (c *userServiceClient) CustomerFindAddressDetailMaps(ctx context.Context, in *FindAddressRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
 	out := new(UserBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerFindAddressDetailMaps", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerGetTutorial(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerGetTutorial", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CustomerUpdateTutorial(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserBaseResponse, error) {
+	out := new(UserBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CustomerUpdateTutorial", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -426,6 +456,7 @@ type UserServiceServer interface {
 	CustomerGetPromo(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerGetDetail(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerGetCustomerHistory(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerGetCustomerOrderProcess(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerUpdate(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerFavouriteAgent(context.Context, *UserRequest) (*UserBaseResponse, error)
 	CustomerUpdatePhoto(context.Context, *UserRequest) (*UserBaseResponse, error)
@@ -434,6 +465,8 @@ type UserServiceServer interface {
 	CustomerDeleteNotification(context.Context, *UserNotificationRequest) (*UserBaseResponse, error)
 	CustomerFindAddressMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error)
 	CustomerFindAddressDetailMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error)
+	CustomerGetTutorial(context.Context, *UserRequest) (*UserBaseResponse, error)
+	CustomerUpdateTutorial(context.Context, *UserRequest) (*UserBaseResponse, error)
 	// for agent
 	AgentRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error)
 	AgentVerifyOtpRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error)
@@ -516,6 +549,9 @@ func (UnimplementedUserServiceServer) CustomerGetDetail(context.Context, *UserRe
 func (UnimplementedUserServiceServer) CustomerGetCustomerHistory(context.Context, *UserRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetCustomerHistory not implemented")
 }
+func (UnimplementedUserServiceServer) CustomerGetCustomerOrderProcess(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetCustomerOrderProcess not implemented")
+}
 func (UnimplementedUserServiceServer) CustomerUpdate(context.Context, *UserRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerUpdate not implemented")
 }
@@ -539,6 +575,12 @@ func (UnimplementedUserServiceServer) CustomerFindAddressMaps(context.Context, *
 }
 func (UnimplementedUserServiceServer) CustomerFindAddressDetailMaps(context.Context, *FindAddressRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerFindAddressDetailMaps not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerGetTutorial(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetTutorial not implemented")
+}
+func (UnimplementedUserServiceServer) CustomerUpdateTutorial(context.Context, *UserRequest) (*UserBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerUpdateTutorial not implemented")
 }
 func (UnimplementedUserServiceServer) AgentRegisterCustomer(context.Context, *AgentRegisterCustomerRequest) (*UserBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentRegisterCustomer not implemented")
@@ -982,6 +1024,24 @@ func _UserService_CustomerGetCustomerHistory_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_CustomerGetCustomerOrderProcess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetCustomerOrderProcess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetCustomerOrderProcess",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetCustomerOrderProcess(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_CustomerUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserRequest)
 	if err := dec(in); err != nil {
@@ -1122,6 +1182,42 @@ func _UserService_CustomerFindAddressDetailMaps_Handler(srv interface{}, ctx con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).CustomerFindAddressDetailMaps(ctx, req.(*FindAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerGetTutorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerGetTutorial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerGetTutorial",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerGetTutorial(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CustomerUpdateTutorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CustomerUpdateTutorial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CustomerUpdateTutorial",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CustomerUpdateTutorial(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1316,6 +1412,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_CustomerGetCustomerHistory_Handler,
 		},
 		{
+			MethodName: "CustomerGetCustomerOrderProcess",
+			Handler:    _UserService_CustomerGetCustomerOrderProcess_Handler,
+		},
+		{
 			MethodName: "CustomerUpdate",
 			Handler:    _UserService_CustomerUpdate_Handler,
 		},
@@ -1346,6 +1446,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CustomerFindAddressDetailMaps",
 			Handler:    _UserService_CustomerFindAddressDetailMaps_Handler,
+		},
+		{
+			MethodName: "CustomerGetTutorial",
+			Handler:    _UserService_CustomerGetTutorial_Handler,
+		},
+		{
+			MethodName: "CustomerUpdateTutorial",
+			Handler:    _UserService_CustomerUpdateTutorial_Handler,
 		},
 		{
 			MethodName: "AgentRegisterCustomer",

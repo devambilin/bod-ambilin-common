@@ -31,6 +31,7 @@ service UserService {
     rpc CustomerGetPromo(UserRequest) returns (UserBaseResponse){}
     rpc CustomerGetDetail(UserRequest) returns (UserBaseResponse){}
     rpc CustomerGetCustomerHistory(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerGetCustomerOrderProcess(UserRequest) returns (UserBaseResponse){}
     rpc CustomerUpdate(UserRequest) returns (UserBaseResponse){}
     rpc CustomerFavouriteAgent(UserRequest) returns (UserBaseResponse){}
     rpc CustomerUpdatePhoto(UserRequest) returns (UserBaseResponse){}
@@ -39,6 +40,8 @@ service UserService {
     rpc CustomerDeleteNotification(UserNotificationRequest) returns (UserBaseResponse){}
     rpc CustomerFindAddressMaps(FindAddressRequest) returns (UserBaseResponse){}
     rpc CustomerFindAddressDetailMaps(FindAddressRequest) returns (UserBaseResponse){}
+    rpc CustomerGetTutorial(UserRequest) returns (UserBaseResponse){}
+    rpc CustomerUpdateTutorial(UserRequest) returns (UserBaseResponse){}
    //for agent
     rpc AgentRegisterCustomer(AgentRegisterCustomerRequest) returns (UserBaseResponse){}
     rpc AgentVerifyOtpRegisterCustomer(AgentRegisterCustomerRequest) returns (UserBaseResponse){}
