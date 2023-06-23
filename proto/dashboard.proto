@@ -53,7 +53,7 @@ service DashboardService {
   //Activity
   rpc GetHistoryActivity(HistoryActivityRequest) returns (DashboardBaseResponse);
   //Statistics
-  rpc GetStatistics(DownloadRequest) returns(DownloadResponse);
+  rpc GetStatistics(DownloadRequest) returns(DashboardBaseResponse);
 }
 
 

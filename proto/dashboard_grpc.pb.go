@@ -69,7 +69,7 @@ type DashboardServiceClient interface {
 	// Activity
 	GetHistoryActivity(ctx context.Context, in *HistoryActivityRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	// Statistics
-	GetStatistics(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
+	GetStatistics(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 }
 
 type dashboardServiceClient struct {
@@ -377,8 +377,8 @@ func (c *dashboardServiceClient) GetHistoryActivity(ctx context.Context, in *His
 	return out, nil
 }
 
-func (c *dashboardServiceClient) GetStatistics(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error) {
-	out := new(DownloadResponse)
+func (c *dashboardServiceClient) GetStatistics(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/GetStatistics", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -437,7 +437,7 @@ type DashboardServiceServer interface {
 	// Activity
 	GetHistoryActivity(context.Context, *HistoryActivityRequest) (*DashboardBaseResponse, error)
 	// Statistics
-	GetStatistics(context.Context, *DownloadRequest) (*DownloadResponse, error)
+	GetStatistics(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
 	mustEmbedUnimplementedDashboardServiceServer()
 }
 
@@ -544,7 +544,7 @@ func (UnimplementedDashboardServiceServer) DeleteRole(context.Context, *RoleCrea
 func (UnimplementedDashboardServiceServer) GetHistoryActivity(context.Context, *HistoryActivityRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHistoryActivity not implemented")
 }
-func (UnimplementedDashboardServiceServer) GetStatistics(context.Context, *DownloadRequest) (*DownloadResponse, error) {
+func (UnimplementedDashboardServiceServer) GetStatistics(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStatistics not implemented")
 }
 func (UnimplementedDashboardServiceServer) mustEmbedUnimplementedDashboardServiceServer() {}
