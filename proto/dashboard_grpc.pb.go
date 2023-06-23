@@ -43,7 +43,7 @@ type DashboardServiceClient interface {
 	GetKanwilFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
 	GetAgentFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
 	// Download
-	Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
+	Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	// Menu
 	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	// //promo
@@ -224,8 +224,8 @@ func (c *dashboardServiceClient) GetAgentFilter(ctx context.Context, in *GetFilt
 	return out, nil
 }
 
-func (c *dashboardServiceClient) Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error) {
-	out := new(DownloadResponse)
+func (c *dashboardServiceClient) Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/Download", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -411,7 +411,7 @@ type DashboardServiceServer interface {
 	GetKanwilFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error)
 	GetAgentFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error)
 	// Download
-	Download(context.Context, *DownloadRequest) (*DownloadResponse, error)
+	Download(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
 	// Menu
 	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
 	// //promo
@@ -493,7 +493,7 @@ func (UnimplementedDashboardServiceServer) GetKanwilFilter(context.Context, *Get
 func (UnimplementedDashboardServiceServer) GetAgentFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgentFilter not implemented")
 }
-func (UnimplementedDashboardServiceServer) Download(context.Context, *DownloadRequest) (*DownloadResponse, error) {
+func (UnimplementedDashboardServiceServer) Download(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Download not implemented")
 }
 func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {

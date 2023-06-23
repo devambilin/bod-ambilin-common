@@ -27,7 +27,7 @@ service DashboardService {
   rpc GetKanwilFilter(GetFilterRequest) returns(DashboardBaseListResponse);
   rpc GetAgentFilter(GetFilterRequest) returns(DashboardBaseListResponse);
   //Download
-  rpc Download(DownloadRequest) returns(DownloadResponse);
+  rpc Download(DownloadRequest) returns(DashboardBaseResponse);
   //Menu
   rpc ListMenu(DownloadRequest) returns(DashboardBaseResponse);
   //  //promo
