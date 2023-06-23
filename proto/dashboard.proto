@@ -27,7 +27,7 @@ service DashboardService {
   rpc GetKanwilFilter(GetFilterRequest) returns(DashboardBaseListResponse);
   rpc GetAgentFilter(GetFilterRequest) returns(DashboardBaseListResponse);
   //Download
-  rpc Download(DownloadRequest) returns(DashboardBaseResponse);
+  rpc Download(DownloadRequest) returns(DownloadResponse);
   //Menu
   rpc ListMenu(DownloadRequest) returns(DashboardBaseListResponse);
   //  //promo
@@ -53,7 +53,7 @@ service DashboardService {
   //Activity
   rpc GetHistoryActivity(HistoryActivityRequest) returns (DashboardBaseResponse);
   //Statistics
-  rpc GetStatistics(DownloadRequest) returns(DashboardBaseResponse);
+  rpc GetStatistics(DownloadRequest) returns(DownloadResponse);
 }
 
 
@@ -153,6 +153,14 @@ message DownloadRequest {
   int32 kancaId = 6;
   int32 kanwilId = 7;
   string menu = 8;
+}
+
+message DownloadResponse {
+  int32 status = 1;
+  string message = 2;
+  string requestId = 3;
+  string requestByService = 4;
+  string filename = 5;
 }
 
 message GetFilterRequest {
