@@ -176,8 +176,7 @@ message HistoryActivityRequest {
 message UploadPhotoRequest {
   string requestId = 1;
   string requestByService = 2;
-  bytes file = 3;
-  string filename = 4;
+  string photoUrl = 4;
   string adminId = 5;
 }
 
@@ -289,4 +288,5 @@ message DataAdmin {
   bool isSuperAdmin = 19;
   string role = 20;
   int32 roleId = 21;
+  string kanwilId = 22;
 }
