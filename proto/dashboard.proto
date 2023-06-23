@@ -29,7 +29,7 @@ service DashboardService {
   //Download
   rpc Download(DownloadRequest) returns(DownloadResponse);
   //Menu
-  rpc ListMenu(DownloadRequest) returns(DashboardBaseListResponse);
+  rpc ListMenu(DownloadRequest) returns(DashboardBaseResponse);
   //  //promo
   rpc GetListPromo(PromoListRequest) returns (DashboardBaseResponse);
   rpc GetDetailPromo(PromoRequest) returns (DashboardBaseResponse);

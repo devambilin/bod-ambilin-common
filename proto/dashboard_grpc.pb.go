@@ -45,7 +45,7 @@ type DashboardServiceClient interface {
 	// Download
 	Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
 	// Menu
-	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	// //promo
 	GetListPromo(ctx context.Context, in *PromoListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	GetDetailPromo(ctx context.Context, in *PromoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
@@ -233,8 +233,8 @@ func (c *dashboardServiceClient) Download(ctx context.Context, in *DownloadReque
 	return out, nil
 }
 
-func (c *dashboardServiceClient) ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
-	out := new(DashboardBaseListResponse)
+func (c *dashboardServiceClient) ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
+	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/ListMenu", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -413,7 +413,7 @@ type DashboardServiceServer interface {
 	// Download
 	Download(context.Context, *DownloadRequest) (*DownloadResponse, error)
 	// Menu
-	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error)
+	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
 	// //promo
 	GetListPromo(context.Context, *PromoListRequest) (*DashboardBaseResponse, error)
 	GetDetailPromo(context.Context, *PromoRequest) (*DashboardBaseResponse, error)
@@ -496,7 +496,7 @@ func (UnimplementedDashboardServiceServer) GetAgentFilter(context.Context, *GetF
 func (UnimplementedDashboardServiceServer) Download(context.Context, *DownloadRequest) (*DownloadResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Download not implemented")
 }
-func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error) {
+func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMenu not implemented")
 }
 func (UnimplementedDashboardServiceServer) GetListPromo(context.Context, *PromoListRequest) (*DashboardBaseResponse, error) {
