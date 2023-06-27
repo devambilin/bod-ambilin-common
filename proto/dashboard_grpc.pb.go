@@ -44,6 +44,8 @@ type DashboardServiceClient interface {
 	GetAgentFilter(ctx context.Context, in *GetFilterRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
 	// Download
 	Download(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	DownloadReportExecutive(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
+	DownloadReportOperational(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
 	// Menu
 	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	// //promo
@@ -233,6 +235,24 @@ func (c *dashboardServiceClient) Download(ctx context.Context, in *DownloadReque
 	return out, nil
 }
 
+func (c *dashboardServiceClient) DownloadReportExecutive(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error) {
+	out := new(DownloadResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/DownloadReportExecutive", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) DownloadReportOperational(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error) {
+	out := new(DownloadResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/DownloadReportOperational", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *dashboardServiceClient) ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
 	out := new(DashboardBaseResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/ListMenu", in, out, opts...)
@@ -412,6 +432,8 @@ type DashboardServiceServer interface {
 	GetAgentFilter(context.Context, *GetFilterRequest) (*DashboardBaseListResponse, error)
 	// Download
 	Download(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
+	DownloadReportExecutive(context.Context, *DownloadRequest) (*DownloadResponse, error)
+	DownloadReportOperational(context.Context, *DownloadRequest) (*DownloadResponse, error)
 	// Menu
 	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
 	// //promo
@@ -495,6 +517,12 @@ func (UnimplementedDashboardServiceServer) GetAgentFilter(context.Context, *GetF
 }
 func (UnimplementedDashboardServiceServer) Download(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Download not implemented")
+}
+func (UnimplementedDashboardServiceServer) DownloadReportExecutive(context.Context, *DownloadRequest) (*DownloadResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadReportExecutive not implemented")
+}
+func (UnimplementedDashboardServiceServer) DownloadReportOperational(context.Context, *DownloadRequest) (*DownloadResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadReportOperational not implemented")
 }
 func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMenu not implemented")
@@ -862,6 +890,42 @@ func _DashboardService_Download_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DashboardServiceServer).Download(ctx, req.(*DownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_DownloadReportExecutive_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).DownloadReportExecutive(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/DownloadReportExecutive",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).DownloadReportExecutive(ctx, req.(*DownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DashboardService_DownloadReportOperational_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).DownloadReportOperational(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/DownloadReportOperational",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).DownloadReportOperational(ctx, req.(*DownloadRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1246,6 +1310,14 @@ var DashboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Download",
 			Handler:    _DashboardService_Download_Handler,
+		},
+		{
+			MethodName: "DownloadReportExecutive",
+			Handler:    _DashboardService_DownloadReportExecutive_Handler,
+		},
+		{
+			MethodName: "DownloadReportOperational",
+			Handler:    _DashboardService_DownloadReportOperational_Handler,
 		},
 		{
 			MethodName: "ListMenu",

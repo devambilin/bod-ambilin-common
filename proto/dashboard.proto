@@ -28,6 +28,8 @@ service DashboardService {
   rpc GetAgentFilter(GetFilterRequest) returns(DashboardBaseListResponse);
   //Download
   rpc Download(DownloadRequest) returns(DashboardBaseResponse);
+  rpc DownloadReportExecutive(DownloadRequest) returns(DownloadResponse);
+  rpc DownloadReportOperational(DownloadRequest) returns(DownloadResponse);
   //Menu
   rpc ListMenu(DownloadRequest) returns(DashboardBaseResponse);
   //  //promo
@@ -153,6 +155,9 @@ message DownloadRequest {
   int32 kancaId = 6;
   int32 kanwilId = 7;
   string menu = 8;
+  string keyword = 9;
+  int32 offset = 10;
+  int32 limit = 11;
 }
 
 message DownloadResponse {
@@ -161,6 +166,50 @@ message DownloadResponse {
   string requestId = 3;
   string requestByService = 4;
   string filename = 5;
+  repeated DataDownload dataDownload = 6;
+}
+
+message DataDownload {
+  string Id = 1;
+  string orderCode = 2;
+  string nasabahId = 3;
+  string nasabahCode = 4;
+  string nasabahName = 5;
+  string nasabahPhone = 6;
+  string nasabahAddress = 7;
+  float userLat = 8;
+  float userLong = 9;
+  string nasabahStatus = 10;
+  string agentId = 11;
+  string agentName = 12;
+  string agentAddress = 13;
+  string agentMid = 14;
+  int64 kanwilId = 15;
+  string kanwilName = 16;
+  bool kanwilIsRemoved = 17;
+  int64 kancaId = 18;
+  string kancaName = 19;
+  bool kancaIsRemoved = 20;
+  float nominalDeposit = 21;
+  float shippingFee = 22;
+  float costOrder = 23;
+  string orderType = 24;
+  int32 progressPickup = 25;
+  string orderLater = 26;
+  int32 orderStatusNasabah = 27;
+  int32 orderStatusAgent = 28;
+  string expiredTime = 29;
+  string completedTime = 30;
+  string createdTime = 31;
+  string updatedTime = 32;
+  string orderFinish = 33;
+  string userType = 34;
+  string guarantorName = 35;
+  string agentVehicleCode = 36;
+  float insurance = 37;
+  string feeAdmin = 38;
+  string distance = 39;
+  string statusMessage = 40;
 }
 
 message GetFilterRequest {
