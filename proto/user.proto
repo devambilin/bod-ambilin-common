@@ -106,6 +106,7 @@ service UserService {
     DataUser user = 3;
 	  DataUserPartnership userPartnership = 4;
     UserBaseFilterRequest filter = 5;
+    repeated DataUserPartnership listUserPartnership = 6;
   }
   
   message UserResponse {
