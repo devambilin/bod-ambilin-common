@@ -54,6 +54,7 @@ message AdminLoginResponse {
     string message = 3;
     string token = 4;
     DataAdmin dataAdmin = 5;
+    string refreshToken = 6;
 }
 
 message AdminResetPasswordRequest {
@@ -81,6 +82,7 @@ message CustomerLoginResponse {
     string message = 3;
     string token = 4;
     DataUser dataUser = 5;
+    string refreshToken = 6;
 }
 
 message CustomerVerifyOtpRequest {
@@ -103,6 +105,7 @@ message AgentLoginResponse {
     string message = 3;
     string token = 4;
     DataAgent dataAgent = 5;
+    string refreshToken = 6;
 }
 
 message DataPartner {
@@ -129,6 +132,7 @@ message PartnerRequest {
     string requestId = 1;
     string clientId = 2;
     string token = 3;
+    string refreshToken = 4;
 }
 
 message PartnerResponse {
@@ -153,6 +157,7 @@ message LogoutRequest {
 message SessionRequest {
     string token = 1;
     string signature = 2;
+    string refreshToken = 3;
 }
   
 message SessionResponse {
