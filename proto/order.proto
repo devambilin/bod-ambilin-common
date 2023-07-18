@@ -31,6 +31,9 @@ service OrderService {
     rpc ProcessOrder(OrderDetailRequest) returns(OrderBaseListResponse);
     rpc CheckOperational(CountOrderRequest) returns(OrderBaseResponse);
     rpc GetTransactionFee(OrderConfirmRequest) returns(OrderBaseResponse);
+    //for partner
+    rpc InquiryOrder(InquiryFlaggingRequest) returns(OrderBaseResponse);
+    rpc FlaggingOrder(InquiryFlaggingRequest) returns(OrderBaseResponse);
     //for customer
 //    rpc CustomerSubmitOrder(BaseRequest) returns (OrderBaseResponse);
 //    rpc CustomerDetailOrder(BaseRequest) returns (OrderBaseResponse);
@@ -47,6 +50,22 @@ service OrderService {
 //    rpc AgentConfirmCodeOrder(BaseRequest) returns (OrderBaseResponse);
 //    rpc AgentUpdateAmountOrder(BaseRequest) returns (OrderBaseResponse);
 //    rpc AgentGetFeeTransactionOrder(BaseRequest) returns (OrderBaseResponse);
+}
+
+message InquiryFlaggingRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string signature = 3;
+    string timestamp = 4;
+    InquiryFlaggingData data = 5;
+}
+
+message InquiryFlaggingData {
+    string token = 1;
+    string transactionId = 2;
+    float amount = 3;
+    string status = 4;
+    string agentCode = 5;
 }
 
 message OrderBaseResponse {

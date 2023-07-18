@@ -46,6 +46,9 @@ type OrderServiceClient interface {
 	ProcessOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseListResponse, error)
 	CheckOperational(ctx context.Context, in *CountOrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	GetTransactionFee(ctx context.Context, in *OrderConfirmRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
+	// for partner
+	InquiryOrder(ctx context.Context, in *InquiryFlaggingRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
+	FlaggingOrder(ctx context.Context, in *InquiryFlaggingRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 }
 
 type orderServiceClient struct {
@@ -263,6 +266,24 @@ func (c *orderServiceClient) GetTransactionFee(ctx context.Context, in *OrderCon
 	return out, nil
 }
 
+func (c *orderServiceClient) InquiryOrder(ctx context.Context, in *InquiryFlaggingRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
+	out := new(OrderBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/InquiryOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) FlaggingOrder(ctx context.Context, in *InquiryFlaggingRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
+	out := new(OrderBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/FlaggingOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility
@@ -291,6 +312,9 @@ type OrderServiceServer interface {
 	ProcessOrder(context.Context, *OrderDetailRequest) (*OrderBaseListResponse, error)
 	CheckOperational(context.Context, *CountOrderRequest) (*OrderBaseResponse, error)
 	GetTransactionFee(context.Context, *OrderConfirmRequest) (*OrderBaseResponse, error)
+	// for partner
+	InquiryOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error)
+	FlaggingOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -366,6 +390,12 @@ func (UnimplementedOrderServiceServer) CheckOperational(context.Context, *CountO
 }
 func (UnimplementedOrderServiceServer) GetTransactionFee(context.Context, *OrderConfirmRequest) (*OrderBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionFee not implemented")
+}
+func (UnimplementedOrderServiceServer) InquiryOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InquiryOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) FlaggingOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FlaggingOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
 
@@ -794,6 +824,42 @@ func _OrderService_GetTransactionFee_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_InquiryOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InquiryFlaggingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).InquiryOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/InquiryOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).InquiryOrder(ctx, req.(*InquiryFlaggingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_FlaggingOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InquiryFlaggingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).FlaggingOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/FlaggingOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).FlaggingOrder(ctx, req.(*InquiryFlaggingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -892,6 +958,14 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTransactionFee",
 			Handler:    _OrderService_GetTransactionFee_Handler,
+		},
+		{
+			MethodName: "InquiryOrder",
+			Handler:    _OrderService_InquiryOrder_Handler,
+		},
+		{
+			MethodName: "FlaggingOrder",
+			Handler:    _OrderService_FlaggingOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
