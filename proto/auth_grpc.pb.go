@@ -53,6 +53,8 @@ type AuthServiceClient interface {
 	// for partner
 	PartnerLogin(ctx context.Context, in *AgentLoginPartnerRequest, opts ...grpc.CallOption) (*AgentLoginResponse, error)
 	PartnerDetail(ctx context.Context, in *PartnerRequest, opts ...grpc.CallOption) (*PartnerResponse, error)
+	PartnerSignSignature(ctx context.Context, in *PartnerSignatureRequest, opts ...grpc.CallOption) (*PartnerSignatureResponse, error)
+	PartnerVerifySignature(ctx context.Context, in *PartnerSignatureRequest, opts ...grpc.CallOption) (*PartnerSignatureResponse, error)
 }
 
 type authServiceClient struct {
@@ -297,6 +299,24 @@ func (c *authServiceClient) PartnerDetail(ctx context.Context, in *PartnerReques
 	return out, nil
 }
 
+func (c *authServiceClient) PartnerSignSignature(ctx context.Context, in *PartnerSignatureRequest, opts ...grpc.CallOption) (*PartnerSignatureResponse, error) {
+	out := new(PartnerSignatureResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/PartnerSignSignature", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) PartnerVerifySignature(ctx context.Context, in *PartnerSignatureRequest, opts ...grpc.CallOption) (*PartnerSignatureResponse, error) {
+	out := new(PartnerSignatureResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/PartnerVerifySignature", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility
@@ -332,6 +352,8 @@ type AuthServiceServer interface {
 	// for partner
 	PartnerLogin(context.Context, *AgentLoginPartnerRequest) (*AgentLoginResponse, error)
 	PartnerDetail(context.Context, *PartnerRequest) (*PartnerResponse, error)
+	PartnerSignSignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error)
+	PartnerVerifySignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -416,6 +438,12 @@ func (UnimplementedAuthServiceServer) PartnerLogin(context.Context, *AgentLoginP
 }
 func (UnimplementedAuthServiceServer) PartnerDetail(context.Context, *PartnerRequest) (*PartnerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PartnerDetail not implemented")
+}
+func (UnimplementedAuthServiceServer) PartnerSignSignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PartnerSignSignature not implemented")
+}
+func (UnimplementedAuthServiceServer) PartnerVerifySignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PartnerVerifySignature not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 
@@ -898,6 +926,42 @@ func _AuthService_PartnerDetail_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_PartnerSignSignature_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PartnerSignatureRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).PartnerSignSignature(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/PartnerSignSignature",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).PartnerSignSignature(ctx, req.(*PartnerSignatureRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_PartnerVerifySignature_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PartnerSignatureRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).PartnerVerifySignature(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/PartnerVerifySignature",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).PartnerVerifySignature(ctx, req.(*PartnerSignatureRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1008,6 +1072,14 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PartnerDetail",
 			Handler:    _AuthService_PartnerDetail_Handler,
+		},
+		{
+			MethodName: "PartnerSignSignature",
+			Handler:    _AuthService_PartnerSignSignature_Handler,
+		},
+		{
+			MethodName: "PartnerVerifySignature",
+			Handler:    _AuthService_PartnerVerifySignature_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
