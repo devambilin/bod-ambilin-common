@@ -49,6 +49,7 @@ message PartnerSignatureRequest {
     string token = 3;
     string transactionId = 4;
     string data = 5;
+    string signature = 6;
 }
 
 message PartnerSignatureResponse {
