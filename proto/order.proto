@@ -8,6 +8,7 @@ import "google/protobuf/struct.proto";
 
 service OrderService {
     //for clients grpc
+    rpc ClientGetOrder(ClientOrderRequest) returns(ClientOrderResponse);
     rpc GetOrders(OrderRequest) returns(OrderBaseResponse);
     rpc GetOrderDetail(OrderDetailRequest) returns(OrderBaseResponse);
     rpc GetOrderDetailAgent(OrderDetailRequest) returns(OrderBaseResponse);
@@ -252,7 +253,20 @@ message CountdownRequest {
     string agentId = 5;
 }
 
+message ClientOrderRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    DataOrder order = 3;
+}
 
+message ClientOrderResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    string requestByService = 4;
+    DataOrder order = 5;
+    repeated DataOrder orders = 6;
+}
 
 message DataOrder {
     int64 created = 1;

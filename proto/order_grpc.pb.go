@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderServiceClient interface {
 	// for clients grpc
+	ClientGetOrder(ctx context.Context, in *ClientOrderRequest, opts ...grpc.CallOption) (*ClientOrderResponse, error)
 	GetOrders(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	GetOrderDetail(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	GetOrderDetailAgent(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
@@ -57,6 +58,15 @@ type orderServiceClient struct {
 
 func NewOrderServiceClient(cc grpc.ClientConnInterface) OrderServiceClient {
 	return &orderServiceClient{cc}
+}
+
+func (c *orderServiceClient) ClientGetOrder(ctx context.Context, in *ClientOrderRequest, opts ...grpc.CallOption) (*ClientOrderResponse, error) {
+	out := new(ClientOrderResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/ClientGetOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
@@ -289,6 +299,7 @@ func (c *orderServiceClient) FlaggingOrder(ctx context.Context, in *InquiryFlagg
 // for forward compatibility
 type OrderServiceServer interface {
 	// for clients grpc
+	ClientGetOrder(context.Context, *ClientOrderRequest) (*ClientOrderResponse, error)
 	GetOrders(context.Context, *OrderRequest) (*OrderBaseResponse, error)
 	GetOrderDetail(context.Context, *OrderDetailRequest) (*OrderBaseResponse, error)
 	GetOrderDetailAgent(context.Context, *OrderDetailRequest) (*OrderBaseResponse, error)
@@ -322,6 +333,9 @@ type OrderServiceServer interface {
 type UnimplementedOrderServiceServer struct {
 }
 
+func (UnimplementedOrderServiceServer) ClientGetOrder(context.Context, *ClientOrderRequest) (*ClientOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClientGetOrder not implemented")
+}
 func (UnimplementedOrderServiceServer) GetOrders(context.Context, *OrderRequest) (*OrderBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
 }
@@ -408,6 +422,24 @@ type UnsafeOrderServiceServer interface {
 
 func RegisterOrderServiceServer(s grpc.ServiceRegistrar, srv OrderServiceServer) {
 	s.RegisterService(&OrderService_ServiceDesc, srv)
+}
+
+func _OrderService_ClientGetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClientOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).ClientGetOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/ClientGetOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).ClientGetOrder(ctx, req.(*ClientOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -867,6 +899,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "proto.OrderService",
 	HandlerType: (*OrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ClientGetOrder",
+			Handler:    _OrderService_ClientGetOrder_Handler,
+		},
 		{
 			MethodName: "GetOrders",
 			Handler:    _OrderService_GetOrders_Handler,
