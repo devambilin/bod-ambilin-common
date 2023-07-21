@@ -8,8 +8,10 @@ service RatingService {
   rpc CreateCustomerRating(UserRatingRequest) returns (UserRatingResponse){}
   rpc GetAgentRatings(AgentRatingRequest) returns (AgentRatingListResponse){}
   rpc GetAgentRatingTotal(AgentRatingRequest) returns (AgentRatingTotalResponse){}
+  rpc GetAgentRatingByTransaction(AgentRatingRequest) returns (AgentRatingResponse){}
   rpc GetCustomerRatings(UserRatingRequest) returns (UserRatingListResponse){}
   rpc GetCustomerRatingTotal(UserRatingRequest) returns (UserRatingTotalResponse){}
+  rpc GetCustomerRatingByTransaction(UserRatingRequest) returns (UserRatingResponse){}
 }
 
 message AgentRating {

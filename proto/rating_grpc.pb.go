@@ -26,8 +26,10 @@ type RatingServiceClient interface {
 	CreateCustomerRating(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error)
 	GetAgentRatings(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingListResponse, error)
 	GetAgentRatingTotal(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingTotalResponse, error)
+	GetAgentRatingByTransaction(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error)
 	GetCustomerRatings(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingListResponse, error)
 	GetCustomerRatingTotal(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingTotalResponse, error)
+	GetCustomerRatingByTransaction(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error)
 }
 
 type ratingServiceClient struct {
@@ -74,6 +76,15 @@ func (c *ratingServiceClient) GetAgentRatingTotal(ctx context.Context, in *Agent
 	return out, nil
 }
 
+func (c *ratingServiceClient) GetAgentRatingByTransaction(ctx context.Context, in *AgentRatingRequest, opts ...grpc.CallOption) (*AgentRatingResponse, error) {
+	out := new(AgentRatingResponse)
+	err := c.cc.Invoke(ctx, "/proto.RatingService/GetAgentRatingByTransaction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *ratingServiceClient) GetCustomerRatings(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingListResponse, error) {
 	out := new(UserRatingListResponse)
 	err := c.cc.Invoke(ctx, "/proto.RatingService/GetCustomerRatings", in, out, opts...)
@@ -92,6 +103,15 @@ func (c *ratingServiceClient) GetCustomerRatingTotal(ctx context.Context, in *Us
 	return out, nil
 }
 
+func (c *ratingServiceClient) GetCustomerRatingByTransaction(ctx context.Context, in *UserRatingRequest, opts ...grpc.CallOption) (*UserRatingResponse, error) {
+	out := new(UserRatingResponse)
+	err := c.cc.Invoke(ctx, "/proto.RatingService/GetCustomerRatingByTransaction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RatingServiceServer is the server API for RatingService service.
 // All implementations must embed UnimplementedRatingServiceServer
 // for forward compatibility
@@ -100,8 +120,10 @@ type RatingServiceServer interface {
 	CreateCustomerRating(context.Context, *UserRatingRequest) (*UserRatingResponse, error)
 	GetAgentRatings(context.Context, *AgentRatingRequest) (*AgentRatingListResponse, error)
 	GetAgentRatingTotal(context.Context, *AgentRatingRequest) (*AgentRatingTotalResponse, error)
+	GetAgentRatingByTransaction(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error)
 	GetCustomerRatings(context.Context, *UserRatingRequest) (*UserRatingListResponse, error)
 	GetCustomerRatingTotal(context.Context, *UserRatingRequest) (*UserRatingTotalResponse, error)
+	GetCustomerRatingByTransaction(context.Context, *UserRatingRequest) (*UserRatingResponse, error)
 	mustEmbedUnimplementedRatingServiceServer()
 }
 
@@ -121,11 +143,17 @@ func (UnimplementedRatingServiceServer) GetAgentRatings(context.Context, *AgentR
 func (UnimplementedRatingServiceServer) GetAgentRatingTotal(context.Context, *AgentRatingRequest) (*AgentRatingTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgentRatingTotal not implemented")
 }
+func (UnimplementedRatingServiceServer) GetAgentRatingByTransaction(context.Context, *AgentRatingRequest) (*AgentRatingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgentRatingByTransaction not implemented")
+}
 func (UnimplementedRatingServiceServer) GetCustomerRatings(context.Context, *UserRatingRequest) (*UserRatingListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerRatings not implemented")
 }
 func (UnimplementedRatingServiceServer) GetCustomerRatingTotal(context.Context, *UserRatingRequest) (*UserRatingTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerRatingTotal not implemented")
+}
+func (UnimplementedRatingServiceServer) GetCustomerRatingByTransaction(context.Context, *UserRatingRequest) (*UserRatingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerRatingByTransaction not implemented")
 }
 func (UnimplementedRatingServiceServer) mustEmbedUnimplementedRatingServiceServer() {}
 
@@ -212,6 +240,24 @@ func _RatingService_GetAgentRatingTotal_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RatingService_GetAgentRatingByTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRatingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RatingServiceServer).GetAgentRatingByTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.RatingService/GetAgentRatingByTransaction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RatingServiceServer).GetAgentRatingByTransaction(ctx, req.(*AgentRatingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _RatingService_GetCustomerRatings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserRatingRequest)
 	if err := dec(in); err != nil {
@@ -248,6 +294,24 @@ func _RatingService_GetCustomerRatingTotal_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RatingService_GetCustomerRatingByTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRatingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RatingServiceServer).GetCustomerRatingByTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.RatingService/GetCustomerRatingByTransaction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RatingServiceServer).GetCustomerRatingByTransaction(ctx, req.(*UserRatingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RatingService_ServiceDesc is the grpc.ServiceDesc for RatingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -272,12 +336,20 @@ var RatingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RatingService_GetAgentRatingTotal_Handler,
 		},
 		{
+			MethodName: "GetAgentRatingByTransaction",
+			Handler:    _RatingService_GetAgentRatingByTransaction_Handler,
+		},
+		{
 			MethodName: "GetCustomerRatings",
 			Handler:    _RatingService_GetCustomerRatings_Handler,
 		},
 		{
 			MethodName: "GetCustomerRatingTotal",
 			Handler:    _RatingService_GetCustomerRatingTotal_Handler,
+		},
+		{
+			MethodName: "GetCustomerRatingByTransaction",
+			Handler:    _RatingService_GetCustomerRatingByTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
