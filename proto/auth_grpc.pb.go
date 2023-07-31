@@ -30,8 +30,8 @@ type AuthServiceClient interface {
 	AdminValidateSession(ctx context.Context, in *SessionRequest, opts ...grpc.CallOption) (*SessionResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 	AdminLoginValidate(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
-	AdminForgotPassword(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
-	AdminResetPassword(ctx context.Context, in *AdminResetPasswordRequest, opts ...grpc.CallOption) (*AdminPasswordResponse, error)
+	AdminForgotPassword(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminPasswordResponse, error)
+	AdminResetPassword(ctx context.Context, in *AdminResetPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AdminResetPasswordValidate(ctx context.Context, in *AdminResetPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	AdminChangePassword(ctx context.Context, in *AdminChangePasswordRequest, opts ...grpc.CallOption) (*AdminPasswordResponse, error)
 	AdminLogout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
@@ -119,8 +119,8 @@ func (c *authServiceClient) AdminLoginValidate(ctx context.Context, in *AdminLog
 	return out, nil
 }
 
-func (c *authServiceClient) AdminForgotPassword(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
-	out := new(DefaultResponse)
+func (c *authServiceClient) AdminForgotPassword(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminPasswordResponse, error) {
+	out := new(AdminPasswordResponse)
 	err := c.cc.Invoke(ctx, "/proto.AuthService/AdminForgotPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -128,8 +128,8 @@ func (c *authServiceClient) AdminForgotPassword(ctx context.Context, in *AdminLo
 	return out, nil
 }
 
-func (c *authServiceClient) AdminResetPassword(ctx context.Context, in *AdminResetPasswordRequest, opts ...grpc.CallOption) (*AdminPasswordResponse, error) {
-	out := new(AdminPasswordResponse)
+func (c *authServiceClient) AdminResetPassword(ctx context.Context, in *AdminResetPasswordRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	out := new(DefaultResponse)
 	err := c.cc.Invoke(ctx, "/proto.AuthService/AdminResetPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -329,8 +329,8 @@ type AuthServiceServer interface {
 	AdminValidateSession(context.Context, *SessionRequest) (*SessionResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	AdminLoginValidate(context.Context, *AdminLoginRequest) (*DefaultResponse, error)
-	AdminForgotPassword(context.Context, *AdminLoginRequest) (*DefaultResponse, error)
-	AdminResetPassword(context.Context, *AdminResetPasswordRequest) (*AdminPasswordResponse, error)
+	AdminForgotPassword(context.Context, *AdminLoginRequest) (*AdminPasswordResponse, error)
+	AdminResetPassword(context.Context, *AdminResetPasswordRequest) (*DefaultResponse, error)
 	AdminResetPasswordValidate(context.Context, *AdminResetPasswordRequest) (*DefaultResponse, error)
 	AdminChangePassword(context.Context, *AdminChangePasswordRequest) (*AdminPasswordResponse, error)
 	AdminLogout(context.Context, *LogoutRequest) (*DefaultResponse, error)
@@ -379,10 +379,10 @@ func (UnimplementedAuthServiceServer) AdminLogin(context.Context, *AdminLoginReq
 func (UnimplementedAuthServiceServer) AdminLoginValidate(context.Context, *AdminLoginRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLoginValidate not implemented")
 }
-func (UnimplementedAuthServiceServer) AdminForgotPassword(context.Context, *AdminLoginRequest) (*DefaultResponse, error) {
+func (UnimplementedAuthServiceServer) AdminForgotPassword(context.Context, *AdminLoginRequest) (*AdminPasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminForgotPassword not implemented")
 }
-func (UnimplementedAuthServiceServer) AdminResetPassword(context.Context, *AdminResetPasswordRequest) (*AdminPasswordResponse, error) {
+func (UnimplementedAuthServiceServer) AdminResetPassword(context.Context, *AdminResetPasswordRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminResetPassword not implemented")
 }
 func (UnimplementedAuthServiceServer) AdminResetPasswordValidate(context.Context, *AdminResetPasswordRequest) (*DefaultResponse, error) {

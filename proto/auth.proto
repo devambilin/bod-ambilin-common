@@ -16,8 +16,8 @@ service AuthService {
     rpc AdminValidateSession(SessionRequest) returns (SessionResponse){}
     rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse){}
 	  rpc AdminLoginValidate(AdminLoginRequest) returns (DefaultResponse){}
-    rpc AdminForgotPassword(AdminLoginRequest) returns (DefaultResponse){}
-    rpc AdminResetPassword(AdminResetPasswordRequest) returns (AdminPasswordResponse){}
+    rpc AdminForgotPassword(AdminLoginRequest) returns (AdminPasswordResponse){}
+    rpc AdminResetPassword(AdminResetPasswordRequest) returns (DefaultResponse){}
     rpc AdminResetPasswordValidate(AdminResetPasswordRequest) returns (DefaultResponse){}
     rpc AdminChangePassword(AdminChangePasswordRequest) returns (AdminPasswordResponse){}
     rpc AdminLogout(LogoutRequest) returns (DefaultResponse){}
