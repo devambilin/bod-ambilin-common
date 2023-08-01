@@ -35,6 +35,7 @@ service OrderService {
     //for partner
     rpc InquiryOrder(InquiryFlaggingRequest) returns(OrderBaseResponse);
     rpc FlaggingOrder(InquiryFlaggingRequest) returns(OrderBaseResponse);
+    rpc CheckStatusOrder(OrderDetailRequest) returns(OrderBaseResponse);
     //for customer
 //    rpc CustomerSubmitOrder(BaseRequest) returns (OrderBaseResponse);
 //    rpc CustomerDetailOrder(BaseRequest) returns (OrderBaseResponse);

@@ -2921,7 +2921,7 @@ var file_proto_order_proto_rawDesc = []byte{
 	0x74, 0x65, 0x6e, 0x64, 0x18, 0x25, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x65, 0x78, 0x70, 0x69,
 	0x72, 0x65, 0x64, 0x54, 0x69, 0x6d, 0x65, 0x45, 0x78, 0x74, 0x65, 0x6e, 0x64, 0x12, 0x1e, 0x0a,
 	0x0a, 0x75, 0x72, 0x6c, 0x49, 0x6e, 0x76, 0x6f, 0x69, 0x63, 0x65, 0x18, 0x26, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0a, 0x75, 0x72, 0x6c, 0x49, 0x6e, 0x76, 0x6f, 0x69, 0x63, 0x65, 0x32, 0xc1, 0x0e,
+	0x09, 0x52, 0x0a, 0x75, 0x72, 0x6c, 0x49, 0x6e, 0x76, 0x6f, 0x69, 0x63, 0x65, 0x32, 0x8a, 0x0f,
 	0x0a, 0x0c, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x47,
 	0x0a, 0x0e, 0x43, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72,
 	0x12, 0x19, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x4f,
@@ -3038,10 +3038,15 @@ var file_proto_order_proto_rawDesc = []byte{
 	0x2e, 0x49, 0x6e, 0x71, 0x75, 0x69, 0x72, 0x79, 0x46, 0x6c, 0x61, 0x67, 0x67, 0x69, 0x6e, 0x67,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
 	0x4f, 0x72, 0x64, 0x65, 0x72, 0x42, 0x61, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x42, 0x30, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x64, 0x65, 0x76, 0x61, 0x6d, 0x62, 0x69, 0x6c, 0x69, 0x6e, 0x2f, 0x62, 0x6f, 0x64, 0x2d, 0x61,
-	0x6d, 0x62, 0x69, 0x6c, 0x69, 0x6e, 0x2d, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x12, 0x47, 0x0a, 0x10, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x4f, 0x72, 0x64, 0x65, 0x72, 0x12, 0x19, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x4f, 0x72,
+	0x64, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x18, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x42, 0x61,
+	0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x30, 0x5a, 0x2e, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x76, 0x61, 0x6d, 0x62, 0x69,
+	0x6c, 0x69, 0x6e, 0x2f, 0x62, 0x6f, 0x64, 0x2d, 0x61, 0x6d, 0x62, 0x69, 0x6c, 0x69, 0x6e, 0x2d,
+	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3131,34 +3136,36 @@ var file_proto_order_proto_depIdxs = []int32{
 	12, // 36: proto.OrderService.GetTransactionFee:input_type -> proto.OrderConfirmRequest
 	0,  // 37: proto.OrderService.InquiryOrder:input_type -> proto.InquiryFlaggingRequest
 	0,  // 38: proto.OrderService.FlaggingOrder:input_type -> proto.InquiryFlaggingRequest
-	27, // 39: proto.OrderService.ClientGetOrder:output_type -> proto.ClientOrderResponse
-	2,  // 40: proto.OrderService.GetOrders:output_type -> proto.OrderBaseResponse
-	2,  // 41: proto.OrderService.GetOrderDetail:output_type -> proto.OrderBaseResponse
-	2,  // 42: proto.OrderService.GetOrderDetailAgent:output_type -> proto.OrderBaseResponse
-	2,  // 43: proto.OrderService.CreateOrder:output_type -> proto.OrderBaseResponse
-	2,  // 44: proto.OrderService.UpdateOrder:output_type -> proto.OrderBaseResponse
-	2,  // 45: proto.OrderService.DeleteOrder:output_type -> proto.OrderBaseResponse
-	2,  // 46: proto.OrderService.SendNotificationFirebase:output_type -> proto.OrderBaseResponse
-	2,  // 47: proto.OrderService.OrderConfirm:output_type -> proto.OrderBaseResponse
-	2,  // 48: proto.OrderService.CountOrderAgent:output_type -> proto.OrderBaseResponse
-	2,  // 49: proto.OrderService.CountOrderNasabah:output_type -> proto.OrderBaseResponse
-	2,  // 50: proto.OrderService.ConfirmAgent:output_type -> proto.OrderBaseResponse
-	2,  // 51: proto.OrderService.OrderHistory:output_type -> proto.OrderBaseResponse
-	2,  // 52: proto.OrderService.ChangeStatusAgent:output_type -> proto.OrderBaseResponse
-	2,  // 53: proto.OrderService.ChangeStatusNasabah:output_type -> proto.OrderBaseResponse
-	2,  // 54: proto.OrderService.FinishOrder:output_type -> proto.OrderBaseResponse
-	2,  // 55: proto.OrderService.CancelOrder:output_type -> proto.OrderBaseResponse
-	2,  // 56: proto.OrderService.DailyOrderSum:output_type -> proto.OrderBaseResponse
-	2,  // 57: proto.OrderService.UpdateNominal:output_type -> proto.OrderBaseResponse
-	2,  // 58: proto.OrderService.OrderCheck:output_type -> proto.OrderBaseResponse
-	2,  // 59: proto.OrderService.UpdateStatusCountdown:output_type -> proto.OrderBaseResponse
-	3,  // 60: proto.OrderService.ProcessOrder:output_type -> proto.OrderBaseListResponse
-	2,  // 61: proto.OrderService.CheckOperational:output_type -> proto.OrderBaseResponse
-	2,  // 62: proto.OrderService.GetTransactionFee:output_type -> proto.OrderBaseResponse
-	2,  // 63: proto.OrderService.InquiryOrder:output_type -> proto.OrderBaseResponse
-	2,  // 64: proto.OrderService.FlaggingOrder:output_type -> proto.OrderBaseResponse
-	39, // [39:65] is the sub-list for method output_type
-	13, // [13:39] is the sub-list for method input_type
+	6,  // 39: proto.OrderService.CheckStatusOrder:input_type -> proto.OrderDetailRequest
+	27, // 40: proto.OrderService.ClientGetOrder:output_type -> proto.ClientOrderResponse
+	2,  // 41: proto.OrderService.GetOrders:output_type -> proto.OrderBaseResponse
+	2,  // 42: proto.OrderService.GetOrderDetail:output_type -> proto.OrderBaseResponse
+	2,  // 43: proto.OrderService.GetOrderDetailAgent:output_type -> proto.OrderBaseResponse
+	2,  // 44: proto.OrderService.CreateOrder:output_type -> proto.OrderBaseResponse
+	2,  // 45: proto.OrderService.UpdateOrder:output_type -> proto.OrderBaseResponse
+	2,  // 46: proto.OrderService.DeleteOrder:output_type -> proto.OrderBaseResponse
+	2,  // 47: proto.OrderService.SendNotificationFirebase:output_type -> proto.OrderBaseResponse
+	2,  // 48: proto.OrderService.OrderConfirm:output_type -> proto.OrderBaseResponse
+	2,  // 49: proto.OrderService.CountOrderAgent:output_type -> proto.OrderBaseResponse
+	2,  // 50: proto.OrderService.CountOrderNasabah:output_type -> proto.OrderBaseResponse
+	2,  // 51: proto.OrderService.ConfirmAgent:output_type -> proto.OrderBaseResponse
+	2,  // 52: proto.OrderService.OrderHistory:output_type -> proto.OrderBaseResponse
+	2,  // 53: proto.OrderService.ChangeStatusAgent:output_type -> proto.OrderBaseResponse
+	2,  // 54: proto.OrderService.ChangeStatusNasabah:output_type -> proto.OrderBaseResponse
+	2,  // 55: proto.OrderService.FinishOrder:output_type -> proto.OrderBaseResponse
+	2,  // 56: proto.OrderService.CancelOrder:output_type -> proto.OrderBaseResponse
+	2,  // 57: proto.OrderService.DailyOrderSum:output_type -> proto.OrderBaseResponse
+	2,  // 58: proto.OrderService.UpdateNominal:output_type -> proto.OrderBaseResponse
+	2,  // 59: proto.OrderService.OrderCheck:output_type -> proto.OrderBaseResponse
+	2,  // 60: proto.OrderService.UpdateStatusCountdown:output_type -> proto.OrderBaseResponse
+	3,  // 61: proto.OrderService.ProcessOrder:output_type -> proto.OrderBaseListResponse
+	2,  // 62: proto.OrderService.CheckOperational:output_type -> proto.OrderBaseResponse
+	2,  // 63: proto.OrderService.GetTransactionFee:output_type -> proto.OrderBaseResponse
+	2,  // 64: proto.OrderService.InquiryOrder:output_type -> proto.OrderBaseResponse
+	2,  // 65: proto.OrderService.FlaggingOrder:output_type -> proto.OrderBaseResponse
+	2,  // 66: proto.OrderService.CheckStatusOrder:output_type -> proto.OrderBaseResponse
+	40, // [40:67] is the sub-list for method output_type
+	13, // [13:40] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
 	13, // [13:13] is the sub-list for extension extendee
 	0,  // [0:13] is the sub-list for field type_name

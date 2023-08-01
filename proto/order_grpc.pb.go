@@ -50,6 +50,7 @@ type OrderServiceClient interface {
 	// for partner
 	InquiryOrder(ctx context.Context, in *InquiryFlaggingRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 	FlaggingOrder(ctx context.Context, in *InquiryFlaggingRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
+	CheckStatusOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error)
 }
 
 type orderServiceClient struct {
@@ -294,6 +295,15 @@ func (c *orderServiceClient) FlaggingOrder(ctx context.Context, in *InquiryFlagg
 	return out, nil
 }
 
+func (c *orderServiceClient) CheckStatusOrder(ctx context.Context, in *OrderDetailRequest, opts ...grpc.CallOption) (*OrderBaseResponse, error) {
+	out := new(OrderBaseResponse)
+	err := c.cc.Invoke(ctx, "/proto.OrderService/CheckStatusOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility
@@ -326,6 +336,7 @@ type OrderServiceServer interface {
 	// for partner
 	InquiryOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error)
 	FlaggingOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error)
+	CheckStatusOrder(context.Context, *OrderDetailRequest) (*OrderBaseResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -410,6 +421,9 @@ func (UnimplementedOrderServiceServer) InquiryOrder(context.Context, *InquiryFla
 }
 func (UnimplementedOrderServiceServer) FlaggingOrder(context.Context, *InquiryFlaggingRequest) (*OrderBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FlaggingOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) CheckStatusOrder(context.Context, *OrderDetailRequest) (*OrderBaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckStatusOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
 
@@ -892,6 +906,24 @@ func _OrderService_FlaggingOrder_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_CheckStatusOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CheckStatusOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.OrderService/CheckStatusOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CheckStatusOrder(ctx, req.(*OrderDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1002,6 +1034,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FlaggingOrder",
 			Handler:    _OrderService_FlaggingOrder_Handler,
+		},
+		{
+			MethodName: "CheckStatusOrder",
+			Handler:    _OrderService_CheckStatusOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
