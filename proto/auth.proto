@@ -97,6 +97,7 @@ message AdminChangePasswordRequest {
     string requestId = 1;
     string oldPassword = 2;
     string newPassword = 3;
+    string id = 4;
 }
 //for customer
 message CustomerLoginRequest {
