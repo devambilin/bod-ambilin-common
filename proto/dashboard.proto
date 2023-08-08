@@ -31,7 +31,8 @@ service DashboardService {
   rpc DownloadReportExecutive(DownloadRequest) returns(DownloadResponse);
   rpc DownloadReportOperational(DownloadRequest) returns(DownloadResponse);
   //Menu
-  rpc ListMenu(DownloadRequest) returns(DashboardBaseResponse);
+  rpc ListMenu(DownloadRequest) returns(DashboardBaseListResponse);
+  rpc ListMenuByRole(DownloadRequest) returns(DashboardBaseListResponse);
   //  //promo
   rpc GetListPromo(PromoListRequest) returns (DashboardBaseResponse);
   rpc GetDetailPromo(PromoRequest) returns (DashboardBaseResponse);
@@ -158,6 +159,7 @@ message DownloadRequest {
   string keyword = 9;
   int32 offset = 10;
   int32 limit = 11;
+  string roleId = 12;
 }
 
 message DownloadResponse {

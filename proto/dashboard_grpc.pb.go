@@ -47,7 +47,8 @@ type DashboardServiceClient interface {
 	DownloadReportExecutive(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
 	DownloadReportOperational(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DownloadResponse, error)
 	// Menu
-	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
+	ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
+	ListMenuByRole(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error)
 	// //promo
 	GetListPromo(ctx context.Context, in *PromoListRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
 	GetDetailPromo(ctx context.Context, in *PromoRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error)
@@ -253,9 +254,18 @@ func (c *dashboardServiceClient) DownloadReportOperational(ctx context.Context, 
 	return out, nil
 }
 
-func (c *dashboardServiceClient) ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseResponse, error) {
-	out := new(DashboardBaseResponse)
+func (c *dashboardServiceClient) ListMenu(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
 	err := c.cc.Invoke(ctx, "/proto.DashboardService/ListMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dashboardServiceClient) ListMenuByRole(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (*DashboardBaseListResponse, error) {
+	out := new(DashboardBaseListResponse)
+	err := c.cc.Invoke(ctx, "/proto.DashboardService/ListMenuByRole", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -435,7 +445,8 @@ type DashboardServiceServer interface {
 	DownloadReportExecutive(context.Context, *DownloadRequest) (*DownloadResponse, error)
 	DownloadReportOperational(context.Context, *DownloadRequest) (*DownloadResponse, error)
 	// Menu
-	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error)
+	ListMenu(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error)
+	ListMenuByRole(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error)
 	// //promo
 	GetListPromo(context.Context, *PromoListRequest) (*DashboardBaseResponse, error)
 	GetDetailPromo(context.Context, *PromoRequest) (*DashboardBaseResponse, error)
@@ -524,8 +535,11 @@ func (UnimplementedDashboardServiceServer) DownloadReportExecutive(context.Conte
 func (UnimplementedDashboardServiceServer) DownloadReportOperational(context.Context, *DownloadRequest) (*DownloadResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DownloadReportOperational not implemented")
 }
-func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseResponse, error) {
+func (UnimplementedDashboardServiceServer) ListMenu(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMenu not implemented")
+}
+func (UnimplementedDashboardServiceServer) ListMenuByRole(context.Context, *DownloadRequest) (*DashboardBaseListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMenuByRole not implemented")
 }
 func (UnimplementedDashboardServiceServer) GetListPromo(context.Context, *PromoListRequest) (*DashboardBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetListPromo not implemented")
@@ -948,6 +962,24 @@ func _DashboardService_ListMenu_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DashboardService_ListMenuByRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DashboardServiceServer).ListMenuByRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.DashboardService/ListMenuByRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DashboardServiceServer).ListMenuByRole(ctx, req.(*DownloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DashboardService_GetListPromo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PromoListRequest)
 	if err := dec(in); err != nil {
@@ -1322,6 +1354,10 @@ var DashboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListMenu",
 			Handler:    _DashboardService_ListMenu_Handler,
+		},
+		{
+			MethodName: "ListMenuByRole",
+			Handler:    _DashboardService_ListMenuByRole_Handler,
 		},
 		{
 			MethodName: "GetListPromo",
