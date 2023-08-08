@@ -6,6 +6,7 @@ option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 import "proto/dashboard.proto";
 import "proto/user.proto";
 import "proto/agent.proto";
+import "google/protobuf/struct.proto";
 
 service AuthService {
 	  //for global
@@ -84,6 +85,7 @@ message AdminLoginResponse {
     string token = 4;
     DataAdmin dataAdmin = 5;
     string refreshToken = 6;
+    google.protobuf.ListValue menu = 7;
 }
 
 message AdminResetPasswordRequest {
