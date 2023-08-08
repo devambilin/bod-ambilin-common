@@ -85,7 +85,7 @@ message AdminLoginResponse {
     string token = 4;
     DataAdmin dataAdmin = 5;
     string refreshToken = 6;
-    google.protobuf.Struct menu = 7;
+    google.protobuf.ListValue menu = 7;
 }
 
 message AdminResetPasswordRequest {
