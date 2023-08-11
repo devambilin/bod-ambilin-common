@@ -160,4 +160,7 @@ service UserService {
     string id = 6;
 	  string userId = 7;
 	  string agentId = 8;
+    string partnershipName = 9;
+    string cooperationDate = 10;
+    int64 feePickup = 11;
   }
