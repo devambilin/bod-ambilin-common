@@ -139,6 +139,7 @@ message PromoCreateRequest {
   string title = 8;
   string description = 9;
   string adminId = 10;
+  string imageUrl = 11;
 }
 
 message MasterConfigRequest {
