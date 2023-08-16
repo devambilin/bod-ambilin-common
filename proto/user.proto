@@ -50,6 +50,10 @@ service UserService {
     rpc AgentFindAddressDetailMaps(FindAddressRequest) returns (UserBaseResponse){}
   }
 
+  message AgentList {
+    string agentId = 1;
+  }
+
   message FindAddressRequest {
     string requestId = 1;
     string requestByService = 2;
@@ -149,6 +153,7 @@ service UserService {
     string partnerId = 26;
     string kanwilName = 27;
     string kancaName = 28;
+    repeated AgentList listAgent = 29;
   }
   
   message DataUserPartnership {
