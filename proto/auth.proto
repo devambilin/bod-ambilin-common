@@ -106,6 +106,7 @@ message CustomerLoginRequest {
     string requestId = 1;
     string phone = 2;
     string pin = 3;
+    string oldPin = 4;
 }
 
 message CustomerLoginResponse {
