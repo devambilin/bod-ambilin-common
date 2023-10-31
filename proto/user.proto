@@ -3,6 +3,7 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 import "google/protobuf/struct.proto";
+import "proto/other.proto";
 
 service UserService {
     //for clients grpc
@@ -95,6 +96,7 @@ service UserService {
     google.protobuf.Struct data = 5;
     google.protobuf.ListValue listData = 6;
     google.protobuf.Value dataValue = 7;
+    Pagination pagination = 8;
   }
 
   message UserBaseFilterRequest {

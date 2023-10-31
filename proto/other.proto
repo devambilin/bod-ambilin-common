@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "github.com/devambilin/bod-ambilin-common/proto";
+
+message Pagination {
+  int32 page = 1;
+  int32 limit = 2;
+  int32 totalRows = 3;
+  int32 totalPages = 4;
+}

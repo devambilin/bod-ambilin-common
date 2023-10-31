@@ -3,6 +3,7 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 
+import "proto/other.proto";
 import "google/protobuf/struct.proto";
 
 service DashboardService {
@@ -324,6 +325,7 @@ message DashboardBaseListResponse {
   string requestId = 3;
   string requestByService = 4;
   google.protobuf.ListValue data = 5;
+  Pagination pagination = 6;
 }
 
 message DataAdmin {

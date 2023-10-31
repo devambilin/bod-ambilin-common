@@ -3,6 +3,7 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/devambilin/bod-ambilin-common/proto";
 import "proto/user.proto";
+import "proto/other.proto";
 import "google/protobuf/struct.proto";
 
 service AgentService {
@@ -102,6 +103,7 @@ service AgentService {
     string requestId = 3;
     google.protobuf.Struct data = 5;
     google.protobuf.ListValue listData = 6;
+    Pagination pagination = 7;
   }
 
   message AgentDetailCustomer {
