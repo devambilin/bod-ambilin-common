@@ -29,6 +29,7 @@ service AuthService {
     rpc CustomerVerifyPin(CustomerLoginRequest) returns (CustomerLoginResponse){}
 	  rpc CustomerVerifyChangePin(CustomerLoginRequest) returns (DefaultResponse){}
     rpc CustomerChangePin(CustomerLoginRequest) returns (DefaultResponse){}
+    rpc CustomerChangePinForgot(CustomerLoginRequest) returns (DefaultResponse){}
     rpc CustomerForgotPin(CustomerLoginRequest) returns (DefaultResponse){}
 	  rpc CustomerVerifyOtpForgotPin(CustomerVerifyOtpRequest) returns (CustomerLoginResponse){}
     rpc CustomerLogout(LogoutRequest) returns (DefaultResponse){}

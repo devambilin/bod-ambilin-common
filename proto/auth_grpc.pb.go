@@ -42,6 +42,7 @@ type AuthServiceClient interface {
 	CustomerVerifyPin(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*CustomerLoginResponse, error)
 	CustomerVerifyChangePin(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	CustomerChangePin(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	CustomerChangePinForgot(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	CustomerForgotPin(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
 	CustomerVerifyOtpForgotPin(ctx context.Context, in *CustomerVerifyOtpRequest, opts ...grpc.CallOption) (*CustomerLoginResponse, error)
 	CustomerLogout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
@@ -218,6 +219,15 @@ func (c *authServiceClient) CustomerChangePin(ctx context.Context, in *CustomerL
 	return out, nil
 }
 
+func (c *authServiceClient) CustomerChangePinForgot(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CustomerChangePinForgot", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authServiceClient) CustomerForgotPin(ctx context.Context, in *CustomerLoginRequest, opts ...grpc.CallOption) (*DefaultResponse, error) {
 	out := new(DefaultResponse)
 	err := c.cc.Invoke(ctx, "/proto.AuthService/CustomerForgotPin", in, out, opts...)
@@ -341,6 +351,7 @@ type AuthServiceServer interface {
 	CustomerVerifyPin(context.Context, *CustomerLoginRequest) (*CustomerLoginResponse, error)
 	CustomerVerifyChangePin(context.Context, *CustomerLoginRequest) (*DefaultResponse, error)
 	CustomerChangePin(context.Context, *CustomerLoginRequest) (*DefaultResponse, error)
+	CustomerChangePinForgot(context.Context, *CustomerLoginRequest) (*DefaultResponse, error)
 	CustomerForgotPin(context.Context, *CustomerLoginRequest) (*DefaultResponse, error)
 	CustomerVerifyOtpForgotPin(context.Context, *CustomerVerifyOtpRequest) (*CustomerLoginResponse, error)
 	CustomerLogout(context.Context, *LogoutRequest) (*DefaultResponse, error)
@@ -411,6 +422,9 @@ func (UnimplementedAuthServiceServer) CustomerVerifyChangePin(context.Context, *
 }
 func (UnimplementedAuthServiceServer) CustomerChangePin(context.Context, *CustomerLoginRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerChangePin not implemented")
+}
+func (UnimplementedAuthServiceServer) CustomerChangePinForgot(context.Context, *CustomerLoginRequest) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerChangePinForgot not implemented")
 }
 func (UnimplementedAuthServiceServer) CustomerForgotPin(context.Context, *CustomerLoginRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerForgotPin not implemented")
@@ -764,6 +778,24 @@ func _AuthService_CustomerChangePin_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_CustomerChangePinForgot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CustomerLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).CustomerChangePinForgot(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/CustomerChangePinForgot",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).CustomerChangePinForgot(ctx, req.(*CustomerLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AuthService_CustomerForgotPin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CustomerLoginRequest)
 	if err := dec(in); err != nil {
@@ -1036,6 +1068,10 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CustomerChangePin",
 			Handler:    _AuthService_CustomerChangePin_Handler,
+		},
+		{
+			MethodName: "CustomerChangePinForgot",
+			Handler:    _AuthService_CustomerChangePinForgot_Handler,
 		},
 		{
 			MethodName: "CustomerForgotPin",
