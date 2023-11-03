@@ -77,6 +77,7 @@ message OrderBaseResponse {
     string requestId = 3;
     string requestByService = 4;
     google.protobuf.Struct data = 5;
+    Pagination pagination = 6;
 }
 
 message OrderBaseListResponse {
