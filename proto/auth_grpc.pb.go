@@ -56,6 +56,8 @@ type AuthServiceClient interface {
 	PartnerDetail(ctx context.Context, in *PartnerRequest, opts ...grpc.CallOption) (*PartnerResponse, error)
 	PartnerSignSignature(ctx context.Context, in *PartnerSignatureRequest, opts ...grpc.CallOption) (*PartnerSignatureResponse, error)
 	PartnerVerifySignature(ctx context.Context, in *PartnerSignatureRequest, opts ...grpc.CallOption) (*PartnerSignatureResponse, error)
+	// for brilink
+	BrilinkLogin(ctx context.Context, in *BrilinkLoginRequest, opts ...grpc.CallOption) (*AgentLoginResponse, error)
 }
 
 type authServiceClient struct {
@@ -327,6 +329,15 @@ func (c *authServiceClient) PartnerVerifySignature(ctx context.Context, in *Part
 	return out, nil
 }
 
+func (c *authServiceClient) BrilinkLogin(ctx context.Context, in *BrilinkLoginRequest, opts ...grpc.CallOption) (*AgentLoginResponse, error) {
+	out := new(AgentLoginResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/BrilinkLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility
@@ -365,6 +376,8 @@ type AuthServiceServer interface {
 	PartnerDetail(context.Context, *PartnerRequest) (*PartnerResponse, error)
 	PartnerSignSignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error)
 	PartnerVerifySignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error)
+	// for brilink
+	BrilinkLogin(context.Context, *BrilinkLoginRequest) (*AgentLoginResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -458,6 +471,9 @@ func (UnimplementedAuthServiceServer) PartnerSignSignature(context.Context, *Par
 }
 func (UnimplementedAuthServiceServer) PartnerVerifySignature(context.Context, *PartnerSignatureRequest) (*PartnerSignatureResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PartnerVerifySignature not implemented")
+}
+func (UnimplementedAuthServiceServer) BrilinkLogin(context.Context, *BrilinkLoginRequest) (*AgentLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BrilinkLogin not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 
@@ -994,6 +1010,24 @@ func _AuthService_PartnerVerifySignature_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_BrilinkLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BrilinkLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).BrilinkLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/BrilinkLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).BrilinkLogin(ctx, req.(*BrilinkLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1116,6 +1150,10 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PartnerVerifySignature",
 			Handler:    _AuthService_PartnerVerifySignature_Handler,
+		},
+		{
+			MethodName: "BrilinkLogin",
+			Handler:    _AuthService_BrilinkLogin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

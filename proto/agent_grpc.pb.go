@@ -28,6 +28,7 @@ type AgentServiceClient interface {
 	CreateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
 	UpdateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
 	DeleteAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error)
+	BrilinkDetailAgent(ctx context.Context, in *AgentDetailPartnerRequest, opts ...grpc.CallOption) (*BrilinkAgentResponse, error)
 	// for admin
 	AdminGetListAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
 	AdminCreateAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentBaseResponse, error)
@@ -109,6 +110,15 @@ func (c *agentServiceClient) UpdateAgent(ctx context.Context, in *AgentRequest, 
 func (c *agentServiceClient) DeleteAgent(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*AgentResponse, error) {
 	out := new(AgentResponse)
 	err := c.cc.Invoke(ctx, "/proto.AgentService/DeleteAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *agentServiceClient) BrilinkDetailAgent(ctx context.Context, in *AgentDetailPartnerRequest, opts ...grpc.CallOption) (*BrilinkAgentResponse, error) {
+	out := new(BrilinkAgentResponse)
+	err := c.cc.Invoke(ctx, "/proto.AgentService/BrilinkDetailAgent", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -377,6 +387,7 @@ type AgentServiceServer interface {
 	CreateAgent(context.Context, *AgentRequest) (*AgentResponse, error)
 	UpdateAgent(context.Context, *AgentRequest) (*AgentResponse, error)
 	DeleteAgent(context.Context, *AgentRequest) (*AgentResponse, error)
+	BrilinkDetailAgent(context.Context, *AgentDetailPartnerRequest) (*BrilinkAgentResponse, error)
 	// for admin
 	AdminGetListAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
 	AdminCreateAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error)
@@ -430,6 +441,9 @@ func (UnimplementedAgentServiceServer) UpdateAgent(context.Context, *AgentReques
 }
 func (UnimplementedAgentServiceServer) DeleteAgent(context.Context, *AgentRequest) (*AgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) BrilinkDetailAgent(context.Context, *AgentDetailPartnerRequest) (*BrilinkAgentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BrilinkDetailAgent not implemented")
 }
 func (UnimplementedAgentServiceServer) AdminGetListAgent(context.Context, *AgentRequest) (*AgentBaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminGetListAgent not implemented")
@@ -614,6 +628,24 @@ func _AgentService_DeleteAgent_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AgentServiceServer).DeleteAgent(ctx, req.(*AgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AgentService_BrilinkDetailAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentDetailPartnerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).BrilinkDetailAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AgentService/BrilinkDetailAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).BrilinkDetailAgent(ctx, req.(*AgentDetailPartnerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1148,6 +1180,10 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAgent",
 			Handler:    _AgentService_DeleteAgent_Handler,
+		},
+		{
+			MethodName: "BrilinkDetailAgent",
+			Handler:    _AgentService_BrilinkDetailAgent_Handler,
 		},
 		{
 			MethodName: "AdminGetListAgent",

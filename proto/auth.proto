@@ -43,6 +43,14 @@ service AuthService {
     rpc PartnerDetail(PartnerRequest) returns (PartnerResponse){}
     rpc PartnerSignSignature(PartnerSignatureRequest) returns (PartnerSignatureResponse){}
     rpc PartnerVerifySignature(PartnerSignatureRequest) returns (PartnerSignatureResponse){}
+    //for brilink
+    rpc BrilinkLogin(BrilinkLoginRequest)  returns (AgentLoginResponse){}
+}
+
+message BrilinkLoginRequest {
+    string requestId = 1;
+    string requestByService = 2;
+    string tokenAgent = 3;
 }
 
 message AdminPasswordResponse {

@@ -13,6 +13,7 @@ service AgentService {
     rpc CreateAgent(AgentRequest) returns(AgentResponse){}
     rpc UpdateAgent(AgentRequest) returns(AgentResponse){}
     rpc DeleteAgent(AgentRequest) returns(AgentResponse){}
+    rpc BrilinkDetailAgent(AgentDetailPartnerRequest) returns(BrilinkAgentResponse){}
     //for admin
     rpc AdminGetListAgent(AgentRequest) returns (AgentBaseResponse){}
     rpc AdminCreateAgent(AgentRequest) returns (AgentBaseResponse){}
@@ -46,6 +47,29 @@ service AgentService {
     rpc AgentSearch(AgentSearchRequest) returns (AgentBaseResponse){}
     rpc AgentDetailPartner(AgentDetailPartnerRequest) returns (AgentBaseResponse){}
 }
+
+  message BrilinkAgentResponse {
+    int32 status = 1;
+    string message = 2;
+    string requestId = 3;
+    DataBrilink data = 4;
+  }
+
+  message DataBrilink {
+    string outletCode = 1;
+    string outletName = 2;
+    string merchantCode = 3;
+    string merchantName = 4;
+    string branchCode = 5;
+    string branchName = 6;
+    string regionCode = 7;
+    string regionName = 8;
+    string phoneNumber = 9;
+    string address = 10;
+    string zipCode = 11;
+    string latitude = 12;
+    string longitude = 13;
+  }
 
   message AgentSearchRequest {
     string requestId = 1;
